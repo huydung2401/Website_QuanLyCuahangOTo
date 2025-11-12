@@ -1,0 +1,91 @@
+﻿/* Thanh tìm kiếm header */
+.header-search {
+    max-width: 250px; /* Chiều rộng tối đa */
+    width: 100%; /* Co dãn khi thu nhỏ màn hình */
+}
+
+    .header-search input {
+        height: 38px; /* Chiều cao input */
+        padding: 0 10px; /* Padding bên trong input */
+        border-radius: 20px 0 0 20px; /* Bo tròn 2 góc trái */
+        border: 1px solid #ccc;
+    }
+
+    .header-search button {
+        height: 38px; /* Chiều cao button giống input */
+        border-radius: 0 20px 20px 0; /* Bo tròn 2 góc phải */
+        border: 1px solid #ccc;
+        border-left: none; /* Không trùng viền với input */
+        background-color: #fff;
+        color: #333;
+    }
+
+        .header-search button:hover {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #007bff;
+        }
+
+/* Responsive cho mobile */
+@media (max-width: 768px) {
+    .header-search {
+        max-width: 100%; /* Chiếm hết chiều rộng trên điện thoại */
+        margin-top: 5px;
+    }
+}
+
+.carousel-img {
+    width: auto; /* Giữ tỉ lệ chiều rộng */
+    max-width: 100%; /* Không vượt quá container */
+    height: 300px; /* Chiều cao cố định */
+    object-fit: contain; /* Hiển thị toàn bộ ảnh */
+}
+
+
+/* Menu mobile xuất hiện ngay dưới hamburger */
+@media (max-width: 767.98px) {
+    .navbar-collapse {
+        width: 100%;
+        position: absolute;
+        top: 50px; /* cách hamburger menu khoảng 50px, chỉnh theo chiều cao thực tế */
+        left: 0;
+        background-color: #fff; /* nền menu */
+        z-index: 9999;
+        border: 1px solid #ddd;
+        padding: 10px 0;
+    }
+
+        .navbar-collapse.show {
+            display: block;
+        }
+}
+
+@media (max-width: 992px) {
+    .product-card .card-title {
+        font-size: 0.95rem;
+    }
+
+    .product-card .product-price {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .product-card .card-title {
+        font-size: 0.9rem;
+    }
+
+    .product-card .product-price {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .product-card .card-title {
+        font-size: 0.85rem;
+    }
+
+    .product-card .product-price {
+        font-size: 0.75rem;
+    }
+}

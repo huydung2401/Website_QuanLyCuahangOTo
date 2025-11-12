@@ -1,0 +1,547 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Moho Furniture Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/css/site.css" />
+
+    <!-- jQuery & Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+
+    <style>
+        /* BODY & NAVBAR CHÍNH */
+        body, .navbar {
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px; /* chữ vừa phải, dễ đọc */
+            font-weight: 500; /* đậm vừa phải, không nặng */
+            line-height: 1.6;
+            color: #111; /* màu chữ đen rõ */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+            /* Tất cả link navbar màu đen, đồng bộ */
+            .navbar .nav-link {
+                color: #111 !important; /* đồng bộ màu đen */
+                font-weight: 500; /* vừa phải, nhìn chuyên nghiệp */
+                transition: color 0.3s ease;
+            }
+
+                /* Hover: nhẹ nhàng nổi bật hơn */
+                .navbar .nav-link:hover,
+                .navbar .nav-item.dropdown:hover > .nav-link {
+                    color: #333 !important; /* đổi sang xám đậm hơn khi hover */
+                    text-decoration: none;
+                }
+
+            /* Dropdown menu */
+            .navbar .dropdown-menu .dropdown-item {
+                color: #111;
+                font-weight: 400; /* chữ nhẹ hơn dropdown, không quá nặng */
+                transition: all 0.2s ease;
+            }
+
+                .navbar .dropdown-menu .dropdown-item:hover {
+                    color: #333;
+                    background-color: #f5f5f5;
+                }
+
+
+
+
+
+        /* Header */
+        .search-input {
+            max-width: 250px;
+        }
+
+        .navbar-nav .nav-item + .nav-item {
+            margin-left: 1rem;
+        }
+
+        .btn-cart {
+            position: relative;
+        }
+
+            .btn-cart .badge {
+                position: absolute;
+                top: -5px;
+                right: -10px;
+            }
+        /* Carousel mượt */
+        .carousel-item {
+            transition: transform 1s ease, opacity 1s ease !important;
+        }
+
+        .carousel-inner {
+            width: 100%;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: auto; /* giữ tỉ lệ ảnh khi zoom */
+            object-fit: cover; /* cắt ảnh đẹp nếu container cao hơn ảnh */
+        }
+        /* Footer */
+        footer {
+            background-color: #343a40;
+            color: white;
+        }
+
+
+        /* Thu gọn các nút và input */
+        .form-control-sm {
+            height: calc(1.5em + .5rem + 2px);
+            padding: .25rem .5rem;
+            font-size: .875rem;
+        }
+
+        .btn-sm {
+            padding: .25rem .5rem;
+            font-size: .875rem;
+            line-height: 1.5;
+        }
+
+        /* Khoảng cách menu danh mục */
+        .navbar-nav .nav-item {
+            margin-right: 1rem;
+        }
+
+        /* Badge giỏ hàng nhỏ gọn */
+        .badge-danger {
+            padding: 0.25em 0.4em;
+        }
+
+        /* Thay đổi màu hamburger mobile */
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+
+        /* Nền nút hamburger trắng */
+        .navbar-toggler {
+            background-color: white; /* nền trắng */
+            border: none; /* loại bỏ viền mặc định */
+        }
+
+        .navbar-toggler {
+            border: none;
+            background-color: #fff; /* nền trắng */
+        }
+
+            .navbar-toggler .custom-toggler {
+                display: block;
+                width: 30px;
+                height: 2px;
+                background-color: #000;
+                position: relative;
+            }
+
+                .navbar-toggler .custom-toggler::before,
+                .navbar-toggler .custom-toggler::after {
+                    content: "";
+                    position: absolute;
+                    width: 30px;
+                    height: 2px;
+                    background-color: #000;
+                    left: 0;
+                    transition: all 0.2s;
+                }
+
+                .navbar-toggler .custom-toggler::before {
+                    top: -8px;
+                }
+
+                .navbar-toggler .custom-toggler::after {
+                    top: 8px;
+                }
+        /* Thu nhỏ chữ “Đăng nhập/Đăng ký” */
+        .small-login {
+            font-size: 0.85rem;
+            color: #555;
+            line-height: 1.1; /* giảm giãn dòng */
+            margin-bottom: 0; /* xóa khoảng cách giữa 2 dòng */
+        }
+
+        /* Chữ “Tài khoản của tôi” */
+        .small-account {
+            font-size: 0.9rem;
+            color: #333;
+            line-height: 1.1; /* giảm giãn dòng */
+        }
+
+            /* Hiệu ứng hover */
+            .small-login:hover,
+            .small-account:hover {
+                color: #ff7a00;
+                text-decoration: none;
+            }
+
+        /* Icon người */
+        .nav-item.dropdown i.fa-user {
+            color: #333;
+            line-height: 1;
+        }
+
+        /* Đảm bảo 2 dòng sát nhau mà vẫn dễ đọc */
+        .nav-item.dropdown .d-flex.flex-column {
+            line-height: 1.1;
+        }
+
+
+        /* Hover đổi màu cho các link */
+        footer a, footer ul li {
+            transition: color 0.3s; /* mượt khi đổi màu */
+            cursor: pointer;
+        }
+
+            /* Khi hover đổi sang màu xanh dạ quang (giống tiêu đề) */
+            footer a:hover, footer ul li:hover {
+                color: #3dd1c3; /* màu nổi bật */
+                transform: translateY(-2px); /* di chuyển lên 2px */
+                text-shadow: 0 2px 5px rgba(0,0,0,0.5); /* tạo hiệu ứng nổi */
+            }
+        /* Vị trí dropdown */
+        .nav-item.dropdown {
+            position: relative;
+        }
+
+            .nav-item.dropdown .dropdown-menu {
+                display: none;
+                position: absolute;
+                top: 100%; /* đảm bảo menu chạm ngay dưới cha */
+                left: 0;
+                margin-top: 0; /* loại bỏ khoảng trống */
+                background-color: white;
+                border: 1px solid #ddd;
+                z-index: 1000;
+                min-width: 200px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+                padding: 0;
+            }
+
+
+            /* Hiển thị dropdown khi hover vào mục cha (bao gồm con bên trong) */
+            .nav-item.dropdown:hover > .dropdown-menu {
+                display: block;
+            }
+
+        /* Mũi tên xoay khi hover */
+        .arrow-icon {
+            display: inline-block;
+            margin-left: 6px;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item.dropdown:hover .arrow-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Dropdown item */
+        .dropdown-menu .dropdown-item {
+            display: block;
+            padding: 8px 15px;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+            .dropdown-menu .dropdown-item:hover {
+                background-color: #f5f5f5;
+                color: #000;
+            }
+
+        .breadcrumb {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 8px 16px;
+            margin-bottom: 1rem;
+            list-style: none;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+
+        .breadcrumb-item + .breadcrumb-item::before {
+            content: "/";
+            padding: 0 8px;
+            color: #6c757d;
+        }
+
+        .breadcrumb-item a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+            .breadcrumb-item a:hover {
+                text-decoration: underline;
+            }
+
+        .breadcrumb-item.active {
+            color: #6c757d;
+        }
+
+    </style>
+
+</head>
+<body>
+    <header>
+        <div class="container">
+            <!-- Hàng trên Desktop: Logo + Thanh tìm kiếm + Đăng nhập/Đăng ký + Tài khoản của tôi + Giỏ hàng -->
+            <div class="d-none d-md-flex align-items-center justify-content-between py-2">
+                <!-- Logo + Tìm kiếm -->
+                <div class="d-flex align-items-center">
+                    <!-- Logo -->
+                    <a class="navbar-brand mr-3" href="@Url.Action("Index","Home")">
+                        <img src="~/Content/images/logo.png" alt="Logo" style="height:40px;">
+                    </a>
+
+                    <!-- Thanh tìm kiếm Desktop với icon kính lúp -->
+                    <form class="form-inline">
+                        <div class="input-group mr-2" style="width:250px;">
+                            <input type="search" class="form-control form-control-sm" placeholder="Tìm sản phẩm..." aria-label="Search">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Nút cam bên cạnh -->
+                        <button class="btn btn-warning btn-sm" type="button">3D House</button>
+                    </form>
+                </div>
+
+                <!-- Nhóm người dùng + Giỏ hàng -->
+                <div class="d-flex align-items-center">
+                    <!-- Đăng nhập/Đăng ký + Tài khoản -->
+                    <div class="nav-item dropdown d-flex align-items-center mr-3">
+                        <!-- Icon người và chữ Đăng nhập/Đăng ký cùng hàng -->
+                        <i class="fas fa-user fa-lg mr-2"></i>
+                        <div class="d-flex flex-column">
+                            <a href="#" class="nav-link p-0 mb-1 small-login">Đăng nhập/Đăng ký</a>
+                            <a class="nav-link p-0 d-flex align-items-center small-account" href="#" id="accountDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span>Tài khoản của tôi <i class="fas fa-caret-down ml-1"></i></span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="accountDropdown">
+                                <a class="dropdown-item" href="#">Thông tin cá nhân</a>
+                                <a class="dropdown-item" href="#">Đơn hàng của tôi</a>
+                                <a class="dropdown-item" href="#">Đăng xuất</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Giỏ hàng -->
+                    <a href="#" class="nav-link position-relative d-flex align-items-center p-0">
+                        <i class="fas fa-shopping-cart fa-lg mr-1"></i>
+                        <span style="font-size:0.85rem;">Giỏ Hàng</span>
+                        <span class="badge badge-danger position-absolute" style="top:0; right:0; font-size:0.65rem;"></span>
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- Hàng trên Mobile: Hamburger + Logo + Nút 3D House + Icon người/giỏ hàng -->
+            <div class="d-flex d-md-none w-100 align-items-center justify-content-between py-2">
+                <!-- Nút hamburger -->
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="custom-toggler"></span>
+                </button>
+
+
+                <!-- Logo -->
+                <a class="navbar-brand mx-auto" href="@Url.Action("Index","Home")">
+                    <img src="~/Content/images/logo.png" alt="Logo" style="height:40px;">
+                </a>
+
+                <!-- Nhóm nút 3D House + Icon người + Giỏ hàng -->
+                <div class="d-flex align-items-center">
+                    <!-- Nút 3D House -->
+                    <button class="btn btn-warning btn-sm mr-2">3D House</button>
+
+                    <!-- Icon người -->
+                    <a href="#" class="nav-link p-0 mr-2">
+                        <i class="fas fa-user fa-lg"></i>
+                    </a>
+
+                    <!-- Giỏ hàng -->
+                    <a href="#" class="nav-link position-relative p-0">
+                        <i class="fas fa-shopping-cart fa-lg"></i>
+                        <span class="badge badge-danger position-absolute" style="top:0; right:0;"></span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Thanh tìm kiếm Mobile (nằm dưới) -->
+            <form class="form-inline w-100 mt-2 d-md-none">
+                <div class="input-group w-100">
+                    <input type="search" class="form-control form-control-sm" placeholder="Tìm sản phẩm..." aria-label="Search">
+                    <div class="input-group-append">
+                        <span class="input-group-text">
+                            <i class="fas fa-search"></i>
+                        </span>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Menu danh mục -->
+            <nav class="navbar navbar-expand-lg navbar-light p-0 mt-2">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav flex-wrap">
+                        <!-- Dropdown Sản phẩm -->
+                        <li class="nav-item dropdown mr-3">
+                            <a class="nav-link" href="#">
+                                Sản phẩm
+                                <span class="arrow-icon">▼</span>
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/collections/bo-suu-tap">Bộ Sưu Tập</a>
+                                <a class="dropdown-item" href="/collections/phong-ngu">Phòng Ngủ</a>
+                                <a class="dropdown-item" href="/collections/phong-khach">Phòng Khách</a>
+                                <a class="dropdown-item" href="/collections/phong-an">Phòng Ăn</a>
+                                <a class="dropdown-item" href="/collections/phong-lam-viec">Phòng Làm Việc</a>
+                                <a class="dropdown-item" href="/collections/tu-bep">Tủ Bếp</a>
+                                <a class="dropdown-item" href="/collections/nem">Nệm</a>
+                            </div>
+                        </li>
+
+
+
+
+
+                        <!-- Các mục khác -->
+                        <li class="nav-item mr-3">
+                            <a class="nav-link" href="@Url.Action("ThietKe_ThiCong", "Home")">Thiết kế - Thi công</a>
+                        </li>
+                        <ul class="navbar-nav flex-wrap">
+                            <li class="nav-item dropdown mr-3">
+                                <a class="nav-link" href="#">Khuyến mãi <span class="arrow-icon">▼</span></a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">Ưu đãi phái đẹp</a>
+                                    <a class="dropdown-item" href="#">MOHO Outlet - Hàng thanh lý</a>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <ul class="navbar-nav flex-wrap">
+                            <li class="nav-item dropdown mr-3">
+                                <a class="nav-link" href="#">Tin tức<span class="arrow-icon">▼</span></a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">Media</a>
+                                    <a class="dropdown-item" href="#">News</a>
+                                    <a class="dropdown-item" href="#">People</a>
+                                    <a class="dropdown-item" href="#">Inspiration</a>
+                                    <a class="dropdown-item" href="#">Tips</a>
+                                    <a class="dropdown-item" href="#">Thiết kế - Thi công</a>
+                                    <a class="dropdown-item" href="#">Báo chí </a>
+                                </div>
+                            </li>
+                        </ul>
+
+
+                        <li class="nav-item mr-3"><a class="nav-link" href="#">Về MOHO</a></li>
+                        <li class="nav-item mr-3"><a class="nav-link" href="#">Cửa hàng</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Sản phẩm</li>
+                </ol>
+            </nav>
+
+        </div>
+    </header>
+
+
+
+
+
+    <main class="container-fluid px-0 mt-3">
+        @RenderBody()
+    </main>
+
+    <footer style="background-color: #1d1d1d; color: #eee; padding: 10px 50px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        <div style="max-width: 1100px; margin: auto; display: flex; flex-wrap: wrap; gap: 40px; justify-content: space-between;">
+
+            <!-- Cột 1: Hỗ trợ và liên hệ -->
+            <div style="flex: 1 1 250px; min-width: 250px;">
+                <h5 style="font-size: 1.3rem; margin-bottom: 20px; color: #3dd1c3; text-transform: uppercase; letter-spacing: 1.2px;">Hỗ trợ và liên hệ</h5>
+                <p style="margin: 6px 0;"><strong>Hotline:</strong> <a href="tel:0967390575" style="color:#a0f0e6; text-decoration:none;">0967 390 575</a></p>
+                <p style="margin: 6px 0;"><strong>Email:</strong> <a href="mailto:salehdn@HomeDecor.vn" style="color:#a0f0e6; text-decoration:none;">salehdn@HomeDecor.vn</a></p>
+                <img src="~/Content/images/logo.png" alt="MoHo" style="width: 80px;">
+            </div>
+
+            <!-- Cột 2: Giới thiệu -->
+            <div style="flex: 1 1 180px; min-width: 180px;">
+                <h5 style="font-size: 1.3rem; margin-bottom: 20px; color: #3dd1c3; text-transform: uppercase; letter-spacing: 1.2px;">Giới thiệu</h5>
+                <ul style="list-style: none; padding-left: 0; margin: 0; color: #ccc; font-size: 0.95rem;">
+                    <li style="margin-bottom: 12px; cursor: pointer; transition: color 0.3s;">Về Nội Thất Home Decor</li>
+                    <li style="margin-bottom: 12px; cursor: pointer; transition: color 0.3s;">Tuyển dụng</li>
+                    <li style="margin-bottom: 12px; cursor: pointer; transition: color 0.3s;">Hệ thống cửa hàng</li>
+                </ul>
+            </div>
+
+            <!-- Cột 3: Hướng dẫn -->
+            <div style="flex: 1 1 180px; min-width: 180px;">
+                <h5 style="font-size: 1.3rem; margin-bottom: 20px; color: #3dd1c3; text-transform: uppercase; letter-spacing: 1.2px;">Hướng dẫn</h5>
+                <ul style="list-style: none; padding-left: 0; margin: 0; color: #ccc; font-size: 0.95rem;">
+                    <li style="margin-bottom: 12px; cursor: pointer; transition: color 0.3s;">Đặt hàng</li>
+                    <li style="margin-bottom: 12px; cursor: pointer; transition: color 0.3s;">Giao hàng &amp; Lắp đặt</li>
+                    <li style="margin-bottom: 12px; cursor: pointer; transition: color 0.3s;">Sử dụng sản phẩm</li>
+                    <li style="margin-bottom: 12px; cursor: pointer; transition: color 0.3s;">Bảo hành &amp; Bảo trì</li>
+                </ul>
+            </div>
+
+            <!-- Cột 4: Kết nối & email -->
+            <div style="flex: 1 1 220px; min-width: 220px;">
+                <h5 style="font-size: 1.3rem; margin-bottom: 20px; color: #3dd1c3; text-transform: uppercase; letter-spacing: 1.2px;">Kết nối với Home Decor</h5>
+                <form style="display: flex; gap: 6px; margin-bottom: 20px;">
+                    <input type="email" placeholder="Nhập địa chỉ email"
+                           style="flex: 1; padding: 4px 8px; font-size: 0.8rem; border-radius: 4px; border: 1px solid #ccc; height: 30px;" required />
+                    <button type="submit"
+                            style="padding: 4px 12px; font-size: 0.8rem; border-radius: 4px; background: #3dd1c3; border: none; color: #1d1d1d; font-weight: 600; cursor: pointer; height: 30px; transition: background-color 0.3s;">
+                        Sign up
+                    </button>
+                </form>
+
+
+                <div style="display: flex; gap: 15px;">
+                    <!-- Facebook -->
+                    <a href="https://www.facebook.com/share/19xpFfpeix/" target="_blank" style="display: inline-block; transition: transform 0.3s;">
+                        <img src="https://img.icons8.com/color/32/facebook.png" alt="Facebook" />
+                    </a>
+                    <!-- Instagram -->
+                    <a href="https://instagram.com/pham_dung2401" target="_blank" style="display: inline-block; transition: transform 0.3s;">
+                        <img src="https://img.icons8.com/color/32/instagram-new.png" alt="Instagram" />
+                    </a>
+                 
+                    <!-- Shopee -->
+                    <a href="https://shopee.vn/shop-cua-ban" target="_blank" style="display: inline-block; transition: transform 0.3s;">
+                        <img src="https://img.icons8.com/color/32/shopify.png" alt="Shopee" />
+                    </a>
+                </div>
+            </div>
+        </div>
+        <hr style="border-color: #444; margin: 10px 0; opacity: 0.5;">
+
+        <p style="text-align: center; color: #bbb; font-size: 0.8rem; user-select: none;">
+            © 2025 Bản quyền thuộc về nội thất MoHo - Cửa hàng nội thất uy tín
+        </p>
+
+    </footer>
+
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>
