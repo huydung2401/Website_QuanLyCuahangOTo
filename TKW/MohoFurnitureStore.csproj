@@ -136,48 +136,48 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ChiTietHoaDon.cs">
-      <DependentUpon>QLMoHo.tt</DependentUpon>
+      <DependentUpon>QL_MoHo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ChiTietSanPham.cs" />
     <Compile Include="Models\DanhMuc.cs">
-      <DependentUpon>QLMoHo.tt</DependentUpon>
+      <DependentUpon>QL_MoHo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DanhSachDanhMuc.cs" />
     <Compile Include="Models\DanhSachHoaDon.cs" />
     <Compile Include="Models\DanhSachNguoiDung.cs" />
     <Compile Include="Models\DanhSachSanPham.cs" />
     <Compile Include="Models\HoaDon.cs">
-      <DependentUpon>QLMoHo.tt</DependentUpon>
+      <DependentUpon>QL_MoHo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\NguoiDung.cs">
-      <DependentUpon>QLMoHo.tt</DependentUpon>
+      <DependentUpon>QL_MoHo.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\QLMoHo.Context.cs">
+    <Compile Include="Models\QL_MoHo.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>QLMoHo.Context.tt</DependentUpon>
+      <DependentUpon>QL_MoHo.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\QLMoHo.cs">
+    <Compile Include="Models\QL_MoHo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>QLMoHo.tt</DependentUpon>
+      <DependentUpon>QL_MoHo.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\QLMoHo.Designer.cs">
+    <Compile Include="Models\QL_MoHo.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>QLMoHo.edmx</DependentUpon>
+      <DependentUpon>QL_MoHo.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\SanPham.cs">
-      <DependentUpon>QLMoHo.tt</DependentUpon>
+      <DependentUpon>QL_MoHo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>QLMoHo.tt</DependentUpon>
+      <DependentUpon>QL_MoHo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_helpdiagrams_Result.cs">
-      <DependentUpon>QLMoHo.tt</DependentUpon>
+      <DependentUpon>QL_MoHo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>QLMoHo.tt</DependentUpon>
+      <DependentUpon>QL_MoHo.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -221,15 +221,15 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\QLMoHo.Context.tt">
+    <Content Include="Models\QL_MoHo.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>QLMoHo.edmx</DependentUpon>
-      <LastGenOutput>QLMoHo.Context.cs</LastGenOutput>
+      <DependentUpon>QL_MoHo.edmx</DependentUpon>
+      <LastGenOutput>QL_MoHo.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\QLMoHo.tt">
+    <Content Include="Models\QL_MoHo.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>QLMoHo.edmx</DependentUpon>
-      <LastGenOutput>QLMoHo.cs</LastGenOutput>
+      <DependentUpon>QL_MoHo.edmx</DependentUpon>
+      <LastGenOutput>QL_MoHo.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -237,12 +237,12 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="Models\QLMoHo.edmx">
+    <EntityDeploy Include="Models\QL_MoHo.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>QLMoHo.Designer.cs</LastGenOutput>
+      <LastGenOutput>QL_MoHo.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\QLMoHo.edmx.diagram">
-      <DependentUpon>QLMoHo.edmx</DependentUpon>
+    <Content Include="Models\QL_MoHo.edmx.diagram">
+      <DependentUpon>QL_MoHo.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />

@@ -27,7 +27,7 @@ namespace TKW.Controllers
         // =============================
         // GET: DonHang/ChiTiet/5
         // =============================
-        public ActionResult ChiTiet(int id)
+        public ActionResult ChiTiet(string id)
         {
             // Lấy chi tiết hóa đơn theo IdHoaDon
             var hoaDon = db.HoaDons
@@ -45,7 +45,7 @@ namespace TKW.Controllers
         // POST: DonHang/CapNhatTrangThai
         // =============================
         [HttpPost]
-        public ActionResult CapNhatTrangThai(int id, string trangThai)
+        public ActionResult CapNhatTrangThai(string id, string trangThai)
         {
             var hoaDon = db.HoaDons.FirstOrDefault(h => h.IdHoaDon == id);
             if (hoaDon == null)

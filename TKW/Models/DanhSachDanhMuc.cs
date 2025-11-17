@@ -16,18 +16,16 @@ namespace TKW.Models
 
         }
 
-        public List<DanhMuc> GetDanhSachDanhMuc(int? id = null)
+        public List<DanhMuc> GetDanhSachDanhMuc(string id = null)
         {
-            if (id.HasValue)
+            if (!string.IsNullOrEmpty(id))
             {
                 return db.DanhMucs
-                         .Where(dm => dm.IdDanhMuc == id.Value)
+                         .Where(dm => dm.IdDanhMuc == id)
                          .ToList();
             }
-            else
-            {
-                return db.DanhMucs.ToList();
-            }
+
+            return db.DanhMucs.ToList();
         }
 
         // ===============================
@@ -57,7 +55,7 @@ namespace TKW.Models
         // ===============================
         // 🔹 Cập nhật danh mục
         // ===============================
-        public bool UpdateDanhMuc(int id, string ten, string mota)
+        public bool UpdateDanhMuc(string id, string ten, string mota)
         {
             try
             {
@@ -80,7 +78,7 @@ namespace TKW.Models
         // ===============================
         // 🔹 Xóa danh mục
         // ===============================
-        public bool DeleteDanhMuc(int id)
+        public bool DeleteDanhMuc(string id)
         {
             try
             {

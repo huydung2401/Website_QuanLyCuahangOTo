@@ -4,11 +4,11 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="99c8fa650ea54b3ab1f18fe60e1ac65b" Name="Diagram1" ZoomLevel="73">
-        <EntityTypeShape EntityType="QLMohoDBModel.ChiTietHoaDon" Width="1.5" PointX="5.25" PointY="1.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLMohoDBModel.DanhMuc" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLMohoDBModel.HoaDon" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLMohoDBModel.NguoiDung" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+      <Diagram DiagramId="5c95cbc0b56e4fb5840a009d9ceebd03" Name="Diagram1">
+        <EntityTypeShape EntityType="QLMohoDBModel.ChiTietHoaDon" Width="1.5" PointX="5.25" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="QLMohoDBModel.DanhMuc" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QLMohoDBModel.HoaDon" Width="1.5" PointX="3" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="QLMohoDBModel.NguoiDung" Width="1.5" PointX="0.75" PointY="6.875" IsExpanded="true" />
         <EntityTypeShape EntityType="QLMohoDBModel.SanPham" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="QLMohoDBModel.sysdiagram" Width="1.5" PointX="5.75" PointY="5.75" IsExpanded="true" />
         <AssociationConnector Association="QLMohoDBModel.FK_CT_HoaDon" ManuallyRouted="false" />

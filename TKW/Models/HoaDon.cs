@@ -20,8 +20,8 @@ namespace TKW.Models
             this.ChiTietHoaDons = new HashSet<ChiTietHoaDon>();
         }
     
-        public int IdHoaDon { get; set; }
-        public int NguoiDungId { get; set; }
+        public string IdHoaDon { get; set; }
+        public string IdNguoiDung { get; set; }
         public Nullable<System.DateTime> NgayDat { get; set; }
         public decimal TongTien { get; set; }
         public string TrangThai { get; set; }

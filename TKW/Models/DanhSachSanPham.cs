@@ -19,7 +19,7 @@ namespace TKW.Models
         }
 
         // 🔹 Lấy sản phẩm theo Id
-        public SanPham LayTheoId(int id)
+        public SanPham LayTheoId(string id)
         {
             return db.SanPhams.FirstOrDefault(sp => sp.IdSanPham == id);
         }
@@ -43,7 +43,7 @@ namespace TKW.Models
                 spCu.MoTaNgan = sp.MoTaNgan;
                 spCu.MoTaChiTiet = sp.MoTaChiTiet;
                 spCu.HinhAnh = sp.HinhAnh;
-                spCu.DanhMucId = sp.DanhMucId;
+                spCu.IdDanhMuc = sp.IdDanhMuc;
                 spCu.ChatLieu = sp.ChatLieu;
                 spCu.MauSac = sp.MauSac;
                 spCu.SoLuongTon = sp.SoLuongTon;
@@ -54,7 +54,7 @@ namespace TKW.Models
         }
 
         // 🔹 Xóa sản phẩm
-        public void XoaSanPham(int id)
+        public void XoaSanPham(string id)
         {
             var sp = db.SanPhams.FirstOrDefault(x => x.IdSanPham == id);
             if (sp != null)

@@ -20,7 +20,7 @@ namespace TKW.Models
             this.SanPhams = new HashSet<SanPham>();
         }
     
-        public int IdDanhMuc { get; set; }
+        public string IdDanhMuc { get; set; }
         public string TenDanhMuc { get; set; }
         public string MoTa { get; set; }
     

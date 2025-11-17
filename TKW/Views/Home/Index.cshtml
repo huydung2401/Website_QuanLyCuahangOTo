@@ -48,8 +48,7 @@
             <div class="col-6 col-md-4 col-lg-3 mb-4 px-2">
                 <div class="card h-100 position-relative product-card">
 
-                    <!-- Label giảm giá -->
-                    @if (sp.GiaKhuyenMai.HasValue)
+                    @if (sp.GiaKhuyenMai.HasValue && sp.GiaKhuyenMai > 0 && sp.GiaKhuyenMai < sp.Gia)
                     {
                         var discount = Math.Round(100 - (sp.GiaKhuyenMai.Value / sp.Gia * 100));
                         <span class="badge badge-danger position-absolute discount-badge">-@discount%</span>

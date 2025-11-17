@@ -20,7 +20,7 @@ namespace TKW.Models
             this.HoaDons = new HashSet<HoaDon>();
         }
     
-        public int IdNguoiDung { get; set; }
+        public string IdNguoiDung { get; set; }
         public string HoTen { get; set; }
         public string Email { get; set; }
         public string MatKhau { get; set; }

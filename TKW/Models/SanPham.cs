@@ -20,14 +20,14 @@ namespace TKW.Models
             this.ChiTietHoaDons = new HashSet<ChiTietHoaDon>();
         }
     
-        public int IdSanPham { get; set; }
+        public string IdSanPham { get; set; }
         public string TenSanPham { get; set; }
         public decimal Gia { get; set; }
         public Nullable<decimal> GiaKhuyenMai { get; set; }
         public string MoTaNgan { get; set; }
         public string MoTaChiTiet { get; set; }
         public string HinhAnh { get; set; }
-        public int DanhMucId { get; set; }
+        public string IdDanhMuc { get; set; }
         public string ChatLieu { get; set; }
         public string MauSac { get; set; }
         public Nullable<int> SoLuongTon { get; set; }

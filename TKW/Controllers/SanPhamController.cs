@@ -21,27 +21,27 @@ namespace TKW.Controllers
         }
 
         // GET: /SanPham/DanhSach
-        public ActionResult DanhSach(int? danhMucId)
+        public ActionResult DanhSach(string idDanhMuc)
         {
             var sanPhams = db.SanPhams.AsQueryable();
 
-            if (danhMucId.HasValue)
+            if (!string.IsNullOrEmpty(idDanhMuc))
             {
-                sanPhams = sanPhams.Where(s => s.DanhMucId == danhMucId.Value);
+                sanPhams = sanPhams.Where(s => s.IdDanhMuc == idDanhMuc);
             }
 
             return View(sanPhams.ToList());
         }
 
         // GET: /SanPham/ChiTiet/5
-        // GET: /SanPham/ChiTiet/5
-        public ActionResult ChiTietSanPham(int? id)
+
+        public ActionResult ChiTietSanPham(string id)
         {
-            if (id == null)
+            if (string.IsNullOrEmpty(id))
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            // Lấy sản phẩm
-            var sp = db.SanPhams.Find(id);
+            // Lấy sản phẩm theo VARCHAR ID
+            var sp = db.SanPhams.FirstOrDefault(s => s.IdSanPham == id);
             if (sp == null)
                 return HttpNotFound();
 
@@ -49,17 +49,15 @@ namespace TKW.Controllers
             var model = new ChiTietSanPham
             {
                 SanPham = sp,
-                DanhMuc = sp.DanhMuc, // EF navigation tự lấy danh mục
+                DanhMuc = sp.DanhMuc,
                 SanPhamLienQuan = db.SanPhams
-                                    .Where(x => x.DanhMucId == sp.DanhMucId && x.IdSanPham != sp.IdSanPham)
-                                    .Take(4)
-                                    .ToList()
+                        .Where(x => x.IdDanhMuc == sp.IdDanhMuc && x.IdSanPham != sp.IdSanPham)
+                        .Take(4)
+                        .ToList()
             };
 
             return View(model);
         }
-
-
 
 
         // GET: /SanPham/Them
@@ -82,23 +80,24 @@ namespace TKW.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.DanhMucId = new SelectList(db.DanhMucs, "IdDanhMuc", "TenDanhMuc", sp.DanhMucId);
+            ViewBag.DanhMucId = new SelectList(db.DanhMucs, "IdDanhMuc", "TenDanhMuc", sp.IdDanhMuc);
             return View(sp);
         }
 
         // GET: /SanPham/Sua/5
-        public ActionResult Sua(int? id)
+        public ActionResult Sua(string id)
         {
-            if (id == null)
+            if (string.IsNullOrEmpty(id))
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var sp = db.SanPhams.Find(id);
+            var sp = db.SanPhams.FirstOrDefault(s => s.IdSanPham == id);
             if (sp == null)
                 return HttpNotFound();
 
-            ViewBag.DanhMucId = new SelectList(db.DanhMucs, "IdDanhMuc", "TenDanhMuc", sp.DanhMucId);
+            ViewBag.DanhMucId = new SelectList(db.DanhMucs, "IdDanhMuc", "TenDanhMuc", sp.IdDanhMuc);
             return View(sp);
         }
+
 
         // POST: /SanPham/Sua
         [HttpPost]
@@ -112,34 +111,35 @@ namespace TKW.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.DanhMucId = new SelectList(db.DanhMucs, "IdDanhMuc", "TenDanhMuc", sp.DanhMucId);
+            ViewBag.DanhMucId = new SelectList(db.DanhMucs, "IdDanhMuc", "TenDanhMuc", sp.IdDanhMuc);
             return View(sp);
         }
 
         // GET: /SanPham/Xoa/5
-        public ActionResult Xoa(int? id)
+        public ActionResult Xoa(string id)
         {
-            if (id == null)
+            if (string.IsNullOrEmpty(id))
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var sp = db.SanPhams.Find(id);
+            var sp = db.SanPhams.FirstOrDefault(s => s.IdSanPham == id);
             if (sp == null)
                 return HttpNotFound();
 
             return View(sp);
         }
 
-        // POST: /SanPham/Xoa/5
+
         [HttpPost, ActionName("Xoa")]
         [ValidateAntiForgeryToken]
-        public ActionResult XoaConfirmed(int id)
+        public ActionResult XoaConfirmed(string id)
         {
-            var sp = db.SanPhams.Find(id);
+            var sp = db.SanPhams.FirstOrDefault(s => s.IdSanPham == id);
             if (sp != null)
             {
                 db.SanPhams.Remove(sp);
                 db.SaveChanges();
             }
+
             return RedirectToAction("Index");
         }
 

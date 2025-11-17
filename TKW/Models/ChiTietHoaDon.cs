@@ -14,9 +14,9 @@ namespace TKW.Models
     
     public partial class ChiTietHoaDon
     {
-        public int IdChiTietHoaDon { get; set; }
-        public int HoaDonId { get; set; }
-        public int SanPhamId { get; set; }
+        public string IdChiTietHoaDon { get; set; }
+        public string IdHoaDon { get; set; }
+        public string IdSanPham { get; set; }
         public int SoLuong { get; set; }
         public decimal DonGia { get; set; }
     

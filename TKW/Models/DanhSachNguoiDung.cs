@@ -24,7 +24,7 @@ namespace TKW.Models
         }
 
         // 🔹 Tìm theo ID
-        public NguoiDung TimTheoId(int idNguoiDung)
+        public NguoiDung TimTheoId(string idNguoiDung)
         {
             return db.NguoiDungs.FirstOrDefault(nd => nd.IdNguoiDung == idNguoiDung);
         }
@@ -73,7 +73,7 @@ namespace TKW.Models
         }
 
         // 🔹 Xóa người dùng
-        public bool XoaNguoiDung(int idNguoiDung)
+        public bool XoaNguoiDung(string idNguoiDung)
         {
             try
             {

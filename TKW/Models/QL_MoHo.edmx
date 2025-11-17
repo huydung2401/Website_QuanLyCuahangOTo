@@ -4,14 +4,14 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="QLMohoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="QLMohoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ChiTietHoaDon">
           <Key>
             <PropertyRef Name="IdChiTietHoaDon" />
           </Key>
-          <Property Name="IdChiTietHoaDon" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="HoaDonId" Type="int" Nullable="false" />
-          <Property Name="SanPhamId" Type="int" Nullable="false" />
+          <Property Name="IdChiTietHoaDon" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="IdHoaDon" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="IdSanPham" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="SoLuong" Type="int" Nullable="false" />
           <Property Name="DonGia" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
@@ -19,7 +19,7 @@
           <Key>
             <PropertyRef Name="IdDanhMuc" />
           </Key>
-          <Property Name="IdDanhMuc" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdDanhMuc" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="TenDanhMuc" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="MoTa" Type="nvarchar" MaxLength="500" />
         </EntityType>
@@ -27,8 +27,8 @@
           <Key>
             <PropertyRef Name="IdHoaDon" />
           </Key>
-          <Property Name="IdHoaDon" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NguoiDungId" Type="int" Nullable="false" />
+          <Property Name="IdHoaDon" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="IdNguoiDung" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="NgayDat" Type="datetime" />
           <Property Name="TongTien" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TrangThai" Type="nvarchar" MaxLength="50" />
@@ -37,7 +37,7 @@
           <Key>
             <PropertyRef Name="IdNguoiDung" />
           </Key>
-          <Property Name="IdNguoiDung" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdNguoiDung" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="HoTen" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="MatKhau" Type="nvarchar" MaxLength="200" Nullable="false" />
@@ -49,14 +49,14 @@
           <Key>
             <PropertyRef Name="IdSanPham" />
           </Key>
-          <Property Name="IdSanPham" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdSanPham" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="TenSanPham" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Gia" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="GiaKhuyenMai" Type="decimal" Precision="18" Scale="2" />
           <Property Name="MoTaNgan" Type="nvarchar" MaxLength="500" />
           <Property Name="MoTaChiTiet" Type="nvarchar(max)" />
           <Property Name="HinhAnh" Type="nvarchar" MaxLength="200" />
-          <Property Name="DanhMucId" Type="int" Nullable="false" />
+          <Property Name="IdDanhMuc" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="ChatLieu" Type="nvarchar" MaxLength="100" />
           <Property Name="MauSac" Type="nvarchar" MaxLength="50" />
           <Property Name="SoLuongTon" Type="int" />
@@ -83,7 +83,7 @@
               <PropertyRef Name="IdHoaDon" />
             </Principal>
             <Dependent Role="ChiTietHoaDon">
-              <PropertyRef Name="HoaDonId" />
+              <PropertyRef Name="IdHoaDon" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -95,7 +95,7 @@
               <PropertyRef Name="IdSanPham" />
             </Principal>
             <Dependent Role="ChiTietHoaDon">
-              <PropertyRef Name="SanPhamId" />
+              <PropertyRef Name="IdSanPham" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -107,7 +107,7 @@
               <PropertyRef Name="IdNguoiDung" />
             </Principal>
             <Dependent Role="HoaDon">
-              <PropertyRef Name="NguoiDungId" />
+              <PropertyRef Name="IdNguoiDung" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -119,7 +119,7 @@
               <PropertyRef Name="IdDanhMuc" />
             </Principal>
             <Dependent Role="SanPham">
-              <PropertyRef Name="DanhMucId" />
+              <PropertyRef Name="IdDanhMuc" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -178,7 +178,8 @@
             <End Role="SanPham" EntitySet="SanPham" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="QLMohoDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -186,9 +187,9 @@
           <Key>
             <PropertyRef Name="IdChiTietHoaDon" />
           </Key>
-          <Property Name="IdChiTietHoaDon" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="HoaDonId" Type="Int32" Nullable="false" />
-          <Property Name="SanPhamId" Type="Int32" Nullable="false" />
+          <Property Name="IdChiTietHoaDon" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IdHoaDon" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IdSanPham" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="SoLuong" Type="Int32" Nullable="false" />
           <Property Name="DonGia" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <NavigationProperty Name="HoaDon" Relationship="Self.FK_CT_HoaDon" FromRole="ChiTietHoaDon" ToRole="HoaDon" />
@@ -198,7 +199,7 @@
           <Key>
             <PropertyRef Name="IdDanhMuc" />
           </Key>
-          <Property Name="IdDanhMuc" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdDanhMuc" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="TenDanhMuc" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="MoTa" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="SanPhams" Relationship="Self.FK_SanPham_DanhMuc" FromRole="DanhMuc" ToRole="SanPham" />
@@ -207,8 +208,8 @@
           <Key>
             <PropertyRef Name="IdHoaDon" />
           </Key>
-          <Property Name="IdHoaDon" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NguoiDungId" Type="Int32" Nullable="false" />
+          <Property Name="IdHoaDon" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IdNguoiDung" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="NgayDat" Type="DateTime" Precision="3" />
           <Property Name="TongTien" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TrangThai" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -219,7 +220,7 @@
           <Key>
             <PropertyRef Name="IdNguoiDung" />
           </Key>
-          <Property Name="IdNguoiDung" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdNguoiDung" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="HoTen" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="MatKhau" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
@@ -232,23 +233,23 @@
           <Key>
             <PropertyRef Name="IdSanPham" />
           </Key>
-          <Property Name="IdSanPham" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdSanPham" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="TenSanPham" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Gia" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="GiaKhuyenMai" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="MoTaNgan" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="MoTaChiTiet" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="HinhAnh" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="DanhMucId" Type="Int32" Nullable="false" />
+          <Property Name="IdDanhMuc" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ChatLieu" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="MauSac" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="SoLuongTon" Type="Int32" />
           <Property Name="NgayThem" Type="DateTime" Precision="3" />
           <Property Name="TrangThai" Type="Boolean" />
-          <NavigationProperty Name="ChiTietHoaDons" Relationship="Self.FK_CT_SanPham" FromRole="SanPham" ToRole="ChiTietHoaDon" />
-          <NavigationProperty Name="DanhMuc" Relationship="Self.FK_SanPham_DanhMuc" FromRole="SanPham" ToRole="DanhMuc" />
           <Property Name="DanhGia" Type="Int32" />
           <Property Name="DaBan" Type="Int32" />
+          <NavigationProperty Name="ChiTietHoaDons" Relationship="Self.FK_CT_SanPham" FromRole="SanPham" ToRole="ChiTietHoaDon" />
+          <NavigationProperty Name="DanhMuc" Relationship="Self.FK_SanPham_DanhMuc" FromRole="SanPham" ToRole="DanhMuc" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -268,7 +269,7 @@
               <PropertyRef Name="IdHoaDon" />
             </Principal>
             <Dependent Role="ChiTietHoaDon">
-              <PropertyRef Name="HoaDonId" />
+              <PropertyRef Name="IdHoaDon" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -280,7 +281,7 @@
               <PropertyRef Name="IdSanPham" />
             </Principal>
             <Dependent Role="ChiTietHoaDon">
-              <PropertyRef Name="SanPhamId" />
+              <PropertyRef Name="IdSanPham" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -292,7 +293,7 @@
               <PropertyRef Name="IdDanhMuc" />
             </Principal>
             <Dependent Role="SanPham">
-              <PropertyRef Name="DanhMucId" />
+              <PropertyRef Name="IdDanhMuc" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -304,7 +305,7 @@
               <PropertyRef Name="IdNguoiDung" />
             </Principal>
             <Dependent Role="HoaDon">
-              <PropertyRef Name="NguoiDungId" />
+              <PropertyRef Name="IdNguoiDung" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -383,8 +384,8 @@
             <EntityTypeMapping TypeName="QLMohoDBModel.ChiTietHoaDon">
               <MappingFragment StoreEntitySet="ChiTietHoaDon">
                 <ScalarProperty Name="IdChiTietHoaDon" ColumnName="IdChiTietHoaDon" />
-                <ScalarProperty Name="HoaDonId" ColumnName="HoaDonId" />
-                <ScalarProperty Name="SanPhamId" ColumnName="SanPhamId" />
+                <ScalarProperty Name="IdHoaDon" ColumnName="IdHoaDon" />
+                <ScalarProperty Name="IdSanPham" ColumnName="IdSanPham" />
                 <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
                 <ScalarProperty Name="DonGia" ColumnName="DonGia" />
               </MappingFragment>
@@ -403,7 +404,7 @@
             <EntityTypeMapping TypeName="QLMohoDBModel.HoaDon">
               <MappingFragment StoreEntitySet="HoaDon">
                 <ScalarProperty Name="IdHoaDon" ColumnName="IdHoaDon" />
-                <ScalarProperty Name="NguoiDungId" ColumnName="NguoiDungId" />
+                <ScalarProperty Name="IdNguoiDung" ColumnName="IdNguoiDung" />
                 <ScalarProperty Name="NgayDat" ColumnName="NgayDat" />
                 <ScalarProperty Name="TongTien" ColumnName="TongTien" />
                 <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
@@ -426,8 +427,6 @@
           <EntitySetMapping Name="SanPhams">
             <EntityTypeMapping TypeName="QLMohoDBModel.SanPham">
               <MappingFragment StoreEntitySet="SanPham">
-                <ScalarProperty Name="DaBan" ColumnName="DaBan" />
-                <ScalarProperty Name="DanhGia" ColumnName="DanhGia" />
                 <ScalarProperty Name="IdSanPham" ColumnName="IdSanPham" />
                 <ScalarProperty Name="TenSanPham" ColumnName="TenSanPham" />
                 <ScalarProperty Name="Gia" ColumnName="Gia" />
@@ -435,12 +434,14 @@
                 <ScalarProperty Name="MoTaNgan" ColumnName="MoTaNgan" />
                 <ScalarProperty Name="MoTaChiTiet" ColumnName="MoTaChiTiet" />
                 <ScalarProperty Name="HinhAnh" ColumnName="HinhAnh" />
-                <ScalarProperty Name="DanhMucId" ColumnName="DanhMucId" />
+                <ScalarProperty Name="IdDanhMuc" ColumnName="IdDanhMuc" />
                 <ScalarProperty Name="ChatLieu" ColumnName="ChatLieu" />
                 <ScalarProperty Name="MauSac" ColumnName="MauSac" />
                 <ScalarProperty Name="SoLuongTon" ColumnName="SoLuongTon" />
                 <ScalarProperty Name="NgayThem" ColumnName="NgayThem" />
                 <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="DanhGia" ColumnName="DanhGia" />
+                <ScalarProperty Name="DaBan" ColumnName="DaBan" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

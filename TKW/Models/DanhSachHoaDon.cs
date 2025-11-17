@@ -15,16 +15,16 @@ namespace TKW.Models
         }
 
         // 🔹 Lấy danh sách hóa đơn
-        public List<HoaDon> GetDanhSachHoaDon(int? idHoaDon = null)
+        public List<HoaDon> GetDanhSachHoaDon(string idHoaDon = null)
         {
-            if (idHoaDon.HasValue)
-                return db.HoaDons.Where(h => h.IdHoaDon == idHoaDon.Value).ToList();
+            if (!string.IsNullOrEmpty(idHoaDon))
+                return db.HoaDons.Where(h => h.IdHoaDon == idHoaDon).ToList();
 
             return db.HoaDons.ToList();
         }
 
         // 🔹 Lấy hóa đơn theo ID
-        public HoaDon GetHoaDonById(int idHoaDon)
+        public HoaDon GetHoaDonById(string idHoaDon)
         {
             return db.HoaDons.FirstOrDefault(h => h.IdHoaDon == idHoaDon);
         }
@@ -53,7 +53,7 @@ namespace TKW.Models
                 var existing = db.HoaDons.FirstOrDefault(h => h.IdHoaDon == hd.IdHoaDon);
                 if (existing != null)
                 {
-                    existing.NguoiDungId = hd.NguoiDungId;
+                    existing.IdNguoiDung = hd.IdNguoiDung;
                     existing.NgayDat = hd.NgayDat;
                     existing.TongTien = hd.TongTien;
                     existing.TrangThai = hd.TrangThai;
@@ -71,7 +71,7 @@ namespace TKW.Models
         }
 
         // 🔹 Xóa hóa đơn
-        public bool DeleteHoaDon(int idHoaDon)
+        public bool DeleteHoaDon(string idHoaDon)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace TKW.Models
         }
 
         // 🔹 Cập nhật trạng thái hóa đơn
-        public bool UpdateTrangThai(int idHoaDon, string trangThai)
+        public bool UpdateTrangThai(string idHoaDon, string trangThai)
         {
             try
             {
