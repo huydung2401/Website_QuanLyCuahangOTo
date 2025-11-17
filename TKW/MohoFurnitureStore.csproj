@@ -217,6 +217,8 @@
     <Content Include="Content\images\carousel02.jpg" />
     <Content Include="Content\images\carousel03.jpg" />
     <Content Include="Content\images\carousel04.jpg" />
+    <Content Include="Content\images\carousel05.jpg" />
+    <Content Include="Content\images\carousel06.jpg" />
     <Content Include="Content\images\logo.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -270,6 +272,8 @@
     <Content Include="Views\Home\BrandStory.cshtml" />
     <Content Include="Views\Home\ThietKe_ThiCong.cshtml" />
     <Content Include="Views\SanPham\ChiTietSanPham.cshtml" />
+    <Content Include="Views\TaiKhoan\DangNhap.cshtml" />
+    <Content Include="Views\TaiKhoan\DangKy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -277,7 +281,6 @@
     <Folder Include="Views\DonHang\" />
     <Folder Include="Views\GioHang\" />
     <Folder Include="Views\QuanTri\" />
-    <Folder Include="Views\TaiKhoan\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

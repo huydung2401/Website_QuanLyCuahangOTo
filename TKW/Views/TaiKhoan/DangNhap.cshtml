@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Đăng nhập tài khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="shadow p-4 bg-white rounded" style="width: 450px;">
+
+        <h3 class="text-center mb-3">ĐĂNG NHẬP TÀI KHOẢN</h3>
+        <p class="text-center text-muted mb-4">Nhập email và mật khẩu của bạn:</p>
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger">@TempData["Error"]</div>
+        }
+
+        <form action="/TaiKhoan/DangNhap" method="post">
+            <input type="text" name="Email" class="form-control mb-3" placeholder="Nhập email hoặc số điện thoại" required />
+
+            <input type="password" name="MatKhau" class="form-control mb-3" placeholder="Mật khẩu" required />
+
+            <button class="btn btn-dark w-100 py-2">ĐĂNG NHẬP</button>
+        </form>
+
+        <div class="text-center mt-3">
+            Khách hàng mới? <a href="/TaiKhoan/DangKy">Tạo tài khoản</a>
+        </div>
+
+        <div class="text-center mt-2">
+            Quên mật khẩu? <a href="#">Khôi phục mật khẩu</a>
+        </div>
+    </div>
+</div>

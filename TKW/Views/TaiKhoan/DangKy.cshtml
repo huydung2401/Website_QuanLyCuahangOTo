@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "Tạo tài khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="row">
+
+        <div class="col-md-6">
+            <h1 class="fw-bold">Tạo tài khoản</h1>
+            <p>Đăng ký tài khoản chỉ trong 1 phút để tích lũy điểm và nhận ưu đãi từ MOHO.</p>
+        </div>
+
+        <div class="col-md-6">
+            <div class="p-4 rounded bg-light">
+
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger">@TempData["Error"]</div>
+                }
+
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success">@TempData["Success"]</div>
+                }
+
+                <form action="/TaiKhoan/DangKy" method="post">
+
+                    <input type="text" name="HoTen" class="form-control mb-3" placeholder="Họ và tên" required />
+
+                    <input type="email" name="Email" class="form-control mb-3" placeholder="Email" required />
+
+                    <input type="password" name="MatKhau" class="form-control mb-3" placeholder="Mật khẩu" required />
+
+                    <input type="text" name="DienThoai" class="form-control mb-3" placeholder="Số điện thoại" />
+
+                    <input type="text" name="DiaChi" class="form-control mb-3" placeholder="Địa chỉ" />
+
+                    <button class="btn btn-dark w-100 py-2">ĐĂNG KÝ</button>
+                </form>
+
+                <div class="text-center mt-3">
+                    ← <a href="/">Quay lại trang chủ</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
