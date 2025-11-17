@@ -55,12 +55,12 @@
                         <span class="badge badge-danger position-absolute discount-badge">-@discount%</span>
                     }
 
-                    <!-- Ảnh sản phẩm -->
-                    <img src="@Url.Content("~/Content/images/" + sp.HinhAnh)"
-                         class="card-img-top product-img"
-                         alt="@sp.TenSanPham"
-                         style="height:200px; object-fit:cover; cursor:pointer;"
-                         data-toggle="modal" data-target="#productModal-@sp.IdSanPham" />
+                    <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })">
+                        <img src="@Url.Content("~/Content/images/" + sp.HinhAnh)"
+                             class="card-img-top product-img"
+                             alt="@sp.TenSanPham"
+                             style="height:200px; object-fit:cover; cursor:pointer;" />
+                    </a>
 
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">@sp.TenSanPham</h5>
@@ -84,6 +84,30 @@
                             }
                         </p>
 
+                        <!-- ⭐ Đánh giá sao -->
+                        <div class="rating mb-2">
+                            @{
+                                int rating = sp.DanhGia ?? 0;
+
+                            }
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                if (i <= rating)
+                                {
+                                    <i class="fas fa-star" style="color:#ff9f00; font-size:15px;"></i>
+                                }
+                                else
+                                {
+                                    <i class="far fa-star" style="color:#ccc; font-size:15px;"></i>
+                                }
+                            }
+                            <span style="font-size:14px; color:#777;">(@rating)</span>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <span class="sold-text">Đã bán @sp.DaBan</span>
+                        </div>
+
                         <!-- Chọn màu sắc -->
                         <div class="d-flex mt-auto">
                             <button class="color-btn mr-2" style="background-color:black;" data-img="@Url.Content("~/Content/images/" + sp.HinhAnh)"></button>
@@ -92,18 +116,18 @@
                     </div>
                 </div>
 
-                <!-- Modal chi tiết sản phẩm -->
-                <div class="modal fade" id="productModal-@sp.IdSanPham" tabindex="-1" role="dialog" aria-labelledby="productModalLabel-@sp.IdSanPham" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
+                <!-- Modal chi tiết -->
+                <div class="modal fade" id="productModal-@sp.IdSanPham" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="productModalLabel-@sp.IdSanPham">@sp.TenSanPham</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+                                <h5 class="modal-title">@sp.TenSanPham</h5>
+                                <button type="button" class="close" data-dismiss="modal">
+                                    <span>&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body text-center">
-                                <img src="@Url.Content("~/Content/images/" + sp.HinhAnh)" class="img-fluid mb-3" alt="@sp.TenSanPham">
+                                <img src="@Url.Content("~/Content/images/" + sp.HinhAnh)" class="img-fluid mb-3">
                                 <p>@sp.MoTaNgan</p>
                                 <p class="product-price">
                                     @if (sp.GiaKhuyenMai.HasValue)
@@ -125,6 +149,7 @@
         }
     </div>
 </div>
+
 
 <style>
     <style >
@@ -166,6 +191,20 @@
     }
 
     /* Responsive: khi màn hình nhỏ */
+
+    .sold-text {
+        font-size: 14px;
+        color: #777;
+    }
+
+    .color-dot {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        border: 1px solid #bbb;
+        display: inline-block;
+    }
+
 
 </style>
 

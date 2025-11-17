@@ -138,6 +138,7 @@
     <Compile Include="Models\ChiTietHoaDon.cs">
       <DependentUpon>QLMoHo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChiTietSanPham.cs" />
     <Compile Include="Models\DanhMuc.cs">
       <DependentUpon>QLMoHo.tt</DependentUpon>
     </Compile>
@@ -268,6 +269,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\BrandStory.cshtml" />
     <Content Include="Views\Home\ThietKe_ThiCong.cshtml" />
+    <Content Include="Views\SanPham\ChiTietSanPham.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -275,7 +277,6 @@
     <Folder Include="Views\DonHang\" />
     <Folder Include="Views\GioHang\" />
     <Folder Include="Views\QuanTri\" />
-    <Folder Include="Views\SanPham\" />
     <Folder Include="Views\TaiKhoan\" />
   </ItemGroup>
   <ItemGroup>

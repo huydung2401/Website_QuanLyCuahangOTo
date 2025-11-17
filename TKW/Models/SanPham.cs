@@ -33,6 +33,8 @@ namespace TKW.Models
         public Nullable<int> SoLuongTon { get; set; }
         public Nullable<System.DateTime> NgayThem { get; set; }
         public Nullable<bool> TrangThai { get; set; }
+        public Nullable<int> DanhGia { get; set; }
+        public Nullable<int> DaBan { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTietHoaDon> ChiTietHoaDons { get; set; }

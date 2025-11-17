@@ -34,17 +34,33 @@ namespace TKW.Controllers
         }
 
         // GET: /SanPham/ChiTiet/5
-        public ActionResult ChiTiet(int? id)
+        // GET: /SanPham/ChiTiet/5
+        public ActionResult ChiTietSanPham(int? id)
         {
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
+            // Lấy sản phẩm
             var sp = db.SanPhams.Find(id);
             if (sp == null)
                 return HttpNotFound();
 
-            return View(sp);
+            // Tạo model chi tiết sản phẩm
+            var model = new ChiTietSanPham
+            {
+                SanPham = sp,
+                DanhMuc = sp.DanhMuc, // EF navigation tự lấy danh mục
+                SanPhamLienQuan = db.SanPhams
+                                    .Where(x => x.DanhMucId == sp.DanhMucId && x.IdSanPham != sp.IdSanPham)
+                                    .Take(4)
+                                    .ToList()
+            };
+
+            return View(model);
         }
+
+
+
 
         // GET: /SanPham/Them
         public ActionResult Them()

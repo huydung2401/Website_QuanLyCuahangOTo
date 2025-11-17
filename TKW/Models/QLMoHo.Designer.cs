@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\PhamDung\OneDrive\Desktop\Bài tập lớn lập trình web\TKW\TKW\Models\QLMoHo.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\PhamDung\Source\Repos\LT_Web_MVC\TKW\Models\QLMoHo.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
