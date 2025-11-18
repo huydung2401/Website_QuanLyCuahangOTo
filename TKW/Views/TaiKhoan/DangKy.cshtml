@@ -3,47 +3,204 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container mt-5">
-    <div class="row">
 
-        <div class="col-md-6">
-            <h1 class="fw-bold">Tạo tài khoản</h1>
-            <p>Đăng ký tài khoản chỉ trong 1 phút để tích lũy điểm và nhận ưu đãi từ MOHO.</p>
-        </div>
+<style>
+    /* 2 CỘT CHUẨN MOHO */
+    .register-wrap {
+        display: flex;
+        padding: 60px 100px;
+        gap: 120px;
+    }
 
-        <div class="col-md-6">
-            <div class="p-4 rounded bg-light">
+    /* CỘT TRÁI */
+    .register-left {
+        width: 45%;
+    }
 
-                @if (TempData["Error"] != null)
-                {
-                    <div class="alert alert-danger">@TempData["Error"]</div>
-                }
+    .reg-title {
+        font-size: 48px;
+        font-weight: 700;
+    }
 
-                @if (TempData["Success"] != null)
-                {
-                    <div class="alert alert-success">@TempData["Success"]</div>
-                }
+    .reg-desc {
+        margin-top: 10px;
+        font-size: 18px;
+        color: #666;
+        width: 80%;
+    }
 
-                <form action="/TaiKhoan/DangKy" method="post">
+    .reg-line {
+        width: 55px;
+        height: 4px;
+        background: #000;
+        margin-top: 18px;
+    }
 
-                    <input type="text" name="HoTen" class="form-control mb-3" placeholder="Họ và tên" required />
+    /* CỘT PHẢI */
+    .register-right {
+        width: 50%;
+    }
 
-                    <input type="email" name="Email" class="form-control mb-3" placeholder="Email" required />
+    /* CHỌN PHƯƠNG THỨC */
+    .reg-method {
+        display: flex;
+        gap: 35px;
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
 
-                    <input type="password" name="MatKhau" class="form-control mb-3" placeholder="Mật khẩu" required />
+    /* NHÓM GIỚI TÍNH */
+    .gender-group {
+        display: flex;
+        gap: 28px;
+        margin-bottom: 18px;
+    }
 
-                    <input type="text" name="DienThoai" class="form-control mb-3" placeholder="Số điện thoại" />
+    /* INPUT STYLE MOHO */
+    .input-box {
+        width: 100%;
+        padding: 15px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        background: #efefef;
+        margin-bottom: 16px;
+        font-size: 16px;
+    }
 
-                    <input type="text" name="DiaChi" class="form-control mb-3" placeholder="Địa chỉ" />
+    /* NÚT ĐĂNG KÝ */
+    .btn-register {
+        background: #2d2d2d;
+        color: #fff;
+        width: 100%;
+        padding: 14px 0;
+        border-radius: 6px;
+        margin-top: 10px;
+        border: none;
+        font-size: 17px;
+    }
 
-                    <button class="btn btn-dark w-100 py-2">ĐĂNG KÝ</button>
-                </form>
+        .btn-register:hover {
+            background: #000;
+        }
 
-                <div class="text-center mt-3">
-                    ← <a href="/">Quay lại trang chủ</a>
-                </div>
+    /* QUAY LẠI */
+    .back-home {
+        display: inline-block;
+        margin: 20px 0;
+        font-size: 16px;
+        color: #2d2d2d;
+    }
 
+    /* SOCIAL LOGIN */
+    .social-login {
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn-google {
+        background: #db4437;
+        color: #fff;
+        padding: 10px 18px;
+        border-radius: 6px;
+        border: none;
+    }
+
+    .btn-facebook {
+        background: #4267B2;
+        color: #fff;
+        padding: 10px 18px;
+        border-radius: 6px;
+        border: none;
+    }
+
+    /* NOTE RECAPTCHA */
+    .captcha-note {
+        font-size: 14px;
+        color: #777;
+        margin-bottom: 15px;
+    }
+</style>
+<div class="register-wrap">
+
+    <!-- CỘT TRÁI -->
+    <div class="register-left">
+        <h1 class="reg-title">Tạo tài khoản</h1>
+        <p class="reg-desc">
+            Đăng ký tài khoản chỉ trong 1 phút để tích lũy điểm và nhận ưu đãi từ MOHO.
+        </p>
+        <div class="reg-line"></div>
+    </div>
+
+    <!-- CỘT PHẢI -->
+    <div class="register-right">
+        <form action="/TaiKhoan/DangKy" method="post">
+
+            <!-- PHƯƠNG THỨC ĐK -->
+            <div class="reg-method">
+                <label><input type="radio" name="type" value="email" checked> Đăng ký bằng email</label>
+                <label><input type="radio" name="type" value="phone"> Đăng ký bằng số điện thoại</label>
             </div>
-        </div>
+
+            <!-- Họ -->
+            <input type="text" id="Ho" class="input-box" placeholder="Họ" required>
+
+            <!-- Tên -->
+            <input type="text" id="Ten" class="input-box" placeholder="Tên" required>
+
+            <!-- GIỚI TÍNH -->
+            <div class="gender-group">
+                <label><input type="radio" name="GioiTinh" value="Nữ"> Nữ</label>
+                <label><input type="radio" name="GioiTinh" value="Nam"> Nam</label>
+            </div>
+
+            <!-- HIDDEN HoTen (gửi lên server) -->
+            <input type="hidden" name="HoTen" id="HoTen" />
+
+            <!-- EMAIL -->
+            <input type="email" name="Email" class="input-box reg-email" placeholder="Email" required>
+
+            <!-- SỐ ĐIỆN THOẠI -->
+            <input type="text" name="DienThoai" class="input-box reg-phone" placeholder="Số điện thoại" style="display:none;">
+
+            <!-- MẬT KHẨU -->
+            <input type="password" name="MatKhau" class="input-box" placeholder="Mật khẩu" required>
+
+            <p class="captcha-note">
+                Website được bảo vệ bởi reCAPTCHA và
+                <a href="#">Chính sách bảo mật</a> và
+                <a href="#">Điều khoản dịch vụ</a> của Google.
+            </p>
+
+            <button class="btn-register">ĐĂNG KÝ</button>
+
+            <a href="/" class="back-home">← Quay lại trang chủ</a>
+
+            <div class="social-login">
+                <button type="button" class="btn-google">Đăng nhập Google</button>
+                <button type="button" class="btn-facebook">Đăng nhập Facebook</button>
+            </div>
+        </form>
     </div>
 </div>
+
+<script>
+    // Gộp họ tên trước khi submit
+    document.querySelector(".btn-register").addEventListener("click", function () {
+        let ho = document.getElementById("Ho").value.trim();
+        let ten = document.getElementById("Ten").value.trim();
+        document.getElementById("HoTen").value = ho + " " + ten;
+    });
+
+    // Chuyển đổi email / phone
+    document.querySelectorAll("input[name='type']").forEach(r => {
+        r.addEventListener("change", function () {
+            if (this.value === "email") {
+                document.querySelector(".reg-email").style.display = "block";
+                document.querySelector(".reg-phone").style.display = "none";
+            } else {
+                document.querySelector(".reg-email").style.display = "none";
+                document.querySelector(".reg-phone").style.display = "block";
+            }
+        });
+    });
+</script>

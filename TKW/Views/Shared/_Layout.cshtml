@@ -14,6 +14,9 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+
+
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 
 
@@ -230,8 +233,20 @@
 
 
             /* Hiển thị dropdown khi hover vào mục cha (bao gồm con bên trong) */
-            .nav-item.dropdown:hover > .dropdown-menu {
-                display: block;
+            .nav-item.dropdown:hover .dropdown-menu {
+                display: block !important;
+            }
+
+
+        /* Mặc định popup không chặn hover */
+        .login-popup {
+            pointer-events: none;
+        }
+
+            /* Khi mở popup */
+            .login-popup.active {
+                display: flex !important;
+                pointer-events: auto;
             }
 
         /* Mũi tên xoay khi hover */
@@ -299,23 +314,26 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.45);   /* tối hơn để giống MOHO */
+            background: rgba(0,0,0,0.45); /* tối hơn để giống MOHO */
             display: none;
             justify-content: flex-end;
             align-items: flex-start;
-
             /* ⭐ CHỈNH CHUẨN THEO VỊ TRÍ ICON AVATAR */
             padding-right: 150px;
             padding-top: 95px;
-
             z-index: 9999;
             animation: fadein 0.2s ease;
         }
 
         /* Fade mượt */
         @@keyframes fadein {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         /* KHUNG ĐĂNG NHẬP */
@@ -328,22 +346,20 @@
             position: relative;
         }
 
-        /* ⭐ MŨI NHỌN CHUẨN GIỐNG MOHO */
-        .login-box::before {
-            content: "";
-            position: absolute;
-            top: -22px;
-
-            /* ⭐ CĂN GIỮA CHUẨN VỚI ICON */
-            right: 115px;
-
-            width: 0;
-            height: 0;
-            border-left: 18px solid transparent;
-            border-right: 18px solid transparent;
-            border-bottom: 18px solid white;
-            filter: drop-shadow(0 -3px 3px rgba(0,0,0,0.10));
-        }
+            /* ⭐ MŨI NHỌN CHUẨN GIỐNG MOHO */
+            .login-box::before {
+                content: "";
+                position: absolute;
+                top: -22px;
+                /* ⭐ CĂN GIỮA CHUẨN VỚI ICON */
+                right: 115px;
+                width: 0;
+                height: 0;
+                border-left: 18px solid transparent;
+                border-right: 18px solid transparent;
+                border-bottom: 18px solid white;
+                filter: drop-shadow(0 -3px 3px rgba(0,0,0,0.10));
+            }
 
         /* TIÊU ĐỀ */
         .login-title {
@@ -384,9 +400,9 @@
             transition: 0.2s;
         }
 
-        .btn-login:hover {
-            background: #000;
-        }
+            .btn-login:hover {
+                background: #000;
+            }
 
         /* FOOTER */
         .login-footer {
@@ -395,17 +411,15 @@
             font-size: 14px;
         }
 
-        /* LINK */
-        .login-footer a {
-            color: #007bff;
-        }
+            /* LINK */
+            .login-footer a {
+                color: #007bff;
+            }
 
         /* CHƯA ĐĂNG NHẬP → ẨN DROPDOWN */
         .small-login {
             color: #000 !important;
         }
-
-
     </style>
 
 </head>
@@ -439,6 +453,7 @@
 
                 <!-- Nhóm người dùng + Giỏ hàng -->
                 <div class="d-flex align-items-center">
+
                     @if (Session["User"] == null)
                     {
                         <!-- CHƯA ĐĂNG NHẬP -->
@@ -446,10 +461,11 @@
                             <i class="fas fa-user fa-lg mr-2"></i>
 
                             <div class="d-flex flex-column">
-                                <a href="#" class="nav-link p-0 mb-1 small-login open-login-modal">
+
+                                <!-- Nút mở popup đăng nhập -->
+                                <a href="#" class="nav-link p-0 mb-1 open-login-modal">
                                     Đăng nhập/Đăng ký
                                 </a>
-
 
                                 <span class="nav-link p-0 d-flex align-items-center small-account text-muted">
                                     Tài khoản của tôi
@@ -467,8 +483,8 @@
 
                             <div class="d-flex flex-column">
 
-                                <!-- Xin chào -->
-                                <span class="nav-link p-0 mb-1 small-login" style="color:#28a745;">
+                                <!-- Lời chào -->
+                                <span class="nav-link p-0 mb-1 user-welcome" style="color:#28a745;">
                                     Xin chào, @userName
                                 </span>
 
@@ -489,7 +505,6 @@
                         </div>
                     }
 
-
                     <!-- Giỏ hàng -->
                     <a href="#" class="nav-link position-relative d-flex align-items-center p-0">
                         <i class="fas fa-shopping-cart fa-lg mr-1"></i>
@@ -497,6 +512,7 @@
                         <span class="badge badge-danger position-absolute" style="top:0; right:0; font-size:0.65rem;"></span>
                     </a>
                 </div>
+
 
             </div>
 
@@ -725,23 +741,47 @@
 </html>
 
 
+@*<script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const popup = document.getElementById("loginPopup");
+            const loginButtons = document.querySelectorAll(".btn-open-login, .small-login");
+
+            loginButtons.forEach(btn => {
+                btn.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    popup.style.display = "flex";
+                });
+            });
+
+            // Click ra ngoài để đóng
+            popup.addEventListener("click", function (e) {
+                if (e.target === popup) {
+                    popup.style.display = "none";
+                }
+            });
+        });
+    </script>*@
+
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const popup = document.getElementById("loginPopup");
-        const loginButtons = document.querySelectorAll(".btn-open-login, .small-login");
+
+        if (!popup) return;
+
+        const loginButtons = document.querySelectorAll(".open-login-modal");
 
         loginButtons.forEach(btn => {
             btn.addEventListener("click", function (e) {
                 e.preventDefault();
-                popup.style.display = "flex";
+                popup.classList.add("active");
             });
         });
 
-        // Click ra ngoài để đóng
         popup.addEventListener("click", function (e) {
             if (e.target === popup) {
-                popup.style.display = "none";
+                popup.classList.remove("active");
             }
         });
     });
+
 </script>

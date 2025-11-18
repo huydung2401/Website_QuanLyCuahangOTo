@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -51,25 +52,52 @@ namespace TKW.Controllers
         [HttpPost]
         public ActionResult DangKy(NguoiDung model)
         {
-            // Check email tồn tại
+            // VALIDATION TỐI THIỂU
+            if (string.IsNullOrWhiteSpace(model.HoTen) ||
+                string.IsNullOrWhiteSpace(model.Email) ||
+                string.IsNullOrWhiteSpace(model.MatKhau))
+            {
+                TempData["Error"] = "Họ tên, Email và Mật khẩu là bắt buộc!";
+                return RedirectToAction("DangKy");
+            }
+
+            // CHECK EMAIL TRÙNG
             if (db.NguoiDungs.Any(u => u.Email == model.Email))
             {
                 TempData["Error"] = "Email này đã được sử dụng!";
                 return RedirectToAction("DangKy");
             }
 
-            // Tạo mã ND tự động
-            model.IdNguoiDung = "ND" + (db.NguoiDungs.Count() + 1).ToString("00");
+            // TẠO MÃ ID KHÔNG BAO GIỜ TRÙNG
+            model.IdNguoiDung = "ND" + DateTime.Now.Ticks.ToString().Substring(10);
+
             model.LaAdmin = false;
 
+            try
+            {
+                db.NguoiDungs.Add(model);
+                db.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (var e in ex.EntityValidationErrors)
+                {
+                    foreach (var v in e.ValidationErrors)
+                    {
+                        System.Diagnostics.Debug.WriteLine(
+                            "Lỗi: " + v.PropertyName + " - " + v.ErrorMessage
+                        );
+                    }
+                }
 
-            db.NguoiDungs.Add(model);
-            db.SaveChanges();
+                TempData["Error"] = "Dữ liệu không hợp lệ! Kiểm tra lại thông tin.";
+                return RedirectToAction("DangKy");
+            }
 
             TempData["Success"] = "Đăng ký thành công! Hãy đăng nhập.";
-
             return RedirectToAction("DangNhap");
         }
+
 
         // ========================
         // Đăng xuất
