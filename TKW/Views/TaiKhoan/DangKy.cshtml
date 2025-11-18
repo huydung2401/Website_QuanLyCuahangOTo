@@ -5,16 +5,20 @@
 
 
 <style>
-    /* 2 CỘT CHUẨN MOHO */
+    /* Bọc toàn bộ form trong khung container */
     .register-wrap {
         display: flex;
-        padding: 60px 100px;
-        gap: 120px;
+        justify-content: space-between; /* 2 cột đều nhau */
+        align-items: flex-start;
+        max-width: 1200px; /* ngang bằng header Moho */
+        margin: 0 auto; /* căn giữa toàn trang */
+        padding: 60px 0; /* bỏ padding 100px gây lệch */
+        gap: 80px; /* khoảng cách vừa phải */
     }
 
-    /* CỘT TRÁI */
+    /* Cột trái */
     .register-left {
-        width: 45%;
+        flex: 1;
     }
 
     .reg-title {
@@ -26,7 +30,7 @@
         margin-top: 10px;
         font-size: 18px;
         color: #666;
-        width: 80%;
+        max-width: 400px; /* giữ text gọn */
     }
 
     .reg-line {
@@ -36,12 +40,12 @@
         margin-top: 18px;
     }
 
-    /* CỘT PHẢI */
+    /* Cột phải */
     .register-right {
-        width: 50%;
+        flex: 1;
     }
 
-    /* CHỌN PHƯƠNG THỨC */
+    /* Form phần bên phải */
     .reg-method {
         display: flex;
         gap: 35px;
@@ -49,14 +53,14 @@
         margin-bottom: 20px;
     }
 
-    /* NHÓM GIỚI TÍNH */
+    /* Giới tính */
     .gender-group {
         display: flex;
         gap: 28px;
         margin-bottom: 18px;
     }
 
-    /* INPUT STYLE MOHO */
+    /* Input */
     .input-box {
         width: 100%;
         padding: 15px;
@@ -67,7 +71,7 @@
         font-size: 16px;
     }
 
-    /* NÚT ĐĂNG KÝ */
+    /* Nút đăng ký */
     .btn-register {
         background: #2d2d2d;
         color: #fff;
@@ -83,7 +87,7 @@
             background: #000;
         }
 
-    /* QUAY LẠI */
+    /* Quay lại */
     .back-home {
         display: inline-block;
         margin: 20px 0;
@@ -91,7 +95,7 @@
         color: #2d2d2d;
     }
 
-    /* SOCIAL LOGIN */
+    /* Social login */
     .social-login {
         display: flex;
         gap: 10px;
@@ -113,73 +117,75 @@
         border: none;
     }
 
-    /* NOTE RECAPTCHA */
+    /* Note recaptcha */
     .captcha-note {
         font-size: 14px;
         color: #777;
         margin-bottom: 15px;
     }
+
+    /* Responsive cho mobile */
+    @@media (max-width: 992px) {
+        .register-wrap {
+            flex-direction: column;
+            gap: 40px;
+            padding: 40px 20px;
+        }
+    }
 </style>
-<div class="register-wrap">
+<div class="container">
+    <div class="register-wrap">
 
-    <!-- CỘT TRÁI -->
-    <div class="register-left">
-        <h1 class="reg-title">Tạo tài khoản</h1>
-        <p class="reg-desc">
-            Đăng ký tài khoản chỉ trong 1 phút để tích lũy điểm và nhận ưu đãi từ MOHO.
-        </p>
-        <div class="reg-line"></div>
-    </div>
-
-    <!-- CỘT PHẢI -->
-    <div class="register-right">
-        <form action="/TaiKhoan/DangKy" method="post">
-
-            <!-- PHƯƠNG THỨC ĐK -->
-            <div class="reg-method">
-                <label><input type="radio" name="type" value="email" checked> Đăng ký bằng email</label>
-                <label><input type="radio" name="type" value="phone"> Đăng ký bằng số điện thoại</label>
-            </div>
-
-            <!-- Họ -->
-            <input type="text" id="Ho" class="input-box" placeholder="Họ" required>
-
-            <!-- Tên -->
-            <input type="text" id="Ten" class="input-box" placeholder="Tên" required>
-
-            <!-- GIỚI TÍNH -->
-            <div class="gender-group">
-                <label><input type="radio" name="GioiTinh" value="Nữ"> Nữ</label>
-                <label><input type="radio" name="GioiTinh" value="Nam"> Nam</label>
-            </div>
-
-            <!-- HIDDEN HoTen (gửi lên server) -->
-            <input type="hidden" name="HoTen" id="HoTen" />
-
-            <!-- EMAIL -->
-            <input type="email" name="Email" class="input-box reg-email" placeholder="Email" required>
-
-            <!-- SỐ ĐIỆN THOẠI -->
-            <input type="text" name="DienThoai" class="input-box reg-phone" placeholder="Số điện thoại" style="display:none;">
-
-            <!-- MẬT KHẨU -->
-            <input type="password" name="MatKhau" class="input-box" placeholder="Mật khẩu" required>
-
-            <p class="captcha-note">
-                Website được bảo vệ bởi reCAPTCHA và
-                <a href="#">Chính sách bảo mật</a> và
-                <a href="#">Điều khoản dịch vụ</a> của Google.
+        <!-- CỘT TRÁI -->
+        <div class="register-left">
+            <h1 class="reg-title">Tạo tài khoản</h1>
+            <p class="reg-desc">
+                Đăng ký tài khoản chỉ trong 1 phút để tích lũy điểm và nhận ưu đãi từ MOHO.
             </p>
+            <div class="reg-line"></div>
+        </div>
 
-            <button class="btn-register">ĐĂNG KÝ</button>
+        <!-- CỘT PHẢI -->
+        <div class="register-right">
+            <form action="/TaiKhoan/DangKy" method="post">
 
-            <a href="/" class="back-home">← Quay lại trang chủ</a>
+                <div class="reg-method">
+                    <label><input type="radio" name="type" value="email" checked> Đăng ký bằng email</label>
+                    <label><input type="radio" name="type" value="phone"> Đăng ký bằng số điện thoại</label>
+                </div>
 
-            <div class="social-login">
-                <button type="button" class="btn-google">Đăng nhập Google</button>
-                <button type="button" class="btn-facebook">Đăng nhập Facebook</button>
-            </div>
-        </form>
+                <input type="text" id="Ho" class="input-box" placeholder="Họ" required>
+                <input type="text" id="Ten" class="input-box" placeholder="Tên" required>
+
+                <div class="gender-group">
+                    <label><input type="radio" name="GioiTinh" value="Nữ"> Nữ</label>
+                    <label><input type="radio" name="GioiTinh" value="Nam"> Nam</label>
+                </div>
+
+                <input type="hidden" name="HoTen" id="HoTen">
+
+                <input type="email" name="Email" class="input-box reg-email" placeholder="Email" required>
+                <input type="text" name="DienThoai" class="input-box reg-phone" placeholder="Số điện thoại" style="display:none;">
+                <input type="password" name="MatKhau" class="input-box" placeholder="Mật khẩu" required>
+
+                <p class="captcha-note">
+                    Website được bảo vệ bởi reCAPTCHA và
+                    <a href="#">Chính sách bảo mật</a> và
+                    <a href="#">Điều khoản dịch vụ</a> của Google.
+                </p>
+
+                <button class="btn-register">ĐĂNG KÝ</button>
+
+                <a href="/" class="back-home">← Quay lại trang chủ</a>
+
+                <div class="social-login">
+                    <button type="button" class="btn-google">Đăng nhập Google</button>
+                    <button type="button" class="btn-facebook">Đăng nhập Facebook</button>
+                </div>
+
+            </form>
+        </div>
+
     </div>
 </div>
 

@@ -25,7 +25,7 @@ namespace TKW
                 url: "san-pham/danh-muc/{id}",
                 defaults: new { controller = "SanPham", action = "DanhMuc", id = UrlParameter.Optional }
             );
-
+    
             routes.MapRoute(
                 name: "GioHang",
                 url: "gio-hang",
