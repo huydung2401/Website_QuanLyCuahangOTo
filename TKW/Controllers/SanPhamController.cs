@@ -16,7 +16,10 @@ namespace TKW.Controllers
         // GET: /SanPham/
         public ActionResult Index()
         {
-            var sanPhams = db.SanPhams.ToList();
+            var sanPhams = db.SanPhams
+                 .OrderBy(sp => sp.IdSanPham)   
+                 .ToList();
+
             return View(sanPhams);
         }
 
@@ -30,7 +33,10 @@ namespace TKW.Controllers
                 sanPhams = sanPhams.Where(s => s.IdDanhMuc == idDanhMuc);
             }
 
-            return View(sanPhams.ToList());
+            return View(sanPhams
+            .OrderBy(sp => sp.IdSanPham)    
+            .ToList());
+
         }
 
         // GET: /SanPham/ChiTiet/5
@@ -40,20 +46,33 @@ namespace TKW.Controllers
             if (string.IsNullOrEmpty(id))
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            // Lấy sản phẩm theo VARCHAR ID
+            // Lấy sản phẩm theo IdSanPham (varchar)
             var sp = db.SanPhams.FirstOrDefault(s => s.IdSanPham == id);
             if (sp == null)
                 return HttpNotFound();
 
-            // Tạo model chi tiết sản phẩm
+            // LẤY BIẾN THỂ (Chỉ bếp DM04 mới có)
+            List<BienTheSanPham> bienThes = new List<BienTheSanPham>();
+
+            if (sp.IdDanhMuc == "DM04")
+            {
+                bienThes = db.BienTheSanPhams
+                             .Where(bt => bt.IdSanPham == sp.IdSanPham)
+                             .OrderBy(bt => bt.Gia)        // cho đẹp
+                             .ToList();
+            }
+
+            // TẠO MODEL ĐẦY ĐỦ
             var model = new ChiTietSanPham
             {
                 SanPham = sp,
                 DanhMuc = sp.DanhMuc,
+                BienThes = bienThes,
+
                 SanPhamLienQuan = db.SanPhams
-                        .Where(x => x.IdDanhMuc == sp.IdDanhMuc && x.IdSanPham != sp.IdSanPham)
-                        .Take(4)
-                        .ToList()
+                    .Where(x => x.IdDanhMuc == sp.IdDanhMuc && x.IdSanPham != sp.IdSanPham)
+                    .Take(4)
+                    .ToList()
             };
 
             return View(model);

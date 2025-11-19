@@ -18,6 +18,8 @@ namespace TKW.Models
         public SanPham()
         {
             this.ChiTietHoaDons = new HashSet<ChiTietHoaDon>();
+            this.SanPhamHinhAnhs = new HashSet<SanPhamHinhAnh>();
+            this.BienTheSanPhams = new HashSet<BienTheSanPham>();
         }
     
         public string IdSanPham { get; set; }
@@ -39,5 +41,9 @@ namespace TKW.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTietHoaDon> ChiTietHoaDons { get; set; }
         public virtual DanhMuc DanhMuc { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SanPhamHinhAnh> SanPhamHinhAnhs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BienTheSanPham> BienTheSanPhams { get; set; }
     }
 }

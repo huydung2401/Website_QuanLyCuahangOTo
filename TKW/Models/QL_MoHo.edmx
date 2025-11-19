@@ -4,7 +4,18 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="QLMohoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="QLMohoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BienTheSanPham">
+          <Key>
+            <PropertyRef Name="IdBienTheSanPham" />
+          </Key>
+          <Property Name="IdBienTheSanPham" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="IdSanPham" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="TenBienThe" Type="nvarchar" MaxLength="100" />
+          <Property Name="Gia" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="GiaCu" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="GiamGia" Type="int" StoreGeneratedPattern="Computed" />
+        </EntityType>
         <EntityType Name="ChiTietHoaDon">
           <Key>
             <PropertyRef Name="IdChiTietHoaDon" />
@@ -65,6 +76,14 @@
           <Property Name="DanhGia" Type="int" />
           <Property Name="DaBan" Type="int" />
         </EntityType>
+        <EntityType Name="SanPhamHinhAnh">
+          <Key>
+            <PropertyRef Name="IdHinhAnh" />
+          </Key>
+          <Property Name="IdHinhAnh" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdSanPham" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="HinhAnh" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -75,6 +94,18 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <Association Name="FK__BienTheSa__IdSan__3A4CA8FD">
+          <End Role="SanPham" Type="Self.SanPham" Multiplicity="1" />
+          <End Role="BienTheSanPham" Type="Self.BienTheSanPham" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SanPham">
+              <PropertyRef Name="IdSanPham" />
+            </Principal>
+            <Dependent Role="BienTheSanPham">
+              <PropertyRef Name="IdSanPham" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CT_HoaDon">
           <End Role="HoaDon" Type="Self.HoaDon" Multiplicity="1" />
           <End Role="ChiTietHoaDon" Type="Self.ChiTietHoaDon" Multiplicity="*" />
@@ -95,6 +126,18 @@
               <PropertyRef Name="IdSanPham" />
             </Principal>
             <Dependent Role="ChiTietHoaDon">
+              <PropertyRef Name="IdSanPham" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HinhAnh_SanPham">
+          <End Role="SanPham" Type="Self.SanPham" Multiplicity="1" />
+          <End Role="SanPhamHinhAnh" Type="Self.SanPhamHinhAnh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SanPham">
+              <PropertyRef Name="IdSanPham" />
+            </Principal>
+            <Dependent Role="SanPhamHinhAnh">
               <PropertyRef Name="IdSanPham" />
             </Dependent>
           </ReferentialConstraint>
@@ -155,12 +198,18 @@
         </Function>
         <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="QLMohoDBModelStoreContainer">
+          <EntitySet Name="BienTheSanPham" EntityType="Self.BienTheSanPham" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChiTietHoaDon" EntityType="Self.ChiTietHoaDon" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DanhMuc" EntityType="Self.DanhMuc" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HoaDon" EntityType="Self.HoaDon" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NguoiDung" EntityType="Self.NguoiDung" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SanPham" EntityType="Self.SanPham" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SanPhamHinhAnh" EntityType="Self.SanPhamHinhAnh" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__BienTheSa__IdSan__3A4CA8FD" Association="Self.FK__BienTheSa__IdSan__3A4CA8FD">
+            <End Role="SanPham" EntitySet="SanPham" />
+            <End Role="BienTheSanPham" EntitySet="BienTheSanPham" />
+          </AssociationSet>
           <AssociationSet Name="FK_CT_HoaDon" Association="Self.FK_CT_HoaDon">
             <End Role="HoaDon" EntitySet="HoaDon" />
             <End Role="ChiTietHoaDon" EntitySet="ChiTietHoaDon" />
@@ -168,6 +217,10 @@
           <AssociationSet Name="FK_CT_SanPham" Association="Self.FK_CT_SanPham">
             <End Role="SanPham" EntitySet="SanPham" />
             <End Role="ChiTietHoaDon" EntitySet="ChiTietHoaDon" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HinhAnh_SanPham" Association="Self.FK_HinhAnh_SanPham">
+            <End Role="SanPham" EntitySet="SanPham" />
+            <End Role="SanPhamHinhAnh" EntitySet="SanPhamHinhAnh" />
           </AssociationSet>
           <AssociationSet Name="FK_HoaDon_NguoiDung" Association="Self.FK_HoaDon_NguoiDung">
             <End Role="NguoiDung" EntitySet="NguoiDung" />
@@ -178,8 +231,7 @@
             <End Role="SanPham" EntitySet="SanPham" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="QLMohoDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -250,6 +302,8 @@
           <Property Name="DaBan" Type="Int32" />
           <NavigationProperty Name="ChiTietHoaDons" Relationship="Self.FK_CT_SanPham" FromRole="SanPham" ToRole="ChiTietHoaDon" />
           <NavigationProperty Name="DanhMuc" Relationship="Self.FK_SanPham_DanhMuc" FromRole="SanPham" ToRole="DanhMuc" />
+          <NavigationProperty Name="SanPhamHinhAnhs" Relationship="QLMohoDBModel.FK_HinhAnh_SanPham" FromRole="SanPham" ToRole="SanPhamHinhAnh" />
+          <NavigationProperty Name="BienTheSanPhams" Relationship="QLMohoDBModel.FK__BienTheSa__IdSan__3A4CA8FD" FromRole="SanPham" ToRole="BienTheSanPham" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -362,6 +416,16 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="SanPhamHinhAnhs" EntityType="QLMohoDBModel.SanPhamHinhAnh" />
+          <AssociationSet Name="FK_HinhAnh_SanPham" Association="QLMohoDBModel.FK_HinhAnh_SanPham">
+            <End Role="SanPham" EntitySet="SanPhams" />
+            <End Role="SanPhamHinhAnh" EntitySet="SanPhamHinhAnhs" />
+          </AssociationSet>
+          <EntitySet Name="BienTheSanPhams" EntityType="QLMohoDBModel.BienTheSanPham" />
+          <AssociationSet Name="FK__BienTheSa__IdSan__3A4CA8FD" Association="QLMohoDBModel.FK__BienTheSa__IdSan__3A4CA8FD">
+            <End Role="SanPham" EntitySet="SanPhams" />
+            <End Role="BienTheSanPham" EntitySet="BienTheSanPhams" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -374,6 +438,51 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
+        <EntityType Name="SanPhamHinhAnh">
+          <Key>
+            <PropertyRef Name="IdHinhAnh" />
+          </Key>
+          <Property Name="IdSanPham" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="HinhAnh" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SanPham" Relationship="QLMohoDBModel.FK_HinhAnh_SanPham" FromRole="SanPhamHinhAnh" ToRole="SanPham" />
+          <Property Name="IdHinhAnh" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <Association Name="FK_HinhAnh_SanPham">
+          <End Type="QLMohoDBModel.SanPham" Role="SanPham" Multiplicity="1" />
+          <End Type="QLMohoDBModel.SanPhamHinhAnh" Role="SanPhamHinhAnh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SanPham">
+              <PropertyRef Name="IdSanPham" />
+            </Principal>
+            <Dependent Role="SanPhamHinhAnh">
+              <PropertyRef Name="IdSanPham" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BienTheSanPham">
+          <Key>
+            <PropertyRef Name="IdBienTheSanPham" />
+          </Key>
+          <Property Name="IdBienTheSanPham" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="IdSanPham" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="TenBienThe" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Gia" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="GiaCu" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="GiamGia" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="SanPham" Relationship="QLMohoDBModel.FK__BienTheSa__IdSan__3A4CA8FD" FromRole="BienTheSanPham" ToRole="SanPham" />
+        </EntityType>
+        <Association Name="FK__BienTheSa__IdSan__3A4CA8FD">
+          <End Type="QLMohoDBModel.SanPham" Role="SanPham" Multiplicity="1" />
+          <End Type="QLMohoDBModel.BienTheSanPham" Role="BienTheSanPham" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SanPham">
+              <PropertyRef Name="IdSanPham" />
+            </Principal>
+            <Dependent Role="BienTheSanPham">
+              <PropertyRef Name="IdSanPham" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -480,6 +589,27 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="QLMohoDBModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="QLMohoDBModel.Store.sp_upgraddiagrams" />
+          <EntitySetMapping Name="SanPhamHinhAnhs">
+            <EntityTypeMapping TypeName="QLMohoDBModel.SanPhamHinhAnh">
+              <MappingFragment StoreEntitySet="SanPhamHinhAnh">
+                <ScalarProperty Name="IdHinhAnh" ColumnName="IdHinhAnh" />
+                <ScalarProperty Name="HinhAnh" ColumnName="HinhAnh" />
+                <ScalarProperty Name="IdSanPham" ColumnName="IdSanPham" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BienTheSanPhams">
+            <EntityTypeMapping TypeName="QLMohoDBModel.BienTheSanPham">
+              <MappingFragment StoreEntitySet="BienTheSanPham">
+                <ScalarProperty Name="GiamGia" ColumnName="GiamGia" />
+                <ScalarProperty Name="GiaCu" ColumnName="GiaCu" />
+                <ScalarProperty Name="Gia" ColumnName="Gia" />
+                <ScalarProperty Name="TenBienThe" ColumnName="TenBienThe" />
+                <ScalarProperty Name="IdSanPham" ColumnName="IdSanPham" />
+                <ScalarProperty Name="IdBienTheSanPham" ColumnName="IdBienTheSanPham" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -15,14 +15,40 @@ namespace TKW.Controllers
         // Trang chủ: hiển thị danh sách sản phẩm
         public ActionResult Index()
         {
-            // Lấy 8 sản phẩm mới nhất (nếu có trường NgayThem)
+            var bep = db.SanPhams
+              .Where(s => s.IdDanhMuc == "DM04")   // chỉ lấy bếp
+              .OrderByDescending(s => s.DaBan)      // sắp xếp theo đã bán
+              .Take(4)                              // hiển thị 4 sản phẩm
+              .ToList();
+
+
+            // 🔥 Lọc những sản phẩm giảm giá mạnh (giá khuyến mãi < giá gốc)
+            var giaTot = db.SanPhams
+                          .Where(sp => sp.GiaKhuyenMai > 0 && sp.GiaKhuyenMai < sp.Gia)
+                          .OrderByDescending(sp => (sp.Gia - sp.GiaKhuyenMai))
+                          .Take(4)
+                          .ToList();
+
+            // 🔥 4 sản phẩm bán chạy nhất
+            var banChay = db.SanPhams
+                            .OrderByDescending(sp => sp.DaBan)
+                            .Take(4)
+                            .ToList();
+
+            // 🔥 Tất cả sản phẩm
             var sanPhams = db.SanPhams
-                             .OrderByDescending(sp => sp.NgayThem)
-                             .Take(8)
+                             .OrderBy(sp => sp.IdSanPham)
                              .ToList();
+
+            // Gửi dữ liệu ra View
+
+            ViewBag.GiaTot = giaTot;
+            ViewBag.BanChay = banChay;
+            ViewBag.Bep = bep;
 
             return View(sanPhams);
         }
+
         public ActionResult BrandStory()
         {
             return View();
@@ -31,6 +57,13 @@ namespace TKW.Controllers
         {
             return View();
         }
+
+
+        public ActionResult CuaHang()
+        {
+            return View();
+        }
+
 
         // Trang giới thiệu
         public ActionResult About()

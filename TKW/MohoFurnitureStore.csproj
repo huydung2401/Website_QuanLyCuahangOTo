@@ -135,6 +135,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BienTheSanPham.cs">
+      <DependentUpon>QL_MoHo.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ChiTietHoaDon.cs">
       <DependentUpon>QL_MoHo.tt</DependentUpon>
     </Compile>
@@ -170,6 +173,9 @@
     <Compile Include="Models\SanPham.cs">
       <DependentUpon>QL_MoHo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SanPhamHinhAnh.cs">
+      <DependentUpon>QL_MoHo.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
       <DependentUpon>QL_MoHo.tt</DependentUpon>
     </Compile>
@@ -201,18 +207,131 @@
     <Content Include="Content\css\custom.css" />
     <Content Include="Content\css\site.css" />
     <Content Include="Content\images\001.jpg" />
+    <Content Include="Content\images\001_1.jpg" />
+    <Content Include="Content\images\001_2.jpg" />
+    <Content Include="Content\images\001_3.jpg" />
+    <Content Include="Content\images\001_4.jpg" />
+    <Content Include="Content\images\001_5.jpg" />
     <Content Include="Content\images\002.jpg" />
+    <Content Include="Content\images\002_1.jpg" />
+    <Content Include="Content\images\002_2.jpg" />
+    <Content Include="Content\images\002_3.jpg" />
+    <Content Include="Content\images\002_4.jpg" />
+    <Content Include="Content\images\002_5.jpg" />
     <Content Include="Content\images\003.jpg" />
+    <Content Include="Content\images\003_1.jpg" />
+    <Content Include="Content\images\003_2.jpg" />
+    <Content Include="Content\images\003_3.jpg" />
+    <Content Include="Content\images\003_4.jpg" />
+    <Content Include="Content\images\003_5.jpg" />
     <Content Include="Content\images\004.jpg" />
+    <Content Include="Content\images\004_1.jpg" />
+    <Content Include="Content\images\004_2.jpg" />
+    <Content Include="Content\images\004_3.jpg" />
+    <Content Include="Content\images\004_4.jpg" />
+    <Content Include="Content\images\004_5.jpg" />
     <Content Include="Content\images\005.jpg" />
+    <Content Include="Content\images\005_1.jpg" />
+    <Content Include="Content\images\005_2.jpg" />
+    <Content Include="Content\images\005_3.jpg" />
+    <Content Include="Content\images\005_4.jpg" />
+    <Content Include="Content\images\005_5.jpg" />
+    <Content Include="Content\images\006.jpg" />
+    <Content Include="Content\images\006_1.jpg" />
+    <Content Include="Content\images\006_2.jpg" />
+    <Content Include="Content\images\006_3.jpg" />
+    <Content Include="Content\images\006_4.jpg" />
+    <Content Include="Content\images\006_5.jpg" />
     <Content Include="Content\images\007.jpg" />
+    <Content Include="Content\images\007_1.jpg" />
+    <Content Include="Content\images\007_2.jpg" />
+    <Content Include="Content\images\007_3.jpg" />
+    <Content Include="Content\images\007_4.jpg" />
     <Content Include="Content\images\008.jpg" />
-    <Content Include="Content\images\009.png" />
-    <Content Include="Content\images\010.png" />
+    <Content Include="Content\images\008_1.jpg" />
+    <Content Include="Content\images\008_2.jpg" />
+    <Content Include="Content\images\008_3.jpg" />
+    <Content Include="Content\images\008_4.jpg" />
+    <Content Include="Content\images\008_5.jpg" />
+    <Content Include="Content\images\009.jpg" />
+    <Content Include="Content\images\009_1.jpg" />
+    <Content Include="Content\images\009_2.jpg" />
+    <Content Include="Content\images\009_3.jpg" />
+    <Content Include="Content\images\009_4.jpg" />
+    <Content Include="Content\images\009_5.jpg" />
+    <Content Include="Content\images\010.jpg" />
+    <Content Include="Content\images\010_1.jpg" />
+    <Content Include="Content\images\010_2.jpg" />
+    <Content Include="Content\images\010_3.jpg" />
+    <Content Include="Content\images\010_4.jpg" />
+    <Content Include="Content\images\010_5.jpg" />
+    <Content Include="Content\images\011.jpg" />
+    <Content Include="Content\images\011_1.jpg" />
+    <Content Include="Content\images\011_2.jpg" />
+    <Content Include="Content\images\011_3.jpg" />
+    <Content Include="Content\images\011_4.jpg" />
+    <Content Include="Content\images\011_5.jpg" />
+    <Content Include="Content\images\012.jpg" />
+    <Content Include="Content\images\012_1.jpg" />
+    <Content Include="Content\images\012_2.jpg" />
+    <Content Include="Content\images\012_3.jpg" />
+    <Content Include="Content\images\012_4.jpg" />
+    <Content Include="Content\images\012_5.jpg" />
+    <Content Include="Content\images\013.jpg" />
+    <Content Include="Content\images\013_1.jpg" />
+    <Content Include="Content\images\013_2.jpg" />
+    <Content Include="Content\images\013_3.jpg" />
+    <Content Include="Content\images\013_4.jpg" />
+    <Content Include="Content\images\013_5.jpg" />
+    <Content Include="Content\images\014.jpg" />
+    <Content Include="Content\images\014_1.jpg" />
+    <Content Include="Content\images\014_2.jpg" />
+    <Content Include="Content\images\014_3.jpg" />
+    <Content Include="Content\images\014_4.jpg" />
+    <Content Include="Content\images\014_5.jpg" />
+    <Content Include="Content\images\015.jpg" />
+    <Content Include="Content\images\015_1.jpg" />
+    <Content Include="Content\images\015_2.jpg" />
+    <Content Include="Content\images\015_3.jpg" />
+    <Content Include="Content\images\015_4.jpg" />
+    <Content Include="Content\images\015_5.jpg" />
+    <Content Include="Content\images\016.jpg" />
+    <Content Include="Content\images\016_1.jpg" />
+    <Content Include="Content\images\016_2.jpg" />
+    <Content Include="Content\images\016_3.jpg" />
+    <Content Include="Content\images\016_4.jpg" />
+    <Content Include="Content\images\016_5.jpg" />
+    <Content Include="Content\images\017.jpg" />
+    <Content Include="Content\images\017_1.jpg" />
+    <Content Include="Content\images\017_2.jpg" />
+    <Content Include="Content\images\017_3.jpg" />
+    <Content Include="Content\images\017_4.jpg" />
+    <Content Include="Content\images\017_5.jpg" />
+    <Content Include="Content\images\018.jpg" />
+    <Content Include="Content\images\018_1.jpg" />
+    <Content Include="Content\images\018_2.jpg" />
+    <Content Include="Content\images\018_3.jpg" />
+    <Content Include="Content\images\018_4.jpg" />
+    <Content Include="Content\images\018_5.jpg" />
+    <Content Include="Content\images\019.jpg" />
+    <Content Include="Content\images\019_1.jpg" />
+    <Content Include="Content\images\019_2.jpg" />
+    <Content Include="Content\images\019_3.jpg" />
+    <Content Include="Content\images\019_4.jpg" />
+    <Content Include="Content\images\019_5.jpg" />
+    <Content Include="Content\images\020.jpg" />
+    <Content Include="Content\images\020_1.jpg" />
+    <Content Include="Content\images\020_2.jpg" />
+    <Content Include="Content\images\020_3.jpg" />
+    <Content Include="Content\images\020_4.jpg" />
+    <Content Include="Content\images\020_5.jpg" />
     <Content Include="Content\images\anh1.png" />
     <Content Include="Content\images\anh2.png" />
     <Content Include="Content\images\anh3.png" />
     <Content Include="Content\images\anh4.jpg" />
+    <Content Include="Content\images\banner1.jpg" />
+    <Content Include="Content\images\banner2.jpg" />
+    <Content Include="Content\images\banner3.jpg" />
     <Content Include="Content\images\carousel01.jpg" />
     <Content Include="Content\images\carousel02.jpg" />
     <Content Include="Content\images\carousel03.jpg" />
@@ -220,6 +339,16 @@
     <Content Include="Content\images\carousel05.jpg" />
     <Content Include="Content\images\carousel06.jpg" />
     <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\logo1.png" />
+    <Content Include="Content\images\logo2.png" />
+    <Content Include="Content\images\logo3.png" />
+    <Content Include="Content\images\logo4.png" />
+    <Content Include="Content\images\logo5.png" />
+    <Content Include="Content\images\logo6.png" />
+    <Content Include="Content\images\news1.png" />
+    <Content Include="Content\images\news2.png" />
+    <Content Include="Content\images\news3.png" />
+    <Content Include="Content\images\news4.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -246,6 +375,7 @@
     <Content Include="Models\QL_MoHo.edmx.diagram">
       <DependentUpon>QL_MoHo.edmx</DependentUpon>
     </Content>
+    <Content Include="Content\images\007_5.jpg" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -274,6 +404,8 @@
     <Content Include="Views\SanPham\ChiTietSanPham.cshtml" />
     <Content Include="Views\TaiKhoan\DangNhap.cshtml" />
     <Content Include="Views\TaiKhoan\DangKy.cshtml" />
+    <Content Include="Views\SanPham\_BienTheBep.cshtml" />
+    <Content Include="Views\Home\CuaHang.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

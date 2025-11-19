@@ -11,9 +11,14 @@ namespace TKW.Models
         public DanhMuc DanhMuc { get; set; }
         public List<SanPham> SanPhamLienQuan { get; set; }
 
+        public List<SanPhamHinhAnh> HinhAnhChiTiet { get; set; }
+
+        public virtual List<BienTheSanPham> BienThes { get; set; }
+
         public ChiTietSanPham()
         {
             SanPhamLienQuan = new List<SanPham>();
+            BienThes = new List<BienTheSanPham>();
         }
     }
 }

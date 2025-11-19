@@ -1,4 +1,5 @@
 ﻿@model TKW.Models.ChiTietSanPham
+
 @{
     ViewBag.Title = Model.SanPham.TenSanPham;
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,6 +9,83 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
 <style>
+    /* Card tổng */
+    .moho-card {
+        background: #fff;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        position: relative;
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+        .moho-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+
+    /* Badge giảm giá */
+    .moho-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: #ff6b00;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 6px;
+        z-index: 10;
+    }
+
+    /* Ảnh */
+    .moho-img {
+        width: 100%;
+        height: 230px;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* Nội dung */
+    .moho-body {
+        padding: 15px;
+    }
+
+    .moho-title {
+        font-size: 16px;
+        font-weight: 500;
+        color: #333;
+        min-height: 48px;
+        margin-bottom: 8px;
+    }
+
+    /* Giá */
+    .moho-price {
+        margin-bottom: 6px;
+        font-size: 18px;
+    }
+
+    .price-sale {
+        color: #e53935;
+        font-weight: bold;
+    }
+
+    .price-old {
+        color: #999;
+        margin-left: 8px;
+        font-size: 15px;
+    }
+
+    /* Đã bán */
+    .moho-sold {
+        font-size: 14px;
+        color: #666;
+        text-align: right;
+    }
+
+
+
+
     :root {
         --moho-primary: #003c58;
         --moho-accent: #e8591c;
@@ -43,9 +121,9 @@
         text-decoration: none;
     }
 
-    .breadcrumb-item a:hover {
-        text-decoration: underline;
-    }
+        .breadcrumb-item a:hover {
+            text-decoration: underline;
+        }
 
     /* ===== Product Layout ===== */
     .product-detail {
@@ -63,20 +141,20 @@
         gap: 10px;
     }
 
-    .gallery-column img {
-        width: 100%;
-        height: 90px;
-        border: 2px solid transparent;
-        border-radius: 5px;
-        object-fit: cover;
-        cursor: pointer;
-        transition: 0.3s;
-    }
+        .gallery-column img {
+            width: 100%;
+            height: 90px;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            object-fit: cover;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 
-    .gallery-column img.active,
-    .gallery-column img:hover {
-        border-color: var(--moho-brown);
-    }
+            .gallery-column img.active,
+            .gallery-column img:hover {
+                border-color: var(--moho-brown);
+            }
 
     .main-image {
         flex: 1;
@@ -85,11 +163,11 @@
         overflow: hidden;
     }
 
-    .main-image img {
-        width: 100%;
-        height: 600px;
-        object-fit: cover;
-    }
+        .main-image img {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+        }
 
     /* ===== Product Info ===== */
     .product-info {
@@ -157,11 +235,11 @@
         margin-bottom: 25px;
     }
 
-    .color-options .fw-bold {
-        font-size: 16px;
-        color: #222;
-        margin-bottom: 10px;
-    }
+        .color-options .fw-bold {
+            font-size: 16px;
+            color: #222;
+            margin-bottom: 10px;
+        }
 
     .color-btn {
         width: 34px;
@@ -175,16 +253,16 @@
         box-shadow: 0 0 0 1px #fff;
     }
 
-    .color-btn:hover {
-        transform: scale(1.15);
-        outline-color: #999;
-    }
+        .color-btn:hover {
+            transform: scale(1.15);
+            outline-color: #999;
+        }
 
-    .color-btn.active {
-        outline-color: var(--moho-primary);
-        box-shadow: 0 0 0 3px rgba(0, 60, 88, 0.3);
-        transform: scale(1.15);
-    }
+        .color-btn.active {
+            outline-color: var(--moho-primary);
+            box-shadow: 0 0 0 3px rgba(0, 60, 88, 0.3);
+            transform: scale(1.15);
+        }
 
     /* ===== Quantity ===== */
     .quantity-box {
@@ -211,10 +289,10 @@
         transition: 0.3s;
     }
 
-    .quantity-btn:hover {
-        background: var(--moho-brown);
-        color: white;
-    }
+        .quantity-btn:hover {
+            background: var(--moho-brown);
+            color: white;
+        }
 
     .quantity-input {
         width: 60px;
@@ -247,9 +325,9 @@
         transition: 0.3s;
     }
 
-    .btn-add:hover {
-        background: #002b3e;
-    }
+        .btn-add:hover {
+            background: #002b3e;
+        }
 
     .btn-buy {
         flex: 1;
@@ -263,9 +341,9 @@
         transition: 0.3s;
     }
 
-    .btn-buy:hover {
-        background: #cf4a17;
-    }
+        .btn-buy:hover {
+            background: #cf4a17;
+        }
 
     .btn-heart {
         width: 50px;
@@ -280,10 +358,10 @@
         transition: 0.3s;
     }
 
-    .btn-heart:hover {
-        color: #e74c3c;
-        border-color: #e74c3c;
-    }
+        .btn-heart:hover {
+            color: #e74c3c;
+            border-color: #e74c3c;
+        }
 
     /* ===== Guarantee Section ===== */
     .policy-list {
@@ -292,14 +370,14 @@
         font-size: 15px;
     }
 
-    .policy-list li {
-        margin-bottom: 10px;
-    }
+        .policy-list li {
+            margin-bottom: 10px;
+        }
 
-    .policy-list i {
-        color: #27ae60;
-        margin-right: 5px;
-    }
+        .policy-list i {
+            color: #27ae60;
+            margin-right: 5px;
+        }
 
     /* ===== Tabs ===== */
     .product-tabs {
@@ -310,19 +388,19 @@
         border-bottom: 2px solid #eee;
     }
 
-    .nav-tabs .nav-link {
-        font-weight: 600;
-        color: #444;
-        border: none;
-        border-bottom: 3px solid transparent;
-        transition: 0.3s;
-    }
+        .nav-tabs .nav-link {
+            font-weight: 600;
+            color: #444;
+            border: none;
+            border-bottom: 3px solid transparent;
+            transition: 0.3s;
+        }
 
-    .nav-tabs .nav-link:hover,
-    .nav-tabs .nav-link.active {
-        border-bottom-color: var(--moho-accent);
-        color: var(--moho-accent);
-    }
+            .nav-tabs .nav-link:hover,
+            .nav-tabs .nav-link.active {
+                border-bottom-color: var(--moho-accent);
+                color: var(--moho-accent);
+            }
 
     .tab-content {
         background: #fff;
@@ -352,16 +430,16 @@
         transition: 0.3s;
     }
 
-    .product-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
 
-    .product-card img {
-        width: 100%;
-        height: 250px;
-        object-fit: cover;
-    }
+        .product-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
 
     .product-card-body {
         padding: 15px;
@@ -447,12 +525,6 @@
         position: relative;
         top: 1px;
     }
-
-
-
-
-    
-
 </style>
 
 
@@ -473,12 +545,25 @@
     <div class="product-detail">
         <!-- Gallery -->
         <div class="gallery-column">
-            <img src="/Images/@Model.SanPham.HinhAnh" class="active" onclick="changeImage(this)">
-            <img src="/Images/@Model.SanPham.HinhAnh" onclick="changeImage(this)">
-            <img src="/Images/@Model.SanPham.HinhAnh" onclick="changeImage(this)">
+            <img src="@Url.Content("~/Content/images/" + Model.SanPham.HinhAnh)"
+                 class="active" onclick="changeImage(this)">
+
+            @for (int i = 1; i <= 5; i++)
+            {
+                <img src="@Url.Content("~/Content/images/"
+               + System.IO.Path.GetFileNameWithoutExtension(Model.SanPham.HinhAnh)
+               + "_" + i
+               + System.IO.Path.GetExtension(Model.SanPham.HinhAnh))"
+                     onclick="changeImage(this)">
+            }
         </div>
 
-        <div class="main-image"><img src="/Images/@Model.SanPham.HinhAnh" id="mainImage"></div>
+        <div class="main-image">
+            <img src="@Url.Content("~/Content/images/" + Model.SanPham.HinhAnh)"
+                 id="mainImage">
+        </div>
+
+
 
         <!-- Info -->
         <div class="product-info">
@@ -512,10 +597,10 @@
                 @if (Model.SanPham.GiaKhuyenMai.HasValue && Model.SanPham.GiaKhuyenMai < Model.SanPham.Gia)
                 {
                     @*<div class="price-inner d-flex align-items-center">
-                <span class="discount-badge">-@(((Model.SanPham.Gia - Model.SanPham.GiaKhuyenMai.Value) / Model.SanPham.Gia * 100).ToString("0"))%</span>
-                <span class="price-current">@Model.SanPham.GiaKhuyenMai.Value.ToString("N0") đ</span>
-                <span class="price-old">@Model.SanPham.Gia.ToString("N0") đ</span>
-            </div>*@
+                            <span class="discount-badge">-@(((Model.SanPham.Gia - Model.SanPham.GiaKhuyenMai.Value) / Model.SanPham.Gia * 100).ToString("0"))%</span>
+                            <span class="price-current">@Model.SanPham.GiaKhuyenMai.Value.ToString("N0") đ</span>
+                            <span class="price-old">@Model.SanPham.Gia.ToString("N0") đ</span>
+                        </div>*@
 
                     <div class="price-inner">
                         <span class="discount-tag">
@@ -546,6 +631,33 @@
                     <button class="color-btn" style="background-color:#c8ad7f;" title="Vàng nhạt" onclick="selectColor(this)"></button>
                 </div>
             </div>
+
+            <!-- ==== SIZE OPTIONS — ONLY FOR GIƯỜNG ==== -->
+            @if (Model.DanhMuc.IdDanhMuc == "DM05")
+            {
+                <div class="size-options mb-4">
+                    <div class="fw-bold mb-2">Kích thước</div>
+
+                    <div class="d-flex gap-2 mb-2">
+                        <button class="btn btn-outline-dark px-3 py-1">1m2</button>
+                        <button class="btn btn-outline-dark px-3 py-1">1m4</button>
+                        <button class="btn btn-outline-dark px-3 py-1">1m6</button>
+                        <button class="btn btn-outline-dark px-3 py-1">1m8</button>
+                    </div>
+
+                    <div class="mt-2 text-muted" style="font-size:14px;">
+                        Kích thước phủ bì:
+                        Dài 212cm × Rộng 136/156/176/196cm × Cao đầu giường 92cm
+                    </div>
+                </div>
+            }
+
+            @if (Model.DanhMuc.IdDanhMuc == "DM04")
+            {
+                @Html.Partial("_BienTheBep", Model)// tách ra cho gọn gàng (tuỳ bạn)
+            }
+
+
 
 
             <div class="quantity-box">
@@ -595,16 +707,72 @@
         <div class="row g-4">
             @foreach (var sp in Model.SanPhamLienQuan)
             {
-                <div class="col-md-3">
-                    <div class="product-card">
-                        <img src="/Images/@sp.HinhAnh" />
-                        <div class="product-card-body">
-                            <h5 class="product-card-title">@sp.TenSanPham</h5>
-                            <div class="product-card-price">@sp.Gia.ToString("N0") đ</div>
+                <div class="col-6 col-md-4 col-lg-3 mb-4">
+                    <div class="moho-card">
+
+                        @* Badge giảm giá *@
+                        @if (sp.GiaKhuyenMai.HasValue && sp.GiaKhuyenMai < sp.Gia)
+                        {
+                            var discount = Math.Round(100 - (sp.GiaKhuyenMai.Value / sp.Gia * 100));
+                            <span class="moho-badge">-@discount%</span>
+                        }
+
+                        <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })">
+                            <img src="@Url.Content("~/Content/Images/" + sp.HinhAnh)"
+                                 alt="@sp.TenSanPham"
+                                 class="moho-img" />
+                        </a>
+
+                        <div class="moho-body">
+                            <h5 class="moho-title">@sp.TenSanPham</h5>
+
+                            <div class="moho-price">
+                                @if (sp.GiaKhuyenMai.HasValue)
+                                {
+                                    <span class="price-sale">@sp.GiaKhuyenMai.Value.ToString("N0") đ</span>
+                                    <del class="price-old">@sp.Gia.ToString("N0") đ</del>
+                                }
+                                else
+                                {
+                                    <span class="price-sale">@sp.Gia.ToString("N0") đ</span>
+                                }
+                            </div>
+
+
+                            <!-- ⭐ Đánh giá sao -->
+                            <div class="rating mb-2">
+                                @{
+                                    int ratings = sp.DanhGia ?? 0;
+                                }
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    if (i <= ratings)
+                                    {
+                                        <i class="fas fa-star" style="color:#ff9f00; font-size:15px;"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="far fa-star" style="color:#ccc; font-size:15px;"></i>
+                                    }
+                                }
+                                <span style="font-size:14px; color:#777;">(@ratings)</span>
+                            </div>
+
+
+
+
+                            <div class="moho-sold">Đã bán @sp.DaBan</div>
+
+                            <div class="d-flex mt-auto">
+                                <button class="color-btn mr-2" style="background-color:black;" data-img="@Url.Content("~/Content/images/" + sp.HinhAnh)"></button>
+                                <button class="color-btn" style="background-color:white;" data-img="@Url.Content("~/Content/images/" + sp.HinhAnh)"></button>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             }
+
         </div>
     </div>
 
@@ -634,4 +802,5 @@
         document.querySelectorAll(".color-btn").forEach(btn => btn.classList.remove("active"));
         el.classList.add("active");
     }
+
 </script>
