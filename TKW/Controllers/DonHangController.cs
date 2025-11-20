@@ -159,18 +159,17 @@ namespace TKW.Controllers
                 hd.TongTien = form.TongTien;
                 hd.TrangThai = "Chờ xử lý";
 
-                // --- CẬP NHẬT MỚI: LƯU THÔNG TIN GIAO HÀNG ---
+                // LƯU THÔNG TIN GIAO HÀNG
                 hd.HoTenNguoiNhan = form.HoTen;
                 hd.DienThoaiNguoiNhan = form.DienThoai;
                 hd.DiaChiGiaoHang = form.DiaChi;
                 hd.GhiChu = form.GhiChu;
                 hd.PhuongThucThanhToan = form.PhuongThucThanhToan;
-                // ---------------------------------------------
 
                 db.HoaDons.Add(hd);
                 db.SaveChanges(); // Lưu hóa đơn trước để có ID
 
-                // B. Lưu Chi Tiết Hóa Đơn
+                // B. Lưu Chi Tiết Hóa Đơn & CẬP NHẬT SỐ LƯỢNG ĐÃ BÁN
                 if (form.SanPhamMua != null)
                 {
                     foreach (var item in form.SanPhamMua)
@@ -184,11 +183,19 @@ namespace TKW.Controllers
 
                         db.ChiTietHoaDons.Add(cthd);
 
-                        // (Tùy chọn) Trừ tồn kho sản phẩm
+                        // --- CẬP NHẬT SỐ LƯỢNG ĐÃ BÁN VÀ TỒN KHO ---
                         var sp = db.SanPhams.FirstOrDefault(s => s.IdSanPham == item.IdSanPham);
-                        if (sp != null) sp.SoLuongTon -= item.SoLuong;
+                        if (sp != null)
+                        {
+                            // Cộng dồn số lượng đã bán
+                            sp.DaBan = (sp.DaBan ?? 0) + item.SoLuong;
+
+                            // Trừ số lượng tồn kho
+                            sp.SoLuongTon = (sp.SoLuongTon ?? 0) - item.SoLuong;
+                            if (sp.SoLuongTon < 0) sp.SoLuongTon = 0;
+                        }
                     }
-                    db.SaveChanges();
+                    db.SaveChanges(); // Lưu chi tiết và cập nhật sản phẩm
                 }
 
                 // C. Xóa giỏ hàng sau khi đặt thành công
@@ -198,8 +205,10 @@ namespace TKW.Controllers
             }
             catch (Exception ex)
             {
-                // Có thể ghi log hoặc trả về view lỗi
-                return Content("Lỗi đặt hàng: " + ex.Message + " - " + ex.InnerException?.Message);
+                // Ghi log lỗi và hiển thị thông báo thân thiện
+                System.Diagnostics.Debug.WriteLine("Lỗi đặt hàng: " + ex.Message);
+                TempData["ErrorMessage"] = "Đã xảy ra lỗi khi đặt hàng. Vui lòng thử lại!";
+                return RedirectToAction("ThanhToan");
             }
         }
 

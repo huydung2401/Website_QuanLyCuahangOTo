@@ -88,34 +88,31 @@ namespace TKW.Controllers
             {
                 string tenFileAnh = null;
 
-                // Xử lý upload ảnh
+                // 1. Xử lý upload ảnh (Giữ nguyên code cũ)
                 if (Request.Files.Count > 0)
                 {
                     var file = Request.Files[0];
                     if (file != null && file.ContentLength > 0)
                     {
-                        string fileName = Path.GetFileNameWithoutExtension(file.FileName);
-                        string extension = Path.GetExtension(file.FileName);
+                        string fileName = System.IO.Path.GetFileNameWithoutExtension(file.FileName);
+                        string extension = System.IO.Path.GetExtension(file.FileName);
                         tenFileAnh = fileName + "_" + DateTime.Now.Ticks + extension;
-
                         string folderPath = Server.MapPath("~/Images/Reviews/");
-                        // Tạo thư mục nếu chưa có
-                        if (!Directory.Exists(folderPath))
+                        if (!System.IO.Directory.Exists(folderPath))
                         {
-                            Directory.CreateDirectory(folderPath);
+                            System.IO.Directory.CreateDirectory(folderPath);
                         }
-
-                        string path = Path.Combine(folderPath, tenFileAnh);
+                        string path = System.IO.Path.Combine(folderPath, tenFileAnh);
                         file.SaveAs(path);
                     }
                 }
 
-                // Lưu vào DB
+                // 2. Lưu đánh giá mới vào bảng DanhGia
                 var user = Session["User"] as NguoiDung;
 
                 DanhGia dg = new DanhGia();
                 dg.IdSanPham = idSanPham;
-                dg.IdNguoiDung = user?.IdNguoiDung; // Lưu ID nếu đã đăng nhập
+                dg.IdNguoiDung = user?.IdNguoiDung;
                 dg.TenNguoiDung = !string.IsNullOrEmpty(tenNguoiDung) ? tenNguoiDung : (user?.HoTen ?? "Khách ẩn danh");
                 dg.SoSao = soSao;
                 dg.NoiDung = noiDung ?? "";
@@ -123,15 +120,28 @@ namespace TKW.Controllers
                 dg.NgayDanhGia = DateTime.Now;
 
                 db.DanhGias.Add(dg);
-                db.SaveChanges();
+                db.SaveChanges(); // Lưu xong đánh giá
 
-                // Cập nhật sao trung bình cho sản phẩm
-                var sp = db.SanPhams.Find(idSanPham);
-                var reviews = db.DanhGias.Where(x => x.IdSanPham == idSanPham).ToList();
-                if (reviews.Any())
+                // 3. [QUAN TRỌNG] TÍNH LẠI SAO TRUNG BÌNH & ĐỒNG BỘ VÀO BẢNG SẢN PHẨM
+                var sp = db.SanPhams.FirstOrDefault(s => s.IdSanPham == idSanPham);
+                if (sp != null)
                 {
-                    sp.DanhGia = (int)Math.Round(reviews.Average(x => x.SoSao));
-                    db.SaveChanges();
+                    // Lấy tất cả đánh giá của sản phẩm này
+                    var listReviews = db.DanhGias.Where(x => x.IdSanPham == idSanPham).ToList();
+
+                    if (listReviews.Count > 0)
+                    {
+                        // Tính trung bình cộng
+                        double diemTrungBinh = listReviews.Average(x => x.SoSao);
+                        // Làm tròn (Ví dụ 4.5 -> 5) và lưu vào cột DanhGia của bảng SanPham
+                        sp.DanhGia = (int)Math.Round(diemTrungBinh);
+                    }
+                    else
+                    {
+                        sp.DanhGia = soSao; // Nếu là đánh giá đầu tiên
+                    }
+
+                    db.SaveChanges(); // Cập nhật lại bảng Sản Phẩm
                 }
 
                 return Json(new { success = true, message = "Đánh giá thành công!" });

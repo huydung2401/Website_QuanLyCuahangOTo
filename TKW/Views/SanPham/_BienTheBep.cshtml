@@ -22,66 +22,109 @@
         }
 </style>
 
+@if (Model.BienThes != null && Model.BienThes.Count > 0)
+{
+    var firstItem = Model.BienThes.First(); // Lấy item đầu tiên an toàn
 
-<div class="variant-block">
+    <div class="variant-block">
 
-    <!-- GIÁ HIỆN TẠI -->
-    <div class="d-flex align-items-center gap-3 mb-3">
-        <span id="discount-box" class="discount-box">
-            -@Model.BienThes.First().GiamGia%
-        </span>
-
-        <span id="gia-ban" class="gia-ban">
-            @Model.BienThes.First().Gia.Value.ToString("N0") đ
-        </span>
-
-        <del id="gia-cu" class="gia-cu">
-            @Model.BienThes.First().GiaCu.Value.ToString("N0") đ
-        </del>
-    </div>
-
-    <!-- NÚT CHỌN BIẾN THỂ -->
-    <div class="size-options mb-4">
-        <div class="fw-bold mb-2">Kích thước</div>
-
-        <div class="d-flex flex-wrap gap-2">
-            @foreach (var item in Model.BienThes)
+        <div class="d-flex align-items-center gap-3 mb-3">
+            @if (firstItem.GiaCu > firstItem.Gia)
             {
-                <button class="size-btn"
-                        data-gia="@item.Gia"
-                        data-giacu="@item.GiaCu"
-                        data-giamgia="@item.GiamGia">
-                    @item.TenBienThe
-                </button>
+                <span id="discount-box" class="discount-tag bg-danger text-white px-2 rounded" style="font-size:14px;">
+                    -@firstItem.GiamGia%
+                </span>
+            }
+
+            <span id="gia-ban" class="price-current fw-bold text-danger" style="font-size:24px;">
+                @(firstItem.Gia.HasValue ? firstItem.Gia.Value.ToString("N0") : "0") đ
+            </span>
+
+            @if (firstItem.GiaCu > 0)
+            {
+                <del id="gia-cu" class="price-old text-muted ms-2">
+                    @(firstItem.GiaCu.HasValue ? firstItem.GiaCu.Value.ToString("N0") : "0") đ
+                </del>
             }
         </div>
+
+        <div class="size-options mb-4">
+            <div class="fw-bold mb-2">Kích thước / Loại:</div>
+
+            <div class="d-flex flex-wrap gap-2">
+                @foreach (var item in Model.BienThes)
+                {
+                    <button class="size-btn @(item == firstItem ? "active" : "")"
+                            data-gia="@item.Gia"
+                            data-giacu="@item.GiaCu"
+                            data-giamgia="@item.GiamGia">
+                        @item.TenBienThe
+                    </button>
+                }
+            </div>
+        </div>
+
     </div>
 
-</div>
+    <script>
+        // Script xử lý chọn biến thể
+        document.addEventListener("DOMContentLoaded", function () {
+            const btns = document.querySelectorAll(".size-btn");
 
-<script>
-    document.querySelectorAll(".size-btn").forEach(btn => {
+            btns.forEach(btn => {
+                btn.addEventListener("click", function () {
+                    // Xóa active cũ
+                    btns.forEach(x => x.classList.remove("active"));
+                    // Thêm active mới
+                    this.classList.add("active");
 
-        btn.addEventListener("click", function () {
+                    let gia = this.dataset.gia;
+                    let giacu = this.dataset.giacu;
+                    let giamgia = this.dataset.giamgia;
 
-            document.querySelectorAll(".size-btn")
-                .forEach(x => x.classList.remove("active"));
+                    // Cập nhật UI
+                    const giaBanEl = document.getElementById("gia-ban");
+                    const giaCuEl = document.getElementById("gia-cu");
+                    const discountEl = document.getElementById("discount-box");
 
-            this.classList.add("active");
+                    if (giaBanEl) giaBanEl.innerText = Number(gia).toLocaleString("vi-VN") + " đ";
 
-            let gia = this.dataset.gia;
-            let giacu = this.dataset.giacu;
-            let giamgia = this.dataset.giamgia;
+                    if (giaCuEl) {
+                        if (giacu > 0 && giacu > gia) {
+                            giaCuEl.innerText = Number(giacu).toLocaleString("vi-VN") + " đ";
+                            giaCuEl.style.display = 'inline';
+                        } else {
+                            giaCuEl.style.display = 'none';
+                        }
+                    }
 
-            document.getElementById("gia-ban").innerText =
-                Number(gia).toLocaleString("vi-VN") + " đ";
-
-            document.getElementById("gia-cu").innerText =
-                Number(giacu).toLocaleString("vi-VN") + " đ";
-
-            document.getElementById("discount-box").innerText =
-                `-${giamgia}%`;
+                    if (discountEl) {
+                        if (giamgia > 0) {
+                            discountEl.innerText = `-${giamgia}%`;
+                            discountEl.style.display = 'inline-block';
+                        } else {
+                            discountEl.style.display = 'none';
+                        }
+                    }
+                });
+            });
         });
-    });
-</script>
-
+    </script>
+}
+else
+{
+    <div class="price-box text-start">
+        @if (Model.SanPham.GiaKhuyenMai.HasValue && Model.SanPham.GiaKhuyenMai < Model.SanPham.Gia)
+        {
+            <div class="price-inner">
+                <span class="discount-tag bg-danger text-white px-2 rounded">-@(((Model.SanPham.Gia - Model.SanPham.GiaKhuyenMai.Value) / Model.SanPham.Gia * 100).ToString("0"))%</span>
+                <span class="price-current fw-bold text-danger ms-2" style="font-size:24px;">@Model.SanPham.GiaKhuyenMai.Value.ToString("N0") đ</span>
+                <span class="price-old text-muted ms-2" style="text-decoration:line-through">@Model.SanPham.Gia.ToString("N0") đ</span>
+            </div>
+        }
+        else
+        {
+            <span class="price-current fw-bold text-danger" style="font-size:24px;">@Model.SanPham.Gia.ToString("N0") đ</span>
+        }
+    </div>
+}
