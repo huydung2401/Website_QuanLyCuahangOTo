@@ -25,6 +25,11 @@ namespace TKW.Models
         public Nullable<System.DateTime> NgayDat { get; set; }
         public decimal TongTien { get; set; }
         public string TrangThai { get; set; }
+        public string HoTenNguoiNhan { get; set; }
+        public string DienThoaiNguoiNhan { get; set; }
+        public string DiaChiGiaoHang { get; set; }
+        public string GhiChu { get; set; }
+        public string PhuongThucThanhToan { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTietHoaDon> ChiTietHoaDons { get; set; }

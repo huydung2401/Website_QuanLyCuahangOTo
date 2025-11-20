@@ -142,6 +142,9 @@
       <DependentUpon>QL_MoHo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ChiTietSanPham.cs" />
+    <Compile Include="Models\DanhGia.cs">
+      <DependentUpon>QL_MoHo.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DanhMuc.cs">
       <DependentUpon>QL_MoHo.tt</DependentUpon>
     </Compile>
@@ -182,9 +185,7 @@
     <Compile Include="Models\sp_helpdiagrams_Result.cs">
       <DependentUpon>QL_MoHo.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>QL_MoHo.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\ThanhToanViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -406,11 +407,12 @@
     <Content Include="Views\TaiKhoan\DangKy.cshtml" />
     <Content Include="Views\SanPham\_BienTheBep.cshtml" />
     <Content Include="Views\Home\CuaHang.cshtml" />
+    <Content Include="Views\DonHang\ThanhToan.cshtml" />
+    <Content Include="Views\DonHang\DatHangThanhCong.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\fonts\" />
-    <Folder Include="Views\DonHang\" />
     <Folder Include="Views\GioHang\" />
     <Folder Include="Views\QuanTri\" />
   </ItemGroup>

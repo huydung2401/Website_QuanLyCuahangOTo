@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TKW.Models;
-
+using System.Data.Entity;
 namespace TKW.Controllers
 {
     public class DonHangController : Controller
@@ -66,6 +66,153 @@ namespace TKW.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+        // ==========================================================
+        // PHẦN 2: THANH TOÁN & ĐẶT HÀNG (CLIENT / KHÁCH HÀNG)
+        // ==========================================================
+
+        // GET: Trang Thanh Toán (Điền thông tin)
+        [HttpGet]
+        public ActionResult ThanhToan(string idSanPham, int soLuong = 1)
+        {
+            var model = new ThanhToanViewModel();
+            model.SanPhamMua = new List<ChiTietDonHangItem>();
+
+            // A. Điền sẵn thông tin nếu đã đăng nhập
+            if (Session["User"] != null)
+            {
+                var user = Session["User"] as NguoiDung;
+                model.HoTen = user.HoTen;
+                model.Email = user.Email;
+                model.DienThoai = user.DienThoai;
+                model.DiaChi = user.DiaChi;
+            }
+
+            // B. Xử lý sản phẩm mua
+            // TH1: Mua Ngay (1 sản phẩm từ nút Mua Ngay)
+            if (!string.IsNullOrEmpty(idSanPham))
+            {
+                var sp = db.SanPhams.FirstOrDefault(s => s.IdSanPham == idSanPham);
+                if (sp != null)
+                {
+                    model.SanPhamMua.Add(new ChiTietDonHangItem
+                    {
+                        IdSanPham = sp.IdSanPham,
+                        TenSanPham = sp.TenSanPham,
+                        HinhAnh = sp.HinhAnh,
+                        Gia = sp.GiaKhuyenMai > 0 ? sp.GiaKhuyenMai.Value : sp.Gia,
+                        SoLuong = soLuong
+                    });
+                }
+            }
+            // TH2: Thanh toán từ Giỏ Hàng
+            else
+            {
+                var gioHang = Session["GioHang"] as List<TKW.Models.SanPham>;
+                if (gioHang != null && gioHang.Count > 0)
+                {
+                    foreach (var sp in gioHang)
+                    {
+                        model.SanPhamMua.Add(new ChiTietDonHangItem
+                        {
+                            IdSanPham = sp.IdSanPham,
+                            TenSanPham = sp.TenSanPham,
+                            HinhAnh = sp.HinhAnh,
+
+                            // --- SỬA LỖI TẠI DÒNG NÀY ---
+                            // Kiểm tra null và lấy giá trị int, nếu null hoặc <=0 thì mặc định là 1
+                            SoLuong = (sp.SoLuongTon.HasValue && sp.SoLuongTon.Value > 0) ? sp.SoLuongTon.Value : 1,
+
+                            Gia = sp.GiaKhuyenMai > 0 ? sp.GiaKhuyenMai.Value : sp.Gia
+                        });
+                    }
+                }
+            }
+
+            // C. Tính tổng tiền & Kiểm tra
+            if (model.SanPhamMua.Count == 0) return RedirectToAction("Index", "Home");
+
+            model.TongTien = model.SanPhamMua.Sum(x => x.ThanhTien);
+            return View(model);
+        }
+
+        // POST: Xử lý Lưu Đơn Hàng vào Database
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DatHang(ThanhToanViewModel form)
+        {
+            try
+            {
+                // A. Tạo Hóa Đơn
+                string maHD = "HD" + DateTime.Now.ToString("ddHHmmss"); // Mã tự sinh theo thời gian
+                string idNguoiDung = "KHACHLE";
+
+                if (Session["User"] != null)
+                {
+                    idNguoiDung = ((NguoiDung)Session["User"]).IdNguoiDung;
+                }
+
+                HoaDon hd = new HoaDon();
+                hd.IdHoaDon = maHD;
+                hd.IdNguoiDung = idNguoiDung;
+                hd.NgayDat = DateTime.Now;
+                hd.TongTien = form.TongTien;
+                hd.TrangThai = "Chờ xử lý";
+
+                // --- CẬP NHẬT MỚI: LƯU THÔNG TIN GIAO HÀNG ---
+                hd.HoTenNguoiNhan = form.HoTen;
+                hd.DienThoaiNguoiNhan = form.DienThoai;
+                hd.DiaChiGiaoHang = form.DiaChi;
+                hd.GhiChu = form.GhiChu;
+                hd.PhuongThucThanhToan = form.PhuongThucThanhToan;
+                // ---------------------------------------------
+
+                db.HoaDons.Add(hd);
+                db.SaveChanges(); // Lưu hóa đơn trước để có ID
+
+                // B. Lưu Chi Tiết Hóa Đơn
+                if (form.SanPhamMua != null)
+                {
+                    foreach (var item in form.SanPhamMua)
+                    {
+                        ChiTietHoaDon cthd = new ChiTietHoaDon();
+                        cthd.IdChiTietHoaDon = "CT" + Guid.NewGuid().ToString().Substring(0, 8); // Mã chi tiết ngẫu nhiên
+                        cthd.IdHoaDon = maHD;
+                        cthd.IdSanPham = item.IdSanPham;
+                        cthd.SoLuong = item.SoLuong;
+                        cthd.DonGia = item.Gia;
+
+                        db.ChiTietHoaDons.Add(cthd);
+
+                        // (Tùy chọn) Trừ tồn kho sản phẩm
+                        var sp = db.SanPhams.FirstOrDefault(s => s.IdSanPham == item.IdSanPham);
+                        if (sp != null) sp.SoLuongTon -= item.SoLuong;
+                    }
+                    db.SaveChanges();
+                }
+
+                // C. Xóa giỏ hàng sau khi đặt thành công
+                Session["GioHang"] = null;
+
+                return RedirectToAction("DatHangThanhCong", new { id = maHD });
+            }
+            catch (Exception ex)
+            {
+                // Có thể ghi log hoặc trả về view lỗi
+                return Content("Lỗi đặt hàng: " + ex.Message + " - " + ex.InnerException?.Message);
+            }
+        }
+
+        // GET: Trang thông báo thành công
+        public ActionResult DatHangThanhCong(string id)
+        {
+            var hoaDon = db.HoaDons
+                           .Include("ChiTietHoaDons.SanPham") // Load chi tiết để hiển thị nếu cần
+                           .FirstOrDefault(h => h.IdHoaDon == id);
+
+            if (hoaDon == null) return RedirectToAction("Index", "Home");
+
+            return View(hoaDon);
         }
     }
 }

@@ -18,6 +18,7 @@ namespace TKW.Models
         public NguoiDung()
         {
             this.HoaDons = new HashSet<HoaDon>();
+            this.DanhGias = new HashSet<DanhGia>();
         }
     
         public string IdNguoiDung { get; set; }
@@ -30,5 +31,7 @@ namespace TKW.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HoaDon> HoaDons { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DanhGia> DanhGias { get; set; }
     }
 }

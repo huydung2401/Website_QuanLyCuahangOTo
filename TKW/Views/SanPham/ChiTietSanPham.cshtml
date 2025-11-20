@@ -1,139 +1,58 @@
 ﻿@model TKW.Models.ChiTietSanPham
-
 @{
     ViewBag.Title = Model.SanPham.TenSanPham;
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    // Tính rating
+    double ratingVal = Model.DanhSachDanhGia != null && Model.DanhSachDanhGia.Count > 0
+                     ? Model.DanhSachDanhGia.Average(x => x.SoSao) : 0;
+    var currentUser = Session["UserName"] as string ?? "Khách hàng";
 }
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <style>
-    /* Card tổng */
-    .moho-card {
-        background: #fff;
-        border-radius: 14px;
-        overflow: hidden;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-        position: relative;
-        transition: transform .2s ease, box-shadow .2s ease;
-    }
-
-        .moho-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-        }
-
-    /* Badge giảm giá */
-    .moho-badge {
-        position: absolute;
-        top: 12px;
-        left: 12px;
-        background: #ff6b00;
-        color: #fff;
-        font-size: 14px;
-        font-weight: 600;
-        padding: 4px 10px;
-        border-radius: 6px;
-        z-index: 10;
-    }
-
-    /* Ảnh */
-    .moho-img {
-        width: 100%;
-        height: 230px;
-        object-fit: cover;
-        display: block;
-    }
-
-    /* Nội dung */
-    .moho-body {
-        padding: 15px;
-    }
-
-    .moho-title {
-        font-size: 16px;
-        font-weight: 500;
-        color: #333;
-        min-height: 48px;
-        margin-bottom: 8px;
-    }
-
-    /* Giá */
-    .moho-price {
-        margin-bottom: 6px;
-        font-size: 18px;
-    }
-
-    .price-sale {
-        color: #e53935;
-        font-weight: bold;
-    }
-
-    .price-old {
-        color: #999;
-        margin-left: 8px;
-        font-size: 15px;
-    }
-
-    /* Đã bán */
-    .moho-sold {
-        font-size: 14px;
-        color: #666;
-        text-align: right;
-    }
-
-
-
-
+    /* ===== 1. STYLE CHUNG TỪ CODE MỚI ===== */
     :root {
         --moho-primary: #003c58;
         --moho-accent: #e8591c;
         --moho-brown: #d4a574;
-        --moho-gray: #666;
-        --moho-border: #e5e5e5;
         --moho-bg: #f9f9f9;
     }
 
-    /* ===== Breadcrumb ===== */
-    nav[aria-label="breadcrumb"] {
-        background: #f8f9fa;
-        padding: 8px 0;
-        border-top: 1px solid #eee;
-        border-bottom: 1px solid #eee;
-        margin-bottom: 25px;
+    /* Fix ảnh tràn */
+    .product-detail * img {
+        max-width: 100% !important;
+        height: auto !important;
     }
 
-    .breadcrumb {
-        margin-bottom: 0;
-        background: none;
-        font-size: 15px;
+    .main-image img {
+        width: 100%;
+        height: 600px !important;
+        object-fit: cover;
     }
 
-    .breadcrumb-item + .breadcrumb-item::before {
-        content: "/";
-        color: #999;
-        padding: 0 6px;
+    /* Màu sao Vàng/Cam */
+    .product-rating i.bi-star-fill, .review-stars i.bi-star-fill, .star-active, .text-warning i {
+        color: #ff9f00 !important;
     }
 
-    .breadcrumb-item a {
-        color: #007bff;
-        text-decoration: none;
+    .star-inactive, .bi-star {
+        color: #ccc !important;
     }
 
-        .breadcrumb-item a:hover {
-            text-decoration: underline;
-        }
-
-    /* ===== Product Layout ===== */
+    /* Layout */
     .product-detail {
         display: flex;
         gap: 30px;
         align-items: flex-start;
         margin-bottom: 60px;
+        margin-top: 20px;
     }
 
-    /* ===== Left Gallery ===== */
     .gallery-column {
         width: 90px;
         display: flex;
@@ -143,7 +62,7 @@
 
         .gallery-column img {
             width: 100%;
-            height: 90px;
+            height: 90px !important;
             border: 2px solid transparent;
             border-radius: 5px;
             object-fit: cover;
@@ -151,8 +70,7 @@
             transition: 0.3s;
         }
 
-            .gallery-column img.active,
-            .gallery-column img:hover {
+            .gallery-column img.active, .gallery-column img:hover {
                 border-color: var(--moho-brown);
             }
 
@@ -163,18 +81,12 @@
         overflow: hidden;
     }
 
-        .main-image img {
-            width: 100%;
-            height: 600px;
-            object-fit: cover;
-        }
-
-    /* ===== Product Info ===== */
     .product-info {
         flex: 1;
         padding-left: 20px;
     }
 
+    /* Text & Price */
     .product-title {
         font-size: 28px;
         font-weight: 700;
@@ -187,9 +99,6 @@
         margin-bottom: 15px;
     }
 
-
-
-    /* ===== Price Box (Chuẩn Moho, có 2 gạch trên dưới) ===== */
     .price-box {
         padding: 15px 0;
         margin-bottom: 25px;
@@ -203,7 +112,6 @@
         gap: 15px;
     }
 
-    /* Nền xám nhạt + chữ cam */
     .discount-tag {
         background: #eeeeee;
         color: #e8591c;
@@ -211,18 +119,14 @@
         padding: 6px 14px;
         font-size: 18px;
         border-radius: 4px;
-        display: inline-block;
     }
 
-    /* Giá hiện tại */
     .price-current {
         font-size: 34px;
         font-weight: 700;
         color: #e8591c;
     }
 
-
-    /* Giá cũ */
     .price-old {
         text-decoration: line-through;
         color: #9a9a9a;
@@ -230,41 +134,38 @@
         margin-left: 6px;
     }
 
-    /* ===== Colors ===== */
-    .color-options {
-        margin-bottom: 25px;
-    }
-
-        .color-options .fw-bold {
-            font-size: 16px;
-            color: #222;
-            margin-bottom: 10px;
-        }
-
+    /* Options */
     .color-btn {
         width: 34px;
         height: 34px;
         border-radius: 50%;
-        border: 2px solid transparent;
-        outline: 2px solid #ccc;
+        border: 1px solid #ccc;
         cursor: pointer;
         margin-right: 12px;
-        transition: all 0.25s ease;
-        box-shadow: 0 0 0 1px #fff;
     }
 
-        .color-btn:hover {
-            transform: scale(1.15);
-            outline-color: #999;
-        }
-
         .color-btn.active {
-            outline-color: var(--moho-primary);
-            box-shadow: 0 0 0 3px rgba(0, 60, 88, 0.3);
+            outline: 2px solid var(--moho-primary);
             transform: scale(1.15);
         }
 
-    /* ===== Quantity ===== */
+    .size-btn {
+        padding: 8px 15px;
+        border: 1px solid #666;
+        border-radius: 6px;
+        background: white;
+        cursor: pointer;
+        margin-right: 5px;
+        margin-bottom: 5px;
+    }
+
+        .size-btn.active {
+            background: #ff6a00 !important;
+            color: white !important;
+            border-color: #ff6a00 !important;
+        }
+
+    /* Quantity & Buttons */
     .quantity-box {
         display: flex;
         align-items: center;
@@ -286,13 +187,7 @@
         background: #f2f2f2;
         font-size: 20px;
         cursor: pointer;
-        transition: 0.3s;
     }
-
-        .quantity-btn:hover {
-            background: var(--moho-brown);
-            color: white;
-        }
 
     .quantity-input {
         width: 60px;
@@ -301,12 +196,6 @@
         font-size: 16px;
     }
 
-    .stock-info {
-        font-size: 14px;
-        color: #27ae60;
-    }
-
-    /* ===== Buttons ===== */
     .btn-row {
         display: flex;
         gap: 15px;
@@ -322,12 +211,7 @@
         border-radius: 6px;
         font-size: 16px;
         font-weight: 600;
-        transition: 0.3s;
     }
-
-        .btn-add:hover {
-            background: #002b3e;
-        }
 
     .btn-buy {
         flex: 1;
@@ -338,12 +222,7 @@
         border-radius: 6px;
         font-size: 16px;
         font-weight: 600;
-        transition: 0.3s;
     }
-
-        .btn-buy:hover {
-            background: #cf4a17;
-        }
 
     .btn-heart {
         width: 50px;
@@ -355,109 +234,74 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: 0.3s;
     }
 
-        .btn-heart:hover {
-            color: #e74c3c;
-            border-color: #e74c3c;
-        }
-
-    /* ===== Guarantee Section ===== */
+    /* Policies */
     .policy-list {
         list-style: none;
         padding-left: 0;
         font-size: 15px;
+        margin-bottom: 10px;
     }
-
-        .policy-list li {
-            margin-bottom: 10px;
-        }
 
         .policy-list i {
             color: #27ae60;
             margin-right: 5px;
         }
 
-    /* ===== Tabs ===== */
-    .product-tabs {
-        margin-top: 60px;
-    }
-
-    .nav-tabs {
-        border-bottom: 2px solid #eee;
-    }
-
-        .nav-tabs .nav-link {
-            font-weight: 600;
-            color: #444;
-            border: none;
-            border-bottom: 3px solid transparent;
-            transition: 0.3s;
-        }
-
-            .nav-tabs .nav-link:hover,
-            .nav-tabs .nav-link.active {
-                border-bottom-color: var(--moho-accent);
-                color: var(--moho-accent);
-            }
-
-    .tab-content {
+    /* Cards & Services */
+    .moho-card {
         background: #fff;
-        padding: 30px;
-        border: 1px solid #eee;
-        border-top: none;
-    }
-
-    /* ===== Related Products ===== */
-    .related-products {
-        margin-top: 60px;
-        padding-top: 60px;
-        border-top: 2px solid #eee;
-    }
-
-    .section-title {
-        font-size: 28px;
-        text-align: center;
-        margin-bottom: 40px;
-        font-weight: 700;
-    }
-
-    .product-card {
-        border: 1px solid #eee;
-        border-radius: 6px;
+        border-radius: 14px;
         overflow: hidden;
-        transition: 0.3s;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        height: 100%;
     }
 
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        .moho-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
         }
 
-        .product-card img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
+    .moho-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: #ff6b00;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 6px;
+        z-index: 10;
+    }
 
-    .product-card-body {
+    .moho-img {
+        width: 100%;
+        height: 250px !important;
+        object-fit: cover;
+        display: block;
+    }
+
+    .moho-body {
         padding: 15px;
     }
 
-    .product-card-title {
+    .moho-title {
         font-size: 16px;
         font-weight: 600;
         color: #333;
+        margin-bottom: 8px;
+        height: 48px;
+        overflow: hidden;
     }
 
-    .product-card-price {
-        color: #e74c3c;
-        font-weight: 700;
-        font-size: 18px;
+    .price-sale {
+        color: #e53935;
+        font-weight: bold;
+        font-size: 16px;
     }
 
-    /* ===== Services Section ===== */
     .services {
         background: var(--moho-bg);
         padding: 50px 0;
@@ -470,6 +314,7 @@
         background: #fff;
         border-radius: 8px;
         border: 1px solid #eee;
+        height: 100%;
     }
 
     .service-icon {
@@ -483,12 +328,194 @@
         font-size: 18px;
     }
 
-    .service-sub {
-        color: #666;
+    /* ===== 2. STYLE CỦA CODE CŨ (MASONRY & MODAL) ===== */
+    .product-tabs {
+        margin-top: 60px;
     }
 
-    /* ===== Responsive ===== */
+    .nav-tabs {
+        border-bottom: 2px solid #eee;
+    }
+
+        .nav-tabs .nav-link {
+            font-weight: 600;
+            color: #444;
+            border: none;
+            border-bottom: 3px solid transparent;
+        }
+
+            .nav-tabs .nav-link.active {
+                border-bottom-color: var(--moho-accent);
+                color: var(--moho-accent);
+            }
+
+    .tab-content {
+        background: #fff;
+        padding: 30px;
+        border: 1px solid #eee;
+        border-top: none;
+    }
+
+    .review-masonry {
+        column-count: 4;
+        column-gap: 20px;
+        margin-top: 20px;
+    }
+
+    .review-card {
+        display: inline-block;
+        width: 100%;
+        background: #fff;
+        border-radius: 8px;
+        border: 1px solid #f0f0f0;
+        margin-bottom: 20px;
+        transition: 0.3s;
+        cursor: pointer;
+        break-inside: avoid;
+    }
+
+        .review-card:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transform: translateY(-4px);
+        }
+
+    .review-img-top {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+        object-fit: cover;
+        border-bottom: 1px solid #f9f9f9;
+        background-color: #fafafa;
+    }
+
+    .review-body {
+        padding: 15px;
+    }
+
+    .review-author {
+        font-weight: 700;
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    .review-content {
+        font-size: 13px;
+        color: #555;
+        line-height: 1.6;
+        word-wrap: break-word;
+    }
+
+    /* Modal Styles */
+    #detailModal .modal-dialog {
+        max-width: 900px;
+    }
+
+    .detail-container {
+        display: flex;
+        background: #fff;
+        border-radius: 4px;
+        overflow: hidden;
+        height: 500px;
+    }
+
+    .detail-image-area {
+        flex: 2;
+        background: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .detail-image-area img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+    .detail-info-area {
+        flex: 1;
+        padding: 30px;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .detail-close {
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        font-size: 24px;
+        cursor: pointer;
+        color: #999;
+        z-index: 10;
+    }
+
+    /* Modal Write Review */
+    .modal-content.write-modal-content {
+        border-radius: 0;
+        border: 1px solid #ccc;
+    }
+
+    .star-option-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        background: #fff;
+        border: 1px solid #333;
+        color: #333;
+        padding: 10px;
+        margin-bottom: 10px;
+        transition: 0.2s;
+    }
+
+        .star-option-btn:hover {
+            background: #f8f8f8;
+        }
+
+    .star-icons {
+        width: 120px;
+        text-align: right;
+        margin-right: 15px;
+    }
+
+    .star-label {
+        flex: 1;
+        text-align: left;
+        font-weight: normal;
+    }
+
+    .media-btn {
+        border: 1px solid #ddd;
+        background: #fff;
+        color: #333;
+        padding: 8px 20px;
+        cursor: pointer;
+        min-width: 150px;
+    }
+
+    .nav-btn-modal {
+        border: 1px solid #333;
+        background: #fff;
+        color: #333;
+        padding: 5px 15px;
+        font-size: 12px;
+        cursor: pointer;
+    }
+
+    /* Responsive */
     @@media (max-width: 992px) {
+        .review-masonry {
+            column-count: 3;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .review-masonry {
+            column-count: 2;
+        }
+
         .product-detail {
             flex-direction: column;
         }
@@ -501,34 +528,24 @@
         .main-image img {
             height: auto;
         }
+
+        .detail-container {
+            flex-direction: column;
+            height: auto;
+        }
+
+        .detail-image-area {
+            height: 300px;
+        }
     }
 
-
-
-    .product-rating i {
-        font-size: 20px;
-        margin-right: 2px;
-    }
-
-    .star-active {
-        color: #ff9f00; /* vàng cam Moho */
-    }
-
-    .star-inactive {
-        color: #ccc;
-    }
-
-    .rating-count {
-        font-size: 15px;
-        color: #666;
-        margin-left: 4px;
-        position: relative;
-        top: 1px;
+    @@media (max-width: 576px) {
+        .review-masonry {
+            column-count: 1;
+        }
     }
 </style>
 
-
-<!-- Breadcrumb -->
 <nav aria-label="breadcrumb">
     <div class="container">
         <ol class="breadcrumb">
@@ -540,82 +557,43 @@
     </div>
 </nav>
 
-<!-- Product Detail -->
 <div class="container">
     <div class="product-detail">
-        <!-- Gallery -->
         <div class="gallery-column">
-            <img src="@Url.Content("~/Content/images/" + Model.SanPham.HinhAnh)"
-                 class="active" onclick="changeImage(this)">
-
+            <img src="@Url.Content("~/Content/images/" + Model.SanPham.HinhAnh)" class="active" onclick="changeImage(this)" onerror="this.src='/Images/' + '@Model.SanPham.HinhAnh'; this.onerror=null;">
             @for (int i = 1; i <= 5; i++)
             {
-                <img src="@Url.Content("~/Content/images/"
-               + System.IO.Path.GetFileNameWithoutExtension(Model.SanPham.HinhAnh)
-               + "_" + i
-               + System.IO.Path.GetExtension(Model.SanPham.HinhAnh))"
-                     onclick="changeImage(this)">
+                <img src="@Url.Content("~/Content/images/" + System.IO.Path.GetFileNameWithoutExtension(Model.SanPham.HinhAnh) + "_" + i + System.IO.Path.GetExtension(Model.SanPham.HinhAnh))" onclick="changeImage(this)" onerror="this.style.display='none'">
             }
         </div>
 
         <div class="main-image">
-            <img src="@Url.Content("~/Content/images/" + Model.SanPham.HinhAnh)"
-                 id="mainImage">
+            <img src="@Url.Content("~/Content/images/" + Model.SanPham.HinhAnh)" id="mainImage" onerror="this.src='/Images/' + '@Model.SanPham.HinhAnh'; this.onerror=null;">
         </div>
 
-
-
-        <!-- Info -->
         <div class="product-info">
             <h1 class="product-title">@Model.SanPham.TenSanPham</h1>
             <div class="product-meta">SKU: @Model.SanPham.IdSanPham | Đã bán: @Model.SanPham.DaBan</div>
 
-            <!-- Rating -->
             <div class="product-rating d-flex align-items-center mb-3">
-                @{
-                    int rating = Model.SanPham.DanhGia ?? 0;
-                }
-
                 @for (int i = 1; i <= 5; i++)
                 {
-                    if (i <= rating)
-                    {
-                        <i class="bi bi-star-fill star-active"></i>
-                    }
+                    if (i <= Math.Round(ratingVal))
+                    {<i class="bi bi-star-fill star-active"></i> }
                     else
-                    {
-                        <i class="bi bi-star star-inactive"></i>
-                    }
+                    { <i class="bi bi-star star-inactive"></i>}
                 }
-
-                <span class="rating-count ms-2">(@rating)</span>
+                <span class="rating-count ms-2">(@ratingVal)</span>
             </div>
 
-
-            <!-- ==== PRICE BOX (Moho Style) ==== -->
             <div class="price-box text-start">
                 @if (Model.SanPham.GiaKhuyenMai.HasValue && Model.SanPham.GiaKhuyenMai < Model.SanPham.Gia)
                 {
-                    @*<div class="price-inner d-flex align-items-center">
-                            <span class="discount-badge">-@(((Model.SanPham.Gia - Model.SanPham.GiaKhuyenMai.Value) / Model.SanPham.Gia * 100).ToString("0"))%</span>
-                            <span class="price-current">@Model.SanPham.GiaKhuyenMai.Value.ToString("N0") đ</span>
-                            <span class="price-old">@Model.SanPham.Gia.ToString("N0") đ</span>
-                        </div>*@
-
                     <div class="price-inner">
-                        <span class="discount-tag">
-                            -@(((Model.SanPham.Gia - Model.SanPham.GiaKhuyenMai.Value) / Model.SanPham.Gia * 100).ToString("0"))%
-                        </span>
-
-                        <span class="price-current">
-                            @Model.SanPham.GiaKhuyenMai.Value.ToString("N0") đ
-                        </span>
-
-                        <span class="price-old">
-                            @Model.SanPham.Gia.ToString("N0") đ
-                        </span>
+                        <span class="discount-tag">-@(((Model.SanPham.Gia - Model.SanPham.GiaKhuyenMai.Value) / Model.SanPham.Gia * 100).ToString("0"))%</span>
+                        <span class="price-current">@Model.SanPham.GiaKhuyenMai.Value.ToString("N0") đ</span>
+                        <span class="price-old">@Model.SanPham.Gia.ToString("N0") đ</span>
                     </div>
-
                 }
                 else
                 {
@@ -623,42 +601,25 @@
                 }
             </div>
 
-            <!-- ==== COLOR OPTIONS ==== -->
             <div class="color-options mb-3">
                 <div class="fw-bold mb-2">Màu tự nhiên</div>
                 <div class="d-flex align-items-center">
-                    <button class="color-btn active" style="background-color:#5a3e36;" title="Nâu đậm" onclick="selectColor(this)"></button>
-                    <button class="color-btn" style="background-color:#c8ad7f;" title="Vàng nhạt" onclick="selectColor(this)"></button>
+                    <button class="color-btn active" style="background-color:#5a3e36;" onclick="selectColor(this)"></button>
+                    <button class="color-btn" style="background-color:#c8ad7f;" onclick="selectColor(this)"></button>
                 </div>
             </div>
 
-            <!-- ==== SIZE OPTIONS — ONLY FOR GIƯỜNG ==== -->
             @if (Model.DanhMuc.IdDanhMuc == "DM05")
             {
-                <div class="size-options mb-4">
+                <div class="mb-4">
                     <div class="fw-bold mb-2">Kích thước</div>
-
-                    <div class="d-flex gap-2 mb-2">
-                        <button class="btn btn-outline-dark px-3 py-1">1m2</button>
-                        <button class="btn btn-outline-dark px-3 py-1">1m4</button>
-                        <button class="btn btn-outline-dark px-3 py-1">1m6</button>
-                        <button class="btn btn-outline-dark px-3 py-1">1m8</button>
-                    </div>
-
-                    <div class="mt-2 text-muted" style="font-size:14px;">
-                        Kích thước phủ bì:
-                        Dài 212cm × Rộng 136/156/176/196cm × Cao đầu giường 92cm
+                    <div class="d-flex gap-2">
+                        <button class="size-btn">1m2</button><button class="size-btn">1m4</button><button class="size-btn">1m6</button><button class="size-btn">1m8</button>
                     </div>
                 </div>
             }
-
             @if (Model.DanhMuc.IdDanhMuc == "DM04")
-            {
-                @Html.Partial("_BienTheBep", Model)// tách ra cho gọn gàng (tuỳ bạn)
-            }
-
-
-
+            {@Html.Partial("_BienTheBep", Model)}
 
             <div class="quantity-box">
                 <label class="fw-bold">Số lượng:</label>
@@ -667,65 +628,114 @@
                     <input type="number" id="quantity" class="quantity-input" value="1" min="1" max="@Model.SanPham.SoLuongTon">
                     <button class="quantity-btn" onclick="increaseQuantity()">+</button>
                 </div>
-                <span class="stock-info"><i class="bi bi-check-circle-fill"></i> Còn @Model.SanPham.SoLuongTon sản phẩm</span>
+                <span class="stock-info ms-2"><i class="bi bi-check-circle-fill"></i> Còn @Model.SanPham.SoLuongTon sản phẩm</span>
             </div>
 
             <div class="btn-row">
-                <button class="btn-add"><i class="bi bi-cart-plus"></i> THÊM VÀO GIỎ</button>
-                <button class="btn-buy">MUA NGAY</button>
+                <form action="/GioHang/ThemVaoGio" method="get" style="flex:1">
+                    <input type="hidden" name="id" value="@Model.SanPham.IdSanPham" />
+                    <input type="hidden" name="soLuong" id="qtyCart" value="1" />
+                    <button type="submit" class="btn-add w-100" onclick="document.getElementById('qtyCart').value = document.getElementById('quantity').value">
+                        THÊM VÀO GIỎ
+                    </button>
+                </form>
+                <button class="btn-buy" onclick="buyNow()">MUA NGAY</button>
                 <button class="btn-heart"><i class="bi bi-heart"></i></button>
             </div>
 
             <ul class="policy-list">
-                <li><i class="bi bi-check-circle-fill"></i> Miễn phí giao hàng & lắp đặt tại TP.HCM, Hà Nội, Biên Hòa, Bình Dương...</li>
-                <li><i class="bi bi-check-circle-fill"></i> Miễn phí 1 đổi 1 – Bảo hành 5 năm – Bảo trì trọn đời</li>
-                <li><i class="bi bi-check-circle-fill"></i> (*) Không áp dụng cho danh mục Đồ Trang Trí</li>
+                <li><i class="bi bi-check-circle-fill"></i> Miễn phí giao hàng & lắp đặt.</li>
+                <li><i class="bi bi-check-circle-fill"></i> Miễn phí 1 đổi 1 – Bảo hành 5 năm.</li>
             </ul>
         </div>
     </div>
 
-    <!-- Tabs -->
     <div class="product-tabs">
         <ul class="nav nav-tabs">
             <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#moTa">Mô tả</a></li>
-            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#danhGia">Đánh giá</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#danhGia">Đánh giá (@(Model.DanhSachDanhGia?.Count ?? 0))</a></li>
             <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#chinhSach">Chính sách</a></li>
             <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#baoQuan">Bảo quản</a></li>
         </ul>
 
         <div class="tab-content">
             <div id="moTa" class="tab-pane fade show active">@Html.Raw(Model.SanPham.MoTaChiTiet)</div>
-            <div id="danhGia" class="tab-pane fade"><p>Chưa có đánh giá nào. Hãy là người đầu tiên đánh giá sản phẩm này!</p></div>
-            <div id="chinhSach" class="tab-pane fade"><p>• Miễn phí giao hàng & lắp đặt tại TP.HCM, Hà Nội, Biên Hòa, Bình Dương.<br>• Đổi trả 1-1 trong 7 ngày.<br>• Bảo hành 5 năm – Bảo trì trọn đời.</p></div>
-            <div id="baoQuan" class="tab-pane fade"><p>• Tránh để sản phẩm tiếp xúc trực tiếp ánh nắng, nước.<br>• Lau chùi bằng khăn mềm, tránh chất tẩy mạnh.</p></div>
+
+            <div id="danhGia" class="tab-pane fade">
+                <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-2 px-3">
+                    <div class="d-flex align-items-center">
+                        <div class="text-warning mr-3" style="font-size: 24px;">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                if (i <= Math.Round(ratingVal))
+                                {<i class="bi bi-star-fill"></i> }
+                                else
+                                { <i class="bi bi-star" style="color:#ddd;"></i>}
+                            }
+                        </div>
+                        <span style="font-size: 16px; color: #333;">@(Model.DanhSachDanhGia?.Count ?? 0) đánh giá</span>
+                    </div>
+                    <div class="d-flex">
+                        <button class="btn btn-outline-dark rounded-0 px-3 py-2" onclick="openReviewModal()">Viết đánh giá</button>
+                    </div>
+                </div>
+
+                @if (Model.DanhSachDanhGia != null && Model.DanhSachDanhGia.Count > 0)
+                {
+                    <div class="review-masonry px-3">
+                        @foreach (var dg in Model.DanhSachDanhGia)
+                        {
+                            <div class="review-card" onclick="showDetailReview('@dg.TenNguoiDung', @dg.SoSao, `@dg.NoiDung`, '@dg.HinhAnh')">
+                                @if (!string.IsNullOrEmpty(dg.HinhAnh))
+                                {
+                                    <img src="~/Images/Reviews/@dg.HinhAnh" class="review-img-top" alt="Review" onerror="this.src='https://placehold.co/300x200?text=No+Image'">
+                                }
+                                <div class="review-body">
+                                    <div class="review-author">@dg.TenNguoiDung</div>
+                                    <div class="review-stars">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            if (i <= dg.SoSao)
+                                            {<i class="bi bi-star-fill"></i> }
+                                            else
+                                            { <i class="bi bi-star" style="color:#ddd"></i>}
+                                        }
+                                    </div>
+                                    <p class="review-content">@dg.NoiDung</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-5 text-muted w-100 border rounded bg-light">
+                        <p>Chưa có đánh giá nào.</p>
+                    </div>
+                }
+            </div>
+
+            <div id="chinhSach" class="tab-pane fade"><p>Thông tin chính sách...</p></div>
+            <div id="baoQuan" class="tab-pane fade"><p>Thông tin bảo quản...</p></div>
         </div>
     </div>
 
-    <!-- Related Products -->
-    <div class="related-products">
-        <h2 class="section-title">SẢN PHẨM LIÊN QUAN</h2>
+    <div class="related-products mt-5 pt-4 border-top">
+        <h3 class="section-title text-center mb-4">SẢN PHẨM LIÊN QUAN</h3>
         <div class="row g-4">
             @foreach (var sp in Model.SanPhamLienQuan)
             {
                 <div class="col-6 col-md-4 col-lg-3 mb-4">
-                    <div class="moho-card">
-
-                        @* Badge giảm giá *@
+                    <div class="moho-card h-100">
                         @if (sp.GiaKhuyenMai.HasValue && sp.GiaKhuyenMai < sp.Gia)
                         {
-                            var discount = Math.Round(100 - (sp.GiaKhuyenMai.Value / sp.Gia * 100));
-                            <span class="moho-badge">-@discount%</span>
+                            <span class="moho-badge">-@Math.Round(100 - (sp.GiaKhuyenMai.Value / sp.Gia * 100))%</span>
                         }
-
                         <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })">
-                            <img src="@Url.Content("~/Content/Images/" + sp.HinhAnh)"
-                                 alt="@sp.TenSanPham"
-                                 class="moho-img" />
+                            <img src="@Url.Content("~/Content/images/" + sp.HinhAnh)" class="moho-img" onerror="this.src='/Images/' + '@sp.HinhAnh'; this.onerror=null; this.src='https://placehold.co/300x300?text=No+Image';" />
                         </a>
-
                         <div class="moho-body">
                             <h5 class="moho-title">@sp.TenSanPham</h5>
-
                             <div class="moho-price">
                                 @if (sp.GiaKhuyenMai.HasValue)
                                 {
@@ -737,47 +747,23 @@
                                     <span class="price-sale">@sp.Gia.ToString("N0") đ</span>
                                 }
                             </div>
-
-
-                            <!-- ⭐ Đánh giá sao -->
                             <div class="rating mb-2">
-                                @{
-                                    int ratings = sp.DanhGia ?? 0;
-                                }
                                 @for (int i = 1; i <= 5; i++)
                                 {
-                                    if (i <= ratings)
-                                    {
-                                        <i class="fas fa-star" style="color:#ff9f00; font-size:15px;"></i>
-                                    }
+                                    if (i <= (sp.DanhGia ?? 0))
+                                    {<i class="bi bi-star-fill text-warning"></i> }
                                     else
-                                    {
-                                        <i class="far fa-star" style="color:#ccc; font-size:15px;"></i>
-                                    }
+                                    { <i class="bi bi-star text-secondary"></i>}
                                 }
-                                <span style="font-size:14px; color:#777;">(@ratings)</span>
-                            </div>
-
-
-
-
-                            <div class="moho-sold">Đã bán @sp.DaBan</div>
-
-                            <div class="d-flex mt-auto">
-                                <button class="color-btn mr-2" style="background-color:black;" data-img="@Url.Content("~/Content/images/" + sp.HinhAnh)"></button>
-                                <button class="color-btn" style="background-color:white;" data-img="@Url.Content("~/Content/images/" + sp.HinhAnh)"></button>
                             </div>
                         </div>
-
                     </div>
                 </div>
             }
-
         </div>
     </div>
 
-    <!-- Service Commitments -->
-    <div class="services">
+    <div class="services pt-4 mt-5">
         <div class="container">
             <div class="row text-center g-4">
                 <div class="col-md-3"><div class="service-box"><div class="service-icon"><i class="bi bi-truck"></i></div><div class="service-title">Giao Hàng & Lắp Đặt</div><div class="service-sub">Miễn Phí</div></div></div>
@@ -789,18 +775,106 @@
     </div>
 </div>
 
-<script>
-    function changeImage(el) {
-        document.getElementById("mainImage").src = el.src;
-        document.querySelectorAll(".gallery-column img").forEach(i => i.classList.remove("active"));
-        el.classList.add("active");
-    }
-    function increaseQuantity() { let q = document.getElementById('quantity'); if (parseInt(q.value) < parseInt(q.max)) q.value++; }
-    function decreaseQuantity() { let q = document.getElementById('quantity'); if (parseInt(q.value) > 1) q.value--; }
-    // cho pheps chon mau
-    function selectColor(el) {
-        document.querySelectorAll(".color-btn").forEach(btn => btn.classList.remove("active"));
-        el.classList.add("active");
-    }
+<div class="modal fade" id="reviewModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content write-modal-content" style="width: 500px; max-width: 100%;">
+            <div class="modal-header border-0 p-2">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center pt-0 pb-4 px-4">
+                <div id="step1-rating">
+                    <h5 class="mb-4">Bạn cho bao nhiêu sao?</h5>
+                    <button class="star-option-btn" onclick="selectStar(5)"><span class="star-icons"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></span><span class="star-label">- Rất thích</span></button>
+                    <button class="star-option-btn" onclick="selectStar(4)"><span class="star-icons"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></span><span class="star-label">- Thích</span></button>
+                    <button class="star-option-btn" onclick="selectStar(3)"><span class="star-icons"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></span><span class="star-label">- Ok</span></button>
+                    <button class="star-option-btn" onclick="selectStar(2)"><span class="star-icons"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></span><span class="star-label">- Không hài lòng</span></button>
+                    <button class="star-option-btn" onclick="selectStar(1)"><span class="star-icons"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></span><span class="star-label">- Thất vọng</span></button>
+                </div>
+                <div id="step2-media" style="display:none; height:300px; flex-direction:column; justify-content:center;">
+                    <h5 class="mb-4">Chia sẻ ảnh / video</h5>
+                    <div class="mb-3"><button class="media-btn" onclick="$('#reviewFile').click()">Thêm ảnh</button></div>
+                    <div class="mb-3">Hoặc</div>
+                    <div class="mb-4"><button class="media-btn">Thêm video</button></div>
+                    <input type="file" id="reviewFile" accept="image/*" style="display:none;" onchange="handleFileUpload(this)">
+                    <div id="previewContainer" class="d-none mb-3"><img id="imgPreview" style="max-height: 80px; border: 1px solid #ddd;"></div>
+                    <div class="d-flex justify-content-between w-100 mt-auto">
+                        <button class="nav-btn-modal" onclick="goToStep(1)">Quay lại</button>
+                        <button class="nav-btn-modal" onclick="goToStep(3)">Bỏ qua</button>
+                    </div>
+                </div>
+                <div id="step3-comment" style="display:none; height:300px;">
+                    <h5 class="mb-3">Đánh giá của bạn</h5>
+                    <div class="form-group text-left mb-3"><textarea id="reviewContent" class="form-control" rows="5" placeholder="Viết đánh giá chi tiết..."></textarea></div>
+                    <div class="d-flex justify-content-between w-100 mt-auto">
+                        <button class="nav-btn-modal" onclick="goToStep(2)">Quay lại</button>
+                        <button class="nav-btn-modal" style="background:#333; color:#fff;" onclick="submitReviewReal()">Gửi đánh giá</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="detail-container">
+                <div class="detail-image-area"><img id="d-img" src="" alt="Review"></div>
+                <div class="detail-info-area">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
+                    <h5 id="d-name" class="fw-bold"></h5>
+                    <div id="d-stars" class="mb-3"></div>
+                    <p id="d-content"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="tempRating" value="0">
+<input type="hidden" id="currentProductId" value="@Model.SanPham.IdSanPham">
+<input type="hidden" id="currentUserName" value="@currentUser">
+
+<script>
+    function changeImage(el) { document.getElementById("mainImage").src = el.src; }
+    function increaseQuantity() { let q = document.getElementById('quantity'); if (q.value < q.max) q.value++; }
+    function decreaseQuantity() { let q = document.getElementById('quantity'); if (q.value > 1) q.value--; }
+    function selectColor(el) { $('.color-btn').removeClass('active'); el.classList.add('active'); }
+    function buyNow() { var id = $('#currentProductId').val(); var qty = $('#quantity').val(); window.location.href = '/DonHang/ThanhToan?idSanPham=' + id + '&soLuong=' + qty; }
+
+    function openReviewModal() {
+        if ($('#currentUserName').val() === "Khách hàng") { alert("Vui lòng đăng nhập!"); return; }
+        $('#step1-rating').show(); $('#step2-media, #step3-comment').hide();
+        new bootstrap.Modal(document.getElementById('reviewModal')).show();
+    }
+    function goToStep(step) {
+        $('#step1-rating, #step2-media, #step3-comment').hide();
+        if (step === 1) $('#step1-rating').show();
+        if (step === 2) { $('#step2-media').show(); $('#step2-media').css('display', 'flex'); }
+        if (step === 3) { $('#step3-comment').show(); $('#step3-comment').css('display', 'flex'); $('#step3-comment').css('flex-direction', 'column'); }
+    }
+    function selectStar(s) { $('#tempRating').val(s); goToStep(2); }
+    function handleFileUpload(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) { $('#imgPreview').attr('src', e.target.result); $('#previewContainer').removeClass('d-none'); setTimeout(() => goToStep(3), 500); };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    function submitReviewReal() {
+        var fd = new FormData();
+        fd.append("idSanPham", $('#currentProductId').val());
+        fd.append("soSao", $('#tempRating').val());
+        fd.append("noiDung", $('#reviewContent').val());
+        fd.append("tenNguoiDung", $('#currentUserName').val());
+        if ($("#reviewFile").get(0).files.length > 0) fd.append("file", $("#reviewFile").get(0).files[0]);
+        $.ajax({ url: '/SanPham/GuiDanhGia', type: 'POST', data: fd, processData: false, contentType: false, success: function (res) { if (res.success) { alert("Thành công!"); location.reload(); } else { alert(res.message); } } });
+    }
+    function showDetailReview(name, s, c, img) {
+        $('#d-name').text(name); $('#d-content').text(c);
+        var h = ''; for (var i = 1; i <= 5; i++) h += (i <= s) ? '<i class="bi bi-star-fill text-warning"></i> ' : '<i class="bi bi-star text-secondary"></i> ';
+        $('#d-stars').html(h);
+        $('#d-img').attr('src', img ? '/Images/Reviews/' + img : 'https://placehold.co/600x400');
+        new bootstrap.Modal(document.getElementById('detailModal')).show();
+    }
 </script>

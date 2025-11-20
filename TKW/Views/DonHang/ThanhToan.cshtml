@@ -1,0 +1,560 @@
+﻿@model TKW.Models.ThanhToanViewModel
+@{
+    ViewBag.Title = "Thanh toán - Moho";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán - Nội Thất MOHO</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* GIỮ NGUYÊN CSS ĐẸP CỦA BẠN */
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+        }
+
+        .checkout-header {
+            background: #fff;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+
+        .logo-img {
+            height: 32px;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .left-column {
+            padding-right: 30px;
+        }
+
+        .moho-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #e5e7eb;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .field-input {
+            width: 100%;
+            height: 45px;
+            padding: 10px 15px;
+            border: 1px solid #e1e1e1;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            transition: border-color 0.2s;
+            background-color: #fff;
+        }
+
+            .field-input:focus {
+                border-color: #003c58;
+                outline: none;
+            }
+
+            .field-input.disabled {
+                background-color: #f8f8f8;
+                color: #777;
+                cursor: not-allowed;
+            }
+
+        .login-bar {
+            background: #fff;
+            padding: 15px 20px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .btn-login-small {
+            background: #f3f4f6;
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .payment-group {
+            border: 1px solid #e1e1e1;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .payment-option {
+            padding: 15px;
+            border-bottom: 1px solid #e1e1e1;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            background: #fff;
+        }
+
+            .payment-option:last-child {
+                border-bottom: none;
+            }
+
+            .payment-option input {
+                margin-right: 12px;
+                transform: scale(1.3);
+                accent-color: #003c58;
+            }
+
+        .payment-label {
+            font-size: 14px;
+            font-weight: 500;
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .banking-info {
+            background: #f8f8f8;
+            padding: 15px;
+            border-bottom: 1px solid #d9d9d9;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+            display: none;
+        }
+
+        /* CSS GIỎ HÀNG */
+        .cart-item {
+            display: flex;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed #eee;
+        }
+
+            .cart-item:last-child {
+                border-bottom: none;
+                margin-bottom: 0;
+            }
+
+        .item-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 1px solid #eee;
+            margin-right: 15px;
+        }
+
+        .item-info h6 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .item-variant {
+            font-size: 12px;
+            color: #777;
+            background: #f3f4f6;
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        .item-price {
+            font-size: 14px;
+            font-weight: 700;
+            color: #e8591c;
+        }
+
+        .item-old-price {
+            font-size: 12px;
+            color: #999;
+            text-decoration: line-through;
+            margin-right: 5px;
+        }
+
+        .qty-control {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: fit-content;
+            margin-top: 5px;
+        }
+        /* Thêm user-select: none để bấm nhanh ko bị bôi đen */
+        .qty-btn {
+            width: 25px;
+            height: 25px;
+            text-align: center;
+            line-height: 23px;
+            cursor: pointer;
+            font-size: 12px;
+            background: #f9f9f9;
+            user-select: none;
+        }
+
+        .qty-val {
+            width: 30px;
+            text-align: center;
+            font-size: 13px;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+        }
+
+        .discount-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-apply {
+            background: #000;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 0 20px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            color: #333;
+        }
+
+        .btn-checkout {
+            width: 100%;
+            background: #000;
+            color: #fff;
+            padding: 15px;
+            border-radius: 6px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: none;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+            .btn-checkout:hover {
+                background: #333;
+            }
+
+        .flag-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            border-radius: 2px;
+            pointer-events: none;
+        }
+
+        .select-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+            .select-row .field-input {
+                margin-bottom: 0;
+            }
+
+        @@media (max-width: 991px) {
+            .main-container {
+                flex-direction: column-reverse;
+            }
+
+            .left-column {
+                padding-right: 0;
+            }
+
+            .right-column {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="checkout-header">
+        <div class="main-container">
+            <a href="/"><img src="https://file.hstatic.net/200000065946/9ccddae970ae4e7d95ac6f2c6828b693.jpg" class="logo-img" alt="MOHO"></a>
+        </div>
+    </header>
+
+    <form action="/DonHang/DatHang" method="post">
+        @Html.AntiForgeryToken()
+        <div class="main-container">
+            <div class="row">
+
+                <div class="col-lg-7 left-column">
+                    @if (Session["User"] == null)
+                    {
+                        <div class="login-bar">
+                            <span style="font-size: 14px; color: #555;">Đăng nhập để mua hàng tiện lợi và nhận nhiều ưu đãi hơn nữa</span>
+                            <a href="/TaiKhoan/DangNhap" class="btn-login-small">Đăng nhập</a>
+                        </div>
+                    }
+                    <div class="moho-card">
+                        <div class="card-title">Thông tin giao hàng</div>
+                        <input type="text" name="HoTen" class="field-input" placeholder="Nhập họ và tên" value="@Model.HoTen" required>
+                        <div style="position: relative;">
+                            <input type="text" name="DienThoai" class="field-input" placeholder="Nhập số điện thoại" value="@Model.DienThoai" required style="padding-right: 40px;">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Vietnam.svg/32px-Flag_of_Vietnam.svg.png" class="flag-icon" alt="VN">
+                        </div>
+                        <input type="email" name="Email" class="field-input" placeholder="Nhập email" value="@Model.Email">
+                        <input type="text" class="field-input disabled" value="Vietnam" readonly>
+                        <input type="text" name="DiaChi" class="field-input" placeholder="Địa chỉ, tên đường" value="@Model.DiaChi" required>
+                        <div class="select-row">
+                            <select class="field-input" id="city" onchange="loadDistricts()"><option value="">Tỉnh / Thành</option></select>
+                            <select class="field-input" id="district" onchange="loadWards()"><option value="">Quận / Huyện</option></select>
+                            <select class="field-input" id="ward"><option value="">Phường / Xã</option></select>
+                        </div>
+                    </div>
+                    <div class="moho-card">
+                        <div class="card-title">Phương thức giao hàng</div>
+                        <div style="padding: 15px; background: #f9fafb; border-radius: 6px; border: 1px solid #eee; display: flex; align-items: center; justify-content: space-between;">
+                            <div style="font-size: 14px; color: #333;">
+                                <input type="radio" checked style="margin-right: 10px; transform: scale(1.2); accent-color: #003c58;">
+                                Miễn phí giao hàng & lắp đặt tại tất cả quận huyện...
+                            </div>
+                            <span style="font-weight: bold; font-size: 14px;">Miễn phí</span>
+                        </div>
+                    </div>
+                    <div class="moho-card">
+                        <div class="card-title">Phương thức thanh toán</div>
+                        <div class="payment-group">
+                            <label class="payment-option" onclick="toggleBankInfo(true)">
+                                <input type="radio" name="PhuongThucThanhToan" value="Banking" checked>
+                                <div class="payment-label"><span>Thanh toán chuyển khoản qua ngân hàng</span><i class="fas fa-university text-muted" style="font-size: 18px;"></i></div>
+                            </label>
+                            <div class="banking-info" id="bankInfo" style="display:block;">
+                                Tên tài khoản: Công Ty Cổ Phần Hợp Tác Kinh Tế Và Xuất Nhập Khẩu Savimex<br>Số tài khoản: <strong>0071001303667</strong><br>Ngân hàng: Vietcombank – CN HCM<br>Nội dung: <strong>Tên + SĐT đặt hàng</strong>
+                            </div>
+                            <label class="payment-option" onclick="toggleBankInfo(false)">
+                                <input type="radio" name="PhuongThucThanhToan" value="POS"><div class="payment-label"><span>Thanh toán quẹt thẻ khi giao hàng (POS)</span><i class="fas fa-credit-card text-muted" style="font-size: 18px;"></i></div>
+                            </label>
+                            <label class="payment-option" onclick="toggleBankInfo(false)">
+                                <input type="radio" name="PhuongThucThanhToan" value="VNPAY"><div class="payment-label"><span>Thanh toán online qua cổng VNPay</span><div class="d-flex gap-1"><i class="fab fa-cc-visa text-primary mr-1" style="font-size: 18px;"></i><i class="fab fa-cc-mastercard text-danger" style="font-size: 18px;"></i></div></div>
+                            </label>
+                            <label class="payment-option" onclick="toggleBankInfo(false)">
+                                <input type="radio" name="PhuongThucThanhToan" value="Momo"><div class="payment-label"><span>Thanh toán online qua ví MoMo</span><img src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png" height="20"></div>
+                            </label>
+                            <label class="payment-option" onclick="toggleBankInfo(false)">
+                                <input type="radio" name="PhuongThucThanhToan" value="QR_VCB"><div class="payment-label"><span>Chuyển khoản qua QR - VCB</span><i class="fas fa-qrcode text-muted" style="font-size: 18px;"></i></div>
+                            </label>
+                        </div>
+                        <input type="text" name="GhiChu" class="field-input mt-3 mb-0" placeholder="Ghi chú đơn hàng (tùy chọn)">
+                    </div>
+                </div>
+
+                <div class="col-lg-5 right-column">
+                    <div class="moho-card">
+                        <div class="d-flex justify-content-between mb-3">
+                            <div class="card-title mb-0">Giỏ hàng</div>
+                        </div>
+                        @if (Model.SanPhamMua != null)
+                        {
+                            for (int i = 0; i < Model.SanPhamMua.Count; i++)
+                            {
+                                <div class="cart-item" id="row-@i">
+                                    <img src="~/Images/@Model.SanPhamMua[i].HinhAnh" class="item-img">
+                                    <div class="item-info flex-grow-1">
+                                        <h6>@Model.SanPhamMua[i].TenSanPham</h6>
+                                        <div class="item-variant">Màu tự nhiên</div>
+                                        <div class="d-flex justify-content-between align-items-end mt-2">
+                                            <div>
+                                                <span class="item-old-price">@((Model.SanPhamMua[i].Gia * 1.2m).ToString("N0"))₫</span>
+                                                <span class="item-price" id="price-display-@i">@Model.SanPhamMua[i].ThanhTien.ToString("N0")₫</span>
+                                            </div>
+                                            <div class="qty-control">
+                                                <div class="qty-btn" onclick="changeQty(@i, -1)">-</div>
+                                                <div class="qty-val" id="qty-display-@i">@Model.SanPhamMua[i].SoLuong</div>
+                                                <div class="qty-btn" onclick="changeQty(@i, 1)">+</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ml-2 text-muted" style="cursor:pointer;" onclick="removeItem(@i)"><i class="far fa-trash-alt"></i></div>
+
+                                    <input type="hidden" name="SanPhamMua[@i].IdSanPham" value="@Model.SanPhamMua[i].IdSanPham" />
+                                    <input type="hidden" class="input-qty" id="input-qty-@i" name="SanPhamMua[@i].SoLuong" value="@Model.SanPhamMua[i].SoLuong" />
+                                    <input type="hidden" class="input-price" id="base-price-@i" name="SanPhamMua[@i].Gia" value="@Model.SanPhamMua[i].Gia" />
+                                </div>
+                            }
+                        }
+                    </div>
+
+                    <div class="moho-card">
+                        <div class="card-title">Mã khuyến mãi</div>
+                        <div style="border: 1px dashed #007bff; background: #f0f7ff; padding: 10px; border-radius: 5px; margin-bottom: 15px; display: flex; justify-content: space-between; cursor: pointer; font-size: 13px; color: #0056b3;">
+                            <span><i class="fas fa-ticket-alt mr-2"></i> Chọn mã</span>
+                            <span>Giảm giá 3% <i class="fas fa-chevron-right ml-1"></i></span>
+                        </div>
+                        <div class="discount-row">
+                            <input type="text" class="field-input mb-0" placeholder="Nhập mã khuyến mãi">
+                            <button type="button" class="btn-apply">Áp dụng</button>
+                        </div>
+                    </div>
+
+                    <div class="moho-card">
+                        <div class="card-title">Tóm tắt đơn hàng</div>
+                        <div class="summary-row">
+                            <span>Tổng tiền hàng</span>
+                            <span id="sub-total">@Model.TongTien.ToString("N0")₫</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Phí vận chuyển</span>
+                            <span>Miễn phí</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Tổng thanh toán</span>
+                            <span style="color: #003c58;" id="final-total">@Model.TongTien.ToString("N0")₫</span>
+                        </div>
+
+                        <input type="hidden" id="hidden-total" name="TongTien" value="@Model.TongTien" />
+                        <button type="submit" class="btn-checkout">Đặt hàng</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script>
+        // 1. Toggle Bank Info
+        function toggleBankInfo(show) {
+            var box = document.getElementById('bankInfo');
+            box.style.display = show ? 'block' : 'none';
+        }
+
+        // 2. Load Địa chỉ
+        var cities = document.getElementById("city");
+        var districts = document.getElementById("district");
+        var wards = document.getElementById("ward");
+        var Parameter = { url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json", method: "GET", responseType: "application/json" };
+        axios(Parameter).then(function (result) { renderCity(result.data); });
+        function renderCity(data) {
+            for (const x of data) cities.options[cities.options.length] = new Option(x.Name, x.Name);
+            cities.onchange = function () {
+                districts.length = 1; wards.length = 1;
+                if (this.value != "") {
+                    const result = data.filter(n => n.Name === this.value);
+                    for (const k of result[0].Districts) districts.options[districts.options.length] = new Option(k.Name, k.Name);
+                }
+            };
+            districts.onchange = function () {
+                wards.length = 1;
+                const dataCity = data.filter((n) => n.Name === cities.value);
+                if (this.value != "") {
+                    const dataWards = dataCity[0].Districts.filter(n => n.Name === this.value)[0].Wards;
+                    for (const w of dataWards) wards.options[wards.options.length] = new Option(w.Name, w.Name);
+                }
+            };
+        }
+
+        // 3. LOGIC TÍNH TIỀN (JS)
+        function formatCurrency(amount) {
+            return amount.toLocaleString('vi-VN') + '₫';
+        }
+
+        function changeQty(index, delta) {
+            var qtyInput = document.getElementById('input-qty-' + index);
+            var currentQty = parseInt(qtyInput.value);
+            var newQty = currentQty + delta;
+
+            if (newQty < 1) return; // Không giảm dưới 1
+
+            // Cập nhật số lượng hiển thị và input ẩn
+            qtyInput.value = newQty;
+            document.getElementById('qty-display-' + index).innerText = newQty;
+
+            // Tính lại giá sản phẩm này
+            var basePrice = parseFloat(document.getElementById('base-price-' + index).value);
+            var itemTotal = basePrice * newQty;
+            document.getElementById('price-display-' + index).innerText = formatCurrency(itemTotal);
+
+            // Cập nhật tổng tiền
+            updateTotalCart();
+        }
+
+        function removeItem(index) {
+            if (confirm('Bạn có muốn xóa sản phẩm này không?')) {
+                var row = document.getElementById('row-' + index);
+                row.remove(); // Xóa HTML
+
+                // Disable input để không gửi về server
+                var inputs = row.getElementsByTagName('input');
+                for (var i = 0; i < inputs.length; i++) inputs[i].disabled = true;
+
+                updateTotalCart();
+            }
+        }
+
+        function updateTotalCart() {
+            var total = 0;
+            // Duyệt qua các dòng chưa bị xóa
+            var priceInputs = document.querySelectorAll('.input-price:not([disabled])');
+            var qtyInputs = document.querySelectorAll('.input-qty:not([disabled])');
+
+            for (var i = 0; i < priceInputs.length; i++) {
+                var price = parseFloat(priceInputs[i].value);
+                var qty = parseInt(qtyInputs[i].value);
+                total += price * qty;
+            }
+
+            // Update hiển thị tổng
+            document.getElementById('sub-total').innerText = formatCurrency(total);
+            document.getElementById('final-total').innerText = formatCurrency(total);
+            document.getElementById('hidden-total').value = total;
+
+            // Nếu giỏ hàng trống, khóa nút đặt hàng
+            var btn = document.querySelector('.btn-checkout');
+            if (total === 0) {
+                btn.disabled = true;
+                btn.style.background = '#ccc';
+                btn.innerText = "Giỏ hàng trống";
+            }
+        }
+    </script>
+
+</body>
+</html>

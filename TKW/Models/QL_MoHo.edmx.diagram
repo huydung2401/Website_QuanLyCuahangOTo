@@ -19,6 +19,9 @@
         <AssociationConnector Association="QLMohoDBModel.FK_HinhAnh_SanPham" />
         <EntityTypeShape EntityType="QLMohoDBModel.BienTheSanPham" Width="2.5" PointX="8.375" PointY="4.375" />
         <AssociationConnector Association="QLMohoDBModel.FK__BienTheSa__IdSan__3A4CA8FD" />
+        <EntityTypeShape EntityType="QLMohoDBModel.DanhGia" Width="1.5" PointX="5.5" PointY="6.875" />
+        <AssociationConnector Association="QLMohoDBModel.FK_DanhGia_SanPham" />
+        <AssociationConnector Association="QLMohoDBModel.FK_DanhGia_NguoiDung" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

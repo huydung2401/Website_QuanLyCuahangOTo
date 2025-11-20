@@ -1,0 +1,273 @@
+﻿@model TKW.Models.HoaDon
+@{
+    ViewBag.Title = "Hóa đơn mua hàng";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hóa đơn mua hàng - Moho</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        /* HEADER RIÊNG BIỆT */
+        .invoice-top-header {
+            background: #fff;
+            padding: 15px 0;
+            border-bottom: 1px solid #e1e1e1;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .logo-img {
+            height: 35px;
+        }
+
+        /* KHUNG HÓA ĐƠN */
+        .invoice-card {
+            background: #fff;
+            max-width: 850px;
+            margin: 0 auto 50px;
+            padding: 50px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+            border-radius: 8px;
+        }
+
+        .invoice-header-content {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 20px;
+        }
+
+        .invoice-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #003c58;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-section {
+            margin-bottom: 30px;
+        }
+
+        .info-line {
+            margin-bottom: 12px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .info-label {
+            font-weight: 700;
+            min-width: 180px;
+            display: inline-block;
+            color: #555;
+        }
+
+        /* TABLE */
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+
+            .invoice-table th {
+                background-color: #003c58;
+                color: #fff;
+                border: 1px solid #003c58;
+                padding: 12px 10px;
+                text-align: center;
+                font-weight: 600;
+                font-size: 14px;
+            }
+
+            .invoice-table td {
+                border: 1px solid #e1e1e1;
+                padding: 12px 10px;
+                text-align: center;
+                font-size: 14px;
+                vertical-align: middle;
+            }
+
+                .invoice-table td.text-left {
+                    text-align: left;
+                }
+
+                .invoice-table td.text-right {
+                    text-align: right;
+                }
+
+        .total-price-section {
+            text-align: right;
+            font-size: 18px;
+            border-top: 2px solid #003c58;
+            padding-top: 15px;
+        }
+
+        .total-label {
+            font-weight: 600;
+            margin-right: 20px;
+        }
+
+        .total-value {
+            font-weight: 800;
+            color: #e8591c;
+            font-size: 22px;
+        }
+
+        .footer-text {
+            text-align: center;
+            font-style: italic;
+            color: #777;
+            margin-top: 40px;
+            font-size: 14px;
+        }
+
+        .btn-back {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+
+            .btn-back:hover {
+                background-color: #0056b3;
+                color: white;
+                text-decoration: none;
+            }
+
+        .print-btn {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #888;
+            cursor: pointer;
+        }
+
+        @@media print {
+            .btn-back, .print-btn, .invoice-top-header {
+                display: none;
+            }
+
+            body {
+                background-color: #fff;
+                padding: 0;
+            }
+
+            .invoice-card {
+                box-shadow: none;
+                border: none;
+                margin: 0;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="invoice-top-header">
+        <div class="header-container">
+            <a href="/">
+                <img src="https://file.hstatic.net/200000065946/9ccddae970ae4e7d95ac6f2c6828b693.jpg" class="logo-img" alt="MOHO">
+            </a>
+        </div>
+    </header>
+
+    <div class="invoice-card">
+        <button class="print-btn" onclick="window.print()" title="In hóa đơn"><i class="fas fa-print"></i></button>
+
+        <div class="invoice-header-content">
+            <div class="invoice-title">HÓA ĐƠN MUA HÀNG</div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-line"><span class="info-label">Đơn vị bán hàng:</span> <strong>Nội Thất MOHO</strong></div>
+            <div class="info-line"><span class="info-label">Địa chỉ:</span> 162 HT17, P. Hiệp Thành, Q. 12, TP. HCM</div>
+            <div class="info-line"><span class="info-label">Hotline:</span> 097 114 1140</div>
+
+            <hr style="border-top: 1px dashed #ccc; margin: 20px 0;">
+
+            <div class="info-line"><span class="info-label">Khách hàng:</span> @(Model.NguoiDung != null ? Model.NguoiDung.HoTen : "Khách lẻ")</div>
+            <div class="info-line"><span class="info-label">Email:</span> @(Model.NguoiDung != null ? Model.NguoiDung.Email : "---")</div>
+
+            <div class="info-line"><span class="info-label">SĐT:</span> @(Model.NguoiDung != null ? Model.NguoiDung.DienThoai : "---")</div>
+
+            <div class="info-line"><span class="info-label">Mã hóa đơn:</span> <strong style="color:#003c58;">#@Model.IdHoaDon</strong></div>
+
+            <div class="info-line"><span class="info-label">Ngày lập hóa đơn:</span> @String.Format("{0:dd/MM/yyyy HH:mm:ss}", Model.NgayDat)</div>
+        </div>
+
+        <div class="info-line mt-4 mb-2" style="font-weight: 700; font-size: 16px; color:#003c58;">CHI TIẾT ĐƠN HÀNG</div>
+
+        <table class="invoice-table">
+            <thead>
+                <tr>
+                    <th style="width: 15%;">Mã SP</th>
+                    <th style="width: 35%;">Tên sản phẩm</th>
+                    <th style="width: 10%;">Màu</th>
+                    <th style="width: 10%;">SL</th>
+                    <th style="width: 15%;">Đơn giá</th>
+                    <th style="width: 15%;">Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ChiTietHoaDons)
+                {
+                    <tr>
+                        <td>@item.SanPham.IdSanPham</td>
+                        <td class="text-left">@item.SanPham.TenSanPham</td>
+                        <td>@(item.SanPham.MauSac ?? "Tự nhiên")</td>
+                        <td>@item.SoLuong</td>
+                        <td class="text-right">@item.DonGia.ToString("N0")₫</td>
+                        <td class="text-right">@((item.DonGia * item.SoLuong).ToString("N0"))₫</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="total-price-section">
+            <span class="total-label">TỔNG CỘNG THANH TOÁN:</span>
+            <span class="total-value">@Model.TongTien.ToString("N0")₫</span>
+        </div>
+
+        <div class="footer-text">
+            Cảm ơn quý khách đã tin tưởng và mua sắm tại Nội Thất MOHO!<br>
+            Hẹn gặp lại quý khách.
+        </div>
+
+        <div style="text-align: center;">
+            <a href="/" class="btn-back"><i class="fas fa-arrow-left"></i> Quay lại trang chủ</a>
+        </div>
+    </div>
+</body>
+</html>

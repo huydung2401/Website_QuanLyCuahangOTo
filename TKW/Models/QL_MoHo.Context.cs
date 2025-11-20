@@ -32,9 +32,9 @@ namespace TKW.Models
         public virtual DbSet<HoaDon> HoaDons { get; set; }
         public virtual DbSet<NguoiDung> NguoiDungs { get; set; }
         public virtual DbSet<SanPham> SanPhams { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<SanPhamHinhAnh> SanPhamHinhAnhs { get; set; }
         public virtual DbSet<BienTheSanPham> BienTheSanPhams { get; set; }
+        public virtual DbSet<DanhGia> DanhGias { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
