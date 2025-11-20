@@ -20,12 +20,7 @@ namespace TKW
                 defaults: new { controller = "SanPham", action = "DanhMuc", id = UrlParameter.Optional }  
             );
     
-            //routes.MapRoute(
-            //    name: "GioHang",
-            //    url: "gio-hang",
-            //    defaults: new { controller = "GioHang", action = "Index" }
-            //);
-
+          
             routes.MapRoute(
                name: "Default",
                url: "{controller}/{action}/{id}",

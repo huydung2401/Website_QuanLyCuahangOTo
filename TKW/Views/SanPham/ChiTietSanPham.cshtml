@@ -3,9 +3,9 @@
     ViewBag.Title = Model.SanPham.TenSanPham;
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    // Tính rating
     double ratingVal = Model.DanhSachDanhGia != null && Model.DanhSachDanhGia.Count > 0
                      ? Model.DanhSachDanhGia.Average(x => x.SoSao) : 0;
+    int reviewCount = Model.DanhSachDanhGia?.Count ?? 0;
     var currentUser = Session["UserName"] as string ?? "Khách hàng";
 }
 
@@ -18,7 +18,7 @@
 
 
 <style>
-    /* ===== 1. STYLE CHUNG TỪ CODE MỚI ===== */
+    /* ===== CSS CHUNG ===== */
     :root {
         --moho-primary: #003c58;
         --moho-accent: #e8591c;
@@ -26,7 +26,6 @@
         --moho-bg: #f9f9f9;
     }
 
-    /* Fix ảnh tràn */
     .product-detail * img {
         max-width: 100% !important;
         height: auto !important;
@@ -38,13 +37,46 @@
         object-fit: cover;
     }
 
-    /* Màu sao Vàng/Cam */
-    .product-rating i.bi-star-fill, .review-stars i.bi-star-fill, .star-active, .text-warning i {
-        color: #ff9f00 !important;
+    /* --- 1. SAO MÀU CAM (HIỂN THỊ) --- */
+    .product-rating i.bi-star-fill,
+    .review-stars i.bi-star-fill,
+    .text-warning i {
+        color: #ff9f00 !important; /* Màu cam cho hiển thị */
     }
 
     .star-inactive, .bi-star {
         color: #ccc !important;
+    }
+
+    /* --- 2. SAO MÀU ĐEN (TRONG MODAL ĐÁNH GIÁ) --- */
+    #reviewModal .star-icons i {
+        color: #000 !important; /* Màu đen khi chọn trong modal */
+    }
+
+    /* Breadcrumb */
+    nav[aria-label="breadcrumb"] {
+        background: #f8f9fa;
+        padding: 8px 0;
+        border-top: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 25px;
+    }
+
+    .breadcrumb {
+        margin-bottom: 0;
+        background: none;
+        font-size: 15px;
+    }
+
+    .breadcrumb-item + .breadcrumb-item::before {
+        content: "/";
+        padding: 0 6px;
+        color: #999;
+    }
+
+    .breadcrumb-item a {
+        color: #007bff;
+        text-decoration: none;
     }
 
     /* Layout */
@@ -89,7 +121,6 @@
         padding-left: 20px;
     }
 
-    /* Text & Price */
     .product-title {
         font-size: 28px;
         font-weight: 700;
@@ -137,7 +168,6 @@
         margin-left: 6px;
     }
 
-    /* Options */
     .color-btn {
         width: 34px;
         height: 34px;
@@ -168,7 +198,6 @@
             border-color: #ff6a00 !important;
         }
 
-    /* Quantity & Buttons */
     .quantity-box {
         display: flex;
         align-items: center;
@@ -214,6 +243,7 @@
         border-radius: 6px;
         font-size: 16px;
         font-weight: 600;
+        transition: 0.3s;
     }
 
     .btn-buy {
@@ -225,6 +255,7 @@
         border-radius: 6px;
         font-size: 16px;
         font-weight: 600;
+        transition: 0.3s;
     }
 
     .btn-heart {
@@ -239,7 +270,6 @@
         justify-content: center;
     }
 
-    /* Policies */
     .policy-list {
         list-style: none;
         padding-left: 0;
@@ -252,15 +282,17 @@
             margin-right: 5px;
         }
 
-    /* Cards & Services */
+    /* Card Related */
     .moho-card {
         background: #fff;
         border-radius: 14px;
         overflow: hidden;
         box-shadow: 0 1px 4px rgba(0,0,0,0.08);
         height: 100%;
+
         will-change: transform; /* giúp hover mượt */
         transition: transform 0.25s ease, box-shadow 0.25s ease;
+
     }
 
         .moho-card:hover {
@@ -312,6 +344,13 @@
         font-size: 16px;
     }
 
+    .moho-sold {
+        font-size: 14px;
+        color: #666;
+        text-align: right;
+    }
+
+    /* Services Box */
     .services {
         background: var(--moho-bg);
         padding: 50px 0;
@@ -338,7 +377,11 @@
         font-size: 18px;
     }
 
-    /* ===== 2. STYLE CỦA CODE CŨ (MASONRY & MODAL) ===== */
+    .service-sub {
+        color: #666;
+    }
+
+    /* Tabs */
     .product-tabs {
         margin-top: 60px;
     }
@@ -366,6 +409,7 @@
         border-top: none;
     }
 
+    /* Review Masonry */
     .review-masonry {
         column-count: 4;
         column-gap: 20px;
@@ -405,6 +449,7 @@
     .review-author {
         font-weight: 700;
         font-size: 14px;
+        color: #222;
         margin-bottom: 5px;
     }
 
@@ -461,12 +506,12 @@
         z-index: 10;
     }
 
-    /* Modal Write Review */
     .modal-content.write-modal-content {
         border-radius: 0;
         border: 1px solid #ccc;
     }
 
+    /* FIX CĂN CHỈNH MODAL */
     .star-option-btn {
         display: flex;
         align-items: center;
@@ -475,8 +520,9 @@
         background: #fff;
         border: 1px solid #333;
         color: #333;
-        padding: 10px;
+        padding: 12px 0;
         margin-bottom: 10px;
+        font-size: 14px;
         transition: 0.2s;
     }
 
@@ -487,22 +533,19 @@
     .star-icons {
         width: 120px;
         text-align: right;
-        margin-right: 15px;
+        padding-right: 20px;
+        white-space: nowrap;
+        flex-shrink: 0;
     }
 
     .star-label {
-        flex: 1;
+        width: 120px;
         text-align: left;
         font-weight: normal;
-    }
-
-    .media-btn {
-        border: 1px solid #ddd;
-        background: #fff;
-        color: #333;
-        padding: 8px 20px;
-        cursor: pointer;
-        min-width: 150px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex-shrink: 0;
     }
 
     .nav-btn-modal {
@@ -512,6 +555,15 @@
         padding: 5px 15px;
         font-size: 12px;
         cursor: pointer;
+    }
+
+    .media-btn {
+        border: 1px solid #ddd;
+        background: #fff;
+        color: #333;
+        padding: 8px 20px;
+        cursor: pointer;
+        min-width: 150px;
     }
 
     /* Responsive */
@@ -602,14 +654,25 @@
                     @if (Model.SanPham.GiaKhuyenMai.HasValue && Model.SanPham.GiaKhuyenMai < Model.SanPham.Gia)
                     {
                         <div class="price-inner">
-                            <span class="discount-tag">-@(((Model.SanPham.Gia - Model.SanPham.GiaKhuyenMai.Value) / Model.SanPham.Gia * 100).ToString("0"))%</span>
-                            <span class="price-current">@Model.SanPham.GiaKhuyenMai.Value.ToString("N0") đ</span>
-                            <span class="price-old">@Model.SanPham.Gia.ToString("N0") đ</span>
+                            <span class="discount-tag">
+                                -@(((Model.SanPham.Gia - Model.SanPham.GiaKhuyenMai.Value)
+                            / Model.SanPham.Gia * 100).ToString("0"))%
+                            </span>
+
+                            <span class="price-current">
+                                @Model.SanPham.GiaKhuyenMai.Value.ToString("N0") đ
+                            </span>
+
+                            <span class="price-old">
+                                @Model.SanPham.Gia.ToString("N0") đ
+                            </span>
                         </div>
                     }
                     else
                     {
-                        <span class="price-current">@Model.SanPham.Gia.ToString("N0") đ</span>
+                        <span class="price-current">
+                            @Model.SanPham.Gia.ToString("N0") đ
+                        </span>
                     }
                 </div>
 
@@ -621,12 +684,17 @@
                     </div>
                 </div>
 
+
+
                 @if (Model.DanhMuc.IdDanhMuc == "DM05")
                 {
                     @Html.Partial("_BienTheGiuong", Model)
                 }
+
                 @if (Model.DanhMuc.IdDanhMuc == "DM04")
-                {@Html.Partial("_BienTheBep", Model)}
+                {
+                    @Html.Partial("_BienTheBep", Model)
+                }
 
                 <div class="quantity-box">
                     <label class="fw-bold">Số lượng:</label>
@@ -639,19 +707,11 @@
                 </div>
 
                 <div class="btn-row">
-                    @*<form action="/GioHang/ThemGioHang" method="get" style="flex:1">
-                <input type="hidden" name="id" value="@Model.SanPham.IdSanPham" />
-                <input type="hidden" name="soLuong" id="qtyCart" value="1" />
-                <button type="submit" class="btn-add w-100" onclick="document.getElementById('qtyCart').value = document.getElementById('quantity').value">
-                    THÊM VÀO GIỎ
-                </button>
-            </form>*@
 
                     <button type="button" class="btn-add w-100"
                             onclick="ThemGio('@Model.SanPham.IdSanPham')">
                         THÊM VÀO GIỎ
                     </button>
-
 
                     <button class="btn-buy" onclick="buyNow()">MUA NGAY</button>
                     <button class="btn-heart"><i class="bi bi-heart"></i></button>
@@ -713,7 +773,7 @@
                                                 if (i <= dg.SoSao)
                                                 {<i class="bi bi-star-fill"></i> }
                                                 else
-                                                { <i class="bi bi-star" style="color:#ddd"></i>}
+                                                { <i class="bi bi-star" style="color:#ddd;"></i>}
                                             }
                                         </div>
                                         <p class="review-content">@dg.NoiDung</p>
@@ -742,15 +802,23 @@
                 {
                     <div class="col-6 col-md-4 col-lg-3 mb-4">
                         <div class="moho-card h-100">
+
                             @if (sp.GiaKhuyenMai.HasValue && sp.GiaKhuyenMai < sp.Gia)
                             {
-                                <span class="moho-badge">-@Math.Round(100 - (sp.GiaKhuyenMai.Value / sp.Gia * 100))%</span>
+                                <span class="moho-badge">
+                                    -@Math.Round(100 - (sp.GiaKhuyenMai.Value / sp.Gia * 100))%
+                                </span>
                             }
+
                             <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })">
-                                <img src="@Url.Content("~/Content/images/" + sp.HinhAnh)" class="moho-img" onerror="this.src='/Images/' + '@sp.HinhAnh'; this.onerror=null; this.src='https://placehold.co/300x300?text=No+Image';" />
+                                <img src="@Url.Content("~/Content/images/" + sp.HinhAnh)"
+                                     class="moho-img"
+                                     onerror="this.src='/Images/' + '@sp.HinhAnh'; this.onerror=null; this.src='https://placehold.co/300x300?text=No+Image';" />
                             </a>
+
                             <div class="moho-body">
                                 <h5 class="moho-title">@sp.TenSanPham</h5>
+
                                 <div class="moho-price">
                                     @if (sp.GiaKhuyenMai.HasValue)
                                     {
@@ -762,85 +830,153 @@
                                         <span class="price-sale">@sp.Gia.ToString("N0") đ</span>
                                     }
                                 </div>
+
                                 <div class="rating mb-2">
                                     @for (int i = 1; i <= 5; i++)
                                     {
                                         if (i <= (sp.DanhGia ?? 0))
-                                        {<i class="bi bi-star-fill text-warning"></i> }
+                                        {
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                        }
                                         else
-                                        { <i class="bi bi-star text-secondary"></i>}
+                                        {
+                                            <i class="bi bi-star text-secondary"></i>
+                                        }
                                     }
                                 </div>
+
                             </div>
                         </div>
                     </div>
                 }
             </div>
         </div>
+    </div>
 
-        <div class="services pt-4 mt-5">
-            <div class="container">
-                <div class="row text-center g-4">
-                    <div class="col-md-3"><div class="service-box"><div class="service-icon"><i class="bi bi-truck"></i></div><div class="service-title">Giao Hàng & Lắp Đặt</div><div class="service-sub">Miễn Phí</div></div></div>
-                    <div class="col-md-3"><div class="service-box"><div class="service-icon"><i class="bi bi-arrow-repeat"></i></div><div class="service-title">Đổi Trả 1 - 1</div><div class="service-sub">Miễn Phí</div></div></div>
-                    <div class="col-md-3"><div class="service-box"><div class="service-icon"><i class="bi bi-shield-check"></i></div><div class="service-title">Bảo Hành Đến 5 Năm</div><div class="service-sub">Miễn Phí</div></div></div>
-                    <div class="col-md-3"><div class="service-box"><div class="service-icon"><i class="bi bi-telephone"></i></div><div class="service-title">Tư Vấn Thiết Kế</div><div class="service-sub">Miễn Phí</div></div></div>
-                </div>
+
+  
+
+
+    <div class="services pt-4 mt-5">
+        <div class="container">
+            <div class="row text-center g-4">
+                <div class="col-md-3"><div class="service-box"><div class="service-icon"><i class="bi bi-truck"></i></div><div class="service-title">Giao Hàng & Lắp Đặt</div><div class="service-sub">Miễn Phí</div></div></div>
+                <div class="col-md-3"><div class="service-box"><div class="service-icon"><i class="bi bi-arrow-repeat"></i></div><div class="service-title">Đổi Trả 1 - 1</div><div class="service-sub">Miễn Phí</div></div></div>
+                <div class="col-md-3"><div class="service-box"><div class="service-icon"><i class="bi bi-shield-check"></i></div><div class="service-title">Bảo Hành Đến 5 Năm</div><div class="service-sub">Miễn Phí</div></div></div>
+                <div class="col-md-3"><div class="service-box"><div class="service-icon"><i class="bi bi-telephone"></i></div><div class="service-title">Tư Vấn Thiết Kế</div><div class="service-sub">Miễn Phí</div></div></div>
             </div>
         </div>
     </div>
 
+
+    @@{
+        var currentUser = Session["UserName"] as string ?? "Khách hàng";
+    }
+
+    <!-- MODAL VIẾT ĐÁNH GIÁ -->
     <div class="modal fade" id="reviewModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content write-modal-content" style="width: 500px; max-width: 100%;">
+
                 <div class="modal-header border-0 p-2">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
+
                 <div class="modal-body text-center pt-0 pb-4 px-4">
+
+                    <!-- STEP 1 -->
                     <div id="step1-rating">
                         <h5 class="mb-4">Bạn cho bao nhiêu sao?</h5>
-                        <button class="star-option-btn" onclick="selectStar(5)"><span class="star-icons"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></span><span class="star-label">- Rất thích</span></button>
-                        <button class="star-option-btn" onclick="selectStar(4)"><span class="star-icons"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></span><span class="star-label">- Thích</span></button>
-                        <button class="star-option-btn" onclick="selectStar(3)"><span class="star-icons"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></span><span class="star-label">- Ok</span></button>
-                        <button class="star-option-btn" onclick="selectStar(2)"><span class="star-icons"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></span><span class="star-label">- Không hài lòng</span></button>
-                        <button class="star-option-btn" onclick="selectStar(1)"><span class="star-icons"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></span><span class="star-label">- Thất vọng</span></button>
+
+                        <button class="star-option-btn" onclick="selectStar(5)">
+                            <span class="star-icons">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                            </span> - Rất thích
+                        </button>
+
+                        <button class="star-option-btn" onclick="selectStar(4)">
+                            <span class="star-icons">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i>
+                            </span> - Thích
+                        </button>
+
+                        <button class="star-option-btn" onclick="selectStar(3)">
+                            <span class="star-icons">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i>
+                            </span> - Bình thường
+                        </button>
+
+                        <button class="star-option-btn" onclick="selectStar(2)">
+                            <span class="star-icons">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i>
+                            </span> - Không hài lòng
+                        </button>
+
+                        <button class="star-option-btn" onclick="selectStar(1)">
+                            <span class="star-icons">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star"></i>
+                                <i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i>
+                            </span> - Thất vọng
+                        </button>
                     </div>
-                    <div id="step2-media" style="display:none; height:300px; flex-direction:column; justify-content:center;">
-                        <h5 class="mb-4">Chia sẻ ảnh / video</h5>
-                        <div class="mb-3"><button class="media-btn" onclick="$('#reviewFile').click()">Thêm ảnh</button></div>
-                        <div class="mb-3">Hoặc</div>
-                        <div class="mb-4"><button class="media-btn">Thêm video</button></div>
+
+                    <!-- STEP 2 -->
+                    <div id="step2-media" style="display:none; flex-direction:column; height:300px;">
+                        <h5 class="mb-4">Chia sẻ ảnh</h5>
+
+                        <button class="media-btn mb-3" onclick="document.getElementById('reviewFile').click()">Thêm ảnh</button>
+
                         <input type="file" id="reviewFile" accept="image/*" style="display:none;" onchange="handleFileUpload(this)">
-                        <div id="previewContainer" class="d-none mb-3"><img id="imgPreview" style="max-height: 80px; border: 1px solid #ddd;"></div>
+
+                        <div id="previewContainer" class="d-none mb-3">
+                            <img id="imgPreview" style="max-height:80px; border:1px solid #ccc;">
+                        </div>
+
                         <div class="d-flex justify-content-between w-100 mt-auto">
                             <button class="nav-btn-modal" onclick="goToStep(1)">Quay lại</button>
                             <button class="nav-btn-modal" onclick="goToStep(3)">Bỏ qua</button>
                         </div>
                     </div>
-                    <div id="step3-comment" style="display:none; height:300px;">
+
+                    <!-- STEP 3 -->
+                    <div id="step3-comment" style="display:none; flex-direction:column; height:300px;">
                         <h5 class="mb-3">Đánh giá của bạn</h5>
-                        <div class="form-group text-left mb-3"><textarea id="reviewContent" class="form-control" rows="5" placeholder="Viết đánh giá chi tiết..."></textarea></div>
+
+                        <textarea id="reviewContent" class="form-control mb-3" rows="5" placeholder="Nội dung đánh giá..."></textarea>
+
                         <div class="d-flex justify-content-between w-100 mt-auto">
                             <button class="nav-btn-modal" onclick="goToStep(2)">Quay lại</button>
-                            <button class="nav-btn-modal" style="background:#333; color:#fff;" onclick="submitReviewReal()">Gửi đánh giá</button>
+                            <button class="nav-btn-modal" style="background:#333; color:white;" onclick="submitReviewReal()">Gửi</button>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
 
+
+    <!-- ✔ MODAL XEM CHI TIẾT -->
     <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="detail-container">
-                    <div class="detail-image-area"><img id="d-img" src="" alt="Review"></div>
-                    <div class="detail-info-area">
-                        <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
-                        <h5 id="d-name" class="fw-bold"></h5>
+
+                    <div class="detail-image-area">
+                        <img id="d-img" src="" />
+                    </div>
+
+                    <div class="detail-info-area position-relative p-4">
+                        <button class="btn-close position-absolute top-0 end-0 m-2" data-bs-dismiss="modal"></button>
+                        <h5 id="d-name"></h5>
                         <div id="d-stars" class="mb-3"></div>
                         <p id="d-content"></p>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -850,7 +986,6 @@
     <input type="hidden" id="currentProductId" value="@Model.SanPham.IdSanPham">
     <input type="hidden" id="currentUserName" value="@currentUser">
 
-    <script src="~/Scripts/cart.js"></script>
 </body>
 
 <script>
@@ -890,11 +1025,12 @@
     }
     function showDetailReview(name, s, c, img) {
         $('#d-name').text(name); $('#d-content').text(c);
-        var h = ''; for (var i = 1; i <= 5; i++) h += (i <= s) ? '<i class="bi bi-star-fill text-warning"></i> ' : '<i class="bi bi-star text-secondary"></i> ';
+        var h = ''; for (var i = 1; i <= 5; i++) h += (i <= s) ? '<i class="bi bi-star-fill text-warning"></i> ' : '<i class="bi bi-star star-inactive"></i> ';
         $('#d-stars').html(h);
         $('#d-img').attr('src', img ? '/Images/Reviews/' + img : 'https://placehold.co/600x400');
         new bootstrap.Modal(document.getElementById('detailModal')).show();
     }
+
     function ThemGio(id) {
         $.post("/GioHang/ThemGioHang", { id: id }, function (data) {
             if (data.success) {
@@ -903,4 +1039,20 @@
         });
     }
 
+
+    // Xử lý khi trang được tải với anchor #danhGia
+    $(document).ready(function () {
+        // Kiểm tra nếu URL có hash là #danhGia
+        if (window.location.hash === '#danhGia') {
+            // Kích hoạt tab đánh giá
+            $('.nav-tabs a[href="#danhGia"]').tab('show');
+
+            // Cuộn đến phần tử có id danhGia sau một chút thời gian để tab được kích hoạt
+            setTimeout(function () {
+                $('html, body').animate({
+                    scrollTop: $('#danhGia').offset().top - 100
+                }, 500);
+            }, 100);
+        }
+    });
 </script>

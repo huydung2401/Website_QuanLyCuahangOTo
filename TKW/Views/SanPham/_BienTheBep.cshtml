@@ -22,84 +22,126 @@
         }
 </style>
 
+@if (Model.BienThes != null && Model.BienThes.Any())
+{
+    var firstItem = Model.BienThes.First();
 
-<div class="variant-block">
+    <div class="variant-block">
 
-    @{
-        bool hasBienThe = Model.BienThes != null && Model.BienThes.Any();
-        var first = hasBienThe ? Model.BienThes.First() : null;
-    }
-
-    <!-- GIÁ HIỆN TẠI -->
-    @if (hasBienThe)
-    {
+        <!-- GIÁ HIỆN TẠI -->
         <div class="d-flex align-items-center gap-3 mb-3">
-            <span id="discount-box" class="discount-box">
-                -@first.GiamGia%
-            </span>
 
-            <span id="gia-ban" class="gia-ban">
-                @first.Gia.Value.ToString("N0") đ
-            </span>
-
-            <del id="gia-cu" class="gia-cu">
-                @first.GiaCu.Value.ToString("N0") đ
-            </del>
-        </div>
-    }
-    else
-    {
-        <!-- Nếu không có biến thể → hiện giá gốc của sản phẩm -->
-        <div class="d-flex align-items-center gap-3 mb-3">
-            <span class="gia-ban" style="font-size: 32px; color:#e85c1c; font-weight:700;">
-                @Model.SanPham.Gia.ToString("N0") đ
-            </span>
-        </div>
-    }
-
-
-    <!-- NÚT CHỌN BIẾN THỂ -->
-    <div class="size-options mb-4">
-        <div class="fw-bold mb-2">Kích thước</div>
-
-        <div class="d-flex flex-wrap gap-2">
-            @foreach (var item in Model.BienThes)
+            @if (firstItem.GiaCu.HasValue && firstItem.GiaCu > firstItem.Gia)
             {
-                <button class="size-btn"
-                        data-gia="@item.Gia"
-                        data-giacu="@item.GiaCu"
-                        data-giamgia="@item.GiamGia">
-                    @item.TenBienThe
-                </button>
+                <span id="discount-box"
+                      class="discount-tag bg-danger text-white px-2 rounded"
+                      style="font-size:14px;">
+                    -@firstItem.GiamGia%
+                </span>
             }
+
+            <span id="gia-ban" class="price-current fw-bold text-danger" style="font-size:24px;">
+                @(firstItem.Gia?.ToString("N0") ?? "0") đ
+            </span>
+
+            @if (firstItem.GiaCu.HasValue && firstItem.GiaCu > 0)
+            {
+                <del id="gia-cu" class="price-old text-muted ms-2">
+                    @firstItem.GiaCu.Value.ToString("N0") đ
+                </del>
+            }
+        </div>
+
+        <!-- NÚT CHỌN BIẾN THỂ -->
+        <div class="size-options mb-4">
+            <div class="fw-bold mb-2">Kích thước / Loại:</div>
+
+            <div class="d-flex flex-wrap gap-2">
+                @foreach (var item in Model.BienThes)
+                {
+                    <button class="size-btn @(item == firstItem ? "active" : "")"
+                            data-gia="@item.Gia"
+                            data-giacu="@item.GiaCu"
+                            data-giamgia="@item.GiamGia">
+                        @item.TenBienThe
+                    </button>
+                }
+            </div>
         </div>
     </div>
 
-</div>
+    <!-- SCRIPT CẬP NHẬT GIÁ -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const btns = document.querySelectorAll(".size-btn");
 
-<script>
-    document.querySelectorAll(".size-btn").forEach(btn => {
+            btns.forEach(btn => {
+                btn.addEventListener("click", function () {
 
-        btn.addEventListener("click", function () {
+                    btns.forEach(x => x.classList.remove("active"));
+                    this.classList.add("active");
 
-            document.querySelectorAll(".size-btn")
-                .forEach(x => x.classList.remove("active"));
+                    let gia = Number(this.dataset.gia);
+                    let giacu = Number(this.dataset.giacu);
+                    let giamgia = Number(this.dataset.giamgia);
 
-            this.classList.add("active");
+                    const giaBan = document.getElementById("gia-ban");
+                    const giaCu = document.getElementById("gia-cu");
+                    const discountBox = document.getElementById("discount-box");
 
-            let gia = this.dataset.gia;
-            let giacu = this.dataset.giacu;
-            let giamgia = this.dataset.giamgia;
+                    if (giaBan) {
+                        giaBan.innerText = gia.toLocaleString("vi-VN") + " đ";
+                    }
 
-            document.getElementById("gia-ban").innerText =
-                Number(gia).toLocaleString("vi-VN") + " đ";
+                    if (giaCu) {
+                        if (giacu > 0 && giacu > gia) {
+                            giaCu.innerText = giacu.toLocaleString("vi-VN") + " đ";
+                            giaCu.style.display = "inline";
+                        } else {
+                            giaCu.style.display = "none";
+                        }
+                    }
 
-            document.getElementById("gia-cu").innerText =
-                Number(giacu).toLocaleString("vi-VN") + " đ";
-
-            document.getElementById("discount-box").innerText =
-                `-${giamgia}%`;
+                    if (discountBox) {
+                        if (giamgia > 0) {
+                            discountBox.innerText = `-${giamgia}%`;
+                            discountBox.style.display = "inline-block";
+                        } else {
+                            discountBox.style.display = "none";
+                        }
+                    }
+                });
+            });
         });
-    });
-</script>
+    </script>
+}
+else
+{
+    <!-- SẢN PHẨM KHÔNG CÓ BIẾN THỂ -->
+    <div class="price-box text-start">
+        @if (Model.SanPham.GiaKhuyenMai.HasValue &&
+             Model.SanPham.GiaKhuyenMai < Model.SanPham.Gia)
+        {
+            <div class="price-inner">
+                <span class="discount-tag bg-danger text-white px-2 rounded">
+                    -@(((Model.SanPham.Gia - Model.SanPham.GiaKhuyenMai.Value)
+                        / Model.SanPham.Gia * 100).ToString("0"))%
+                </span>
 
+                <span class="price-current fw-bold text-danger ms-2" style="font-size:24px;">
+                    @Model.SanPham.GiaKhuyenMai.Value.ToString("N0") đ
+                </span>
+
+                <span class="price-old text-muted ms-2" style="text-decoration:line-through">
+                    @Model.SanPham.Gia.ToString("N0") đ
+                </span>
+            </div>
+        }
+        else
+        {
+            <span class="price-current fw-bold text-danger" style="font-size:24px;">
+                @Model.SanPham.Gia.ToString("N0") đ
+            </span>
+        }
+    </div>
+}
