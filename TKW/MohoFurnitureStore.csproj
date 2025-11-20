@@ -152,6 +152,7 @@
     <Compile Include="Models\DanhSachHoaDon.cs" />
     <Compile Include="Models\DanhSachNguoiDung.cs" />
     <Compile Include="Models\DanhSachSanPham.cs" />
+    <Compile Include="Models\GioHang.cs" />
     <Compile Include="Models\HoaDon.cs">
       <DependentUpon>QL_MoHo.tt</DependentUpon>
     </Compile>
@@ -185,6 +186,9 @@
     <Compile Include="Models\sp_helpdiagrams_Result.cs">
       <DependentUpon>QL_MoHo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>QL_MoHo.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ThanhToanViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -205,6 +209,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\css\cart.css" />
     <Content Include="Content\css\custom.css" />
     <Content Include="Content\css\site.css" />
     <Content Include="Content\images\001.jpg" />
@@ -330,6 +335,7 @@
     <Content Include="Content\images\anh2.png" />
     <Content Include="Content\images\anh3.png" />
     <Content Include="Content\images\anh4.jpg" />
+    <Content Include="Content\images\AnhVeChungToi.png" />
     <Content Include="Content\images\banner1.jpg" />
     <Content Include="Content\images\banner2.jpg" />
     <Content Include="Content\images\banner3.jpg" />
@@ -378,6 +384,7 @@
     </Content>
     <Content Include="Content\images\007_5.jpg" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
+    <Content Include="Scripts\cart.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
     <Content Include="Scripts\jquery-3.7.0.slim.js" />
@@ -409,11 +416,12 @@
     <Content Include="Views\Home\CuaHang.cshtml" />
     <Content Include="Views\DonHang\ThanhToan.cshtml" />
     <Content Include="Views\DonHang\DatHangThanhCong.cshtml" />
+    <Content Include="Views\GioHang\_PopupGioHang.cshtml" />
+    <Content Include="Views\SanPham\_BienTheGiuong.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\fonts\" />
-    <Folder Include="Views\GioHang\" />
     <Folder Include="Views\QuanTri\" />
   </ItemGroup>
   <ItemGroup>

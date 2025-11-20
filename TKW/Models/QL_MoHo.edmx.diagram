@@ -5,21 +5,21 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="5c95cbc0b56e4fb5840a009d9ceebd03" Name="Diagram1">
-        <EntityTypeShape EntityType="QLMohoDBModel.ChiTietHoaDon" Width="1.5" PointX="5.25" PointY="2" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLMohoDBModel.DanhMuc" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLMohoDBModel.HoaDon" Width="1.5" PointX="3" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLMohoDBModel.NguoiDung" Width="1.5" PointX="0.5" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QLMohoDBModel.ChiTietHoaDon" Width="1.5" PointX="5.125" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="QLMohoDBModel.DanhMuc" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="QLMohoDBModel.HoaDon" Width="1.5" PointX="9.375" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="QLMohoDBModel.NguoiDung" Width="1.5" PointX="0.75" PointY="3.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QLMohoDBModel.SanPham" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="QLMohoDBModel.sysdiagram" Width="1.5" PointX="5.625" PointY="5.375" IsExpanded="true" />
         <AssociationConnector Association="QLMohoDBModel.FK_CT_HoaDon" ManuallyRouted="false" />
         <AssociationConnector Association="QLMohoDBModel.FK_CT_SanPham" ManuallyRouted="false" />
         <AssociationConnector Association="QLMohoDBModel.FK_SanPham_DanhMuc" ManuallyRouted="false" />
         <AssociationConnector Association="QLMohoDBModel.FK_HoaDon_NguoiDung" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="QLMohoDBModel.SanPhamHinhAnh" Width="1.5" PointX="8.5" PointY="1.25" />
+        <EntityTypeShape EntityType="QLMohoDBModel.SanPhamHinhAnh" Width="1.5" PointX="9.375" PointY="1" />
         <AssociationConnector Association="QLMohoDBModel.FK_HinhAnh_SanPham" />
-        <EntityTypeShape EntityType="QLMohoDBModel.BienTheSanPham" Width="2.5" PointX="8.375" PointY="4.375" />
+        <EntityTypeShape EntityType="QLMohoDBModel.BienTheSanPham" Width="1.75" PointX="5" PointY="3.5" />
         <AssociationConnector Association="QLMohoDBModel.FK__BienTheSa__IdSan__3A4CA8FD" />
-        <EntityTypeShape EntityType="QLMohoDBModel.DanhGia" Width="1.5" PointX="5.5" PointY="6.875" />
+        <EntityTypeShape EntityType="QLMohoDBModel.DanhGia" Width="1.5" PointX="7.125" PointY="1" />
         <AssociationConnector Association="QLMohoDBModel.FK_DanhGia_SanPham" />
         <AssociationConnector Association="QLMohoDBModel.FK_DanhGia_NguoiDung" />
       </Diagram>

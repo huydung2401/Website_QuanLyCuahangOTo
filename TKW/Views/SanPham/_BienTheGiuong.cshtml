@@ -22,15 +22,13 @@
         }
 </style>
 
-
 <div class="variant-block">
-
     @{
         bool hasBienThe = Model.BienThes != null && Model.BienThes.Any();
         var first = hasBienThe ? Model.BienThes.First() : null;
     }
 
-    <!-- GIÁ HIỆN TẠI -->
+    <!-- GIÁ BAN ĐẦU -->
     @if (hasBienThe)
     {
         <div class="d-flex align-items-center gap-3 mb-3">
@@ -49,7 +47,6 @@
     }
     else
     {
-        <!-- Nếu không có biến thể → hiện giá gốc của sản phẩm -->
         <div class="d-flex align-items-center gap-3 mb-3">
             <span class="gia-ban" style="font-size: 32px; color:#e85c1c; font-weight:700;">
                 @Model.SanPham.Gia.ToString("N0") đ
@@ -57,8 +54,7 @@
         </div>
     }
 
-
-    <!-- NÚT CHỌN BIẾN THỂ -->
+    <!-- BIẾN THỂ GIƯỜNG -->
     <div class="size-options mb-4">
         <div class="fw-bold mb-2">Kích thước</div>
 
@@ -74,12 +70,10 @@
             }
         </div>
     </div>
-
 </div>
 
 <script>
     document.querySelectorAll(".size-btn").forEach(btn => {
-
         btn.addEventListener("click", function () {
 
             document.querySelectorAll(".size-btn")

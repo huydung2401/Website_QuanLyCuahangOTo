@@ -15,347 +15,354 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 
-
-
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="~/Content/css/cart.css" />
+    
+
+
     <style>
-    /* ===== BODY & NAVBAR CHÍNH ===== */
-    body, .navbar {
-        font-family: 'Roboto', sans-serif;
-        font-size: 15px; /* chuẩn Moho */
-        font-weight: 400;
-        line-height: 1.5;
-        color: #222;
-        background-color: #fff;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
+        /* ===== BODY & NAVBAR CHÍNH ===== */
+        body, .navbar {
+            font-family: 'Roboto', sans-serif;
+            font-size: 15px; /* chuẩn Moho */
+            font-weight: 400;
+            line-height: 1.5;
+            color: #222;
+            background-color: #fff;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
-    /* Navbar links */
-    .navbar .nav-link {
-        color: #222 !important;
-        font-weight: 400;
-        font-size: 15px;
-        padding: 12px 18px;
-        transition: color 0.3s ease;
-    }
+            /* Navbar links */
+            .navbar .nav-link {
+                color: #222 !important;
+                font-weight: 400;
+                font-size: 15px;
+                padding: 12px 18px;
+                transition: color 0.3s ease;
+            }
 
-    .navbar .nav-link:hover,
-    .navbar .nav-item.dropdown:hover > .nav-link {
-        color: #000 !important;
-        text-decoration: none;
-    }
+                .navbar .nav-link:hover,
+                .navbar .nav-item.dropdown:hover > .nav-link {
+                    color: #000 !important;
+                    text-decoration: none;
+                }
 
-    /* Dropdown menu */
-    .navbar .dropdown-menu {
-        border: none;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        padding: 0;
-        margin-top: 0;
-        border-radius: 6px;
-    }
+            /* Dropdown menu */
+            .navbar .dropdown-menu {
+                border: none;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                padding: 0;
+                margin-top: 0;
+                border-radius: 6px;
+            }
 
-    .navbar .dropdown-menu .dropdown-item {
-        color: #333;
-        font-size: 15px;
-        font-weight: 400;
-        padding: 10px 16px;
-        transition: all 0.2s ease;
-    }
+                .navbar .dropdown-menu .dropdown-item {
+                    color: #333;
+                    font-size: 15px;
+                    font-weight: 400;
+                    padding: 10px 16px;
+                    transition: all 0.2s ease;
+                }
 
-    .navbar .dropdown-menu .dropdown-item:hover {
-        color: #000;
-        background-color: #f5f5f5;
-    }
+                    .navbar .dropdown-menu .dropdown-item:hover {
+                        color: #000;
+                        background-color: #f5f5f5;
+                    }
 
-    /* ===== HEADER PHẦN TRÊN ===== */
-    header {
-        background-color: #fff;
-        border-bottom: 1px solid #eee;
-    }
+        /* ===== HEADER PHẦN TRÊN ===== */
+        header {
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+        }
 
-    .navbar-brand img {
-        height: 42px;
-    }
+        .navbar-brand img {
+            height: 42px;
+        }
 
-    /* Thanh tìm kiếm */
-    .search-input {
-        max-width: 330px;
-        height: 38px;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        background-color: #fafafa;
-        padding: 0 10px;
-        font-size: 14px;
-        outline: none;
-    }
+        /* Thanh tìm kiếm */
+        .search-input {
+            max-width: 330px;
+            height: 38px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: #fafafa;
+            padding: 0 10px;
+            font-size: 14px;
+            outline: none;
+        }
 
-    .search-input:focus {
-        border-color: #999;
-    }
+            .search-input:focus {
+                border-color: #999;
+            }
 
-    /* Nút 3D House */
-    .btn-warning.btn-sm {
-        background-color: #f7a800;
-        border: none;
-        font-weight: 500;
-        color: #fff;
-        border-radius: 6px;
-        padding: 5px 10px;
-        transition: 0.2s;
-    }
+        /* Nút 3D House */
+        .btn-warning.btn-sm {
+            background-color: #f7a800;
+            border: none;
+            font-weight: 500;
+            color: #fff;
+            border-radius: 6px;
+            padding: 5px 10px;
+            transition: 0.2s;
+        }
 
-    .btn-warning.btn-sm:hover {
-        background-color: #e99500;
-    }
+            .btn-warning.btn-sm:hover {
+                background-color: #e99500;
+            }
 
-    /* Icon người dùng */
-    .nav-item.dropdown i.fa-user {
-        color: #222;
-        font-size: 20px;
-        margin-right: 6px;
-    }
+        /* Icon người dùng */
+        .nav-item.dropdown i.fa-user {
+            color: #222;
+            font-size: 20px;
+            margin-right: 6px;
+        }
 
-    /* Text tài khoản */
-    .small-login {
-        font-size: 0.9rem;
-        color: #111;
-        line-height: 1.1;
-        margin-bottom: 2px;
-        font-weight: 400;
-    }
+        /* Text tài khoản */
+        .small-login {
+            font-size: 0.9rem;
+            color: #111;
+            line-height: 1.1;
+            margin-bottom: 2px;
+            font-weight: 400;
+        }
 
-    .small-account {
-        font-size: 0.88rem;
-        color: #666;
-        line-height: 1.1;
-    }
+        .small-account {
+            font-size: 0.88rem;
+            color: #666;
+            line-height: 1.1;
+        }
 
-    .small-login:hover,
-    .small-account:hover {
-        color: #000;
-        text-decoration: underline;
-    }
+            .small-login:hover,
+            .small-account:hover {
+                color: #000;
+                text-decoration: underline;
+            }
 
-    /* Giỏ hàng */
-    .btn-cart, .nav-link.position-relative {
-        position: relative;
-        display: flex;
-        align-items: center;
-        font-size: 14px;
-        color: #111;
-    }
+        /* Giỏ hàng */
+        .btn-cart, .nav-link.position-relative {
+            position: relative;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #111;
+        }
 
-    .btn-cart i,
-    .nav-link.position-relative i {
-        font-size: 20px;
-        margin-right: 6px;
-        color: #111;
-    }
+            .btn-cart i,
+            .nav-link.position-relative i {
+                font-size: 20px;
+                margin-right: 6px;
+                color: #111;
+            }
 
-    .badge-danger {
-        background-color: #e8591c;
-        color: #fff;
-        font-size: 11px;
-        padding: 3px 6px;
-        border-radius: 50%;
-        position: absolute;
-        top: -5px;
-        right: -10px;
-    }
+        .badge-danger {
+            background-color: #e8591c;
+            color: #fff;
+            font-size: 11px;
+            padding: 3px 6px;
+            border-radius: 50%;
+            position: absolute;
+            top: -5px;
+            right: -10px;
+        }
 
-    /* ===== MENU DƯỚI ===== */
-    .navbar-nav .nav-item {
-        margin-right: 1rem;
-    }
+        /* ===== MENU DƯỚI ===== */
+        .navbar-nav .nav-item {
+            margin-right: 1rem;
+        }
 
-    .arrow-icon {
-        display: inline-block;
-        margin-left: 4px;
-        font-size: 11px;
-        transition: transform 0.3s ease;
-    }
+        .arrow-icon {
+            display: inline-block;
+            margin-left: 4px;
+            font-size: 11px;
+            transition: transform 0.3s ease;
+        }
 
-    .nav-item.dropdown:hover .arrow-icon {
-        transform: rotate(180deg);
-    }
+        .nav-item.dropdown:hover .arrow-icon {
+            transform: rotate(180deg);
+        }
 
-    /* Dropdown alignment */
-    .nav-item.dropdown {
-        position: relative;
-    }
+        /* Dropdown alignment */
+        .nav-item.dropdown {
+            position: relative;
+        }
 
-    .nav-item.dropdown .dropdown-menu {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        background-color: #fff;
-        z-index: 1000;
-        min-width: 200px;
-    }
+            .nav-item.dropdown .dropdown-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                background-color: #fff;
+                z-index: 1000;
+                min-width: 200px;
+            }
 
-    .nav-item.dropdown:hover .dropdown-menu {
-        display: block !important;
-    }
+            .nav-item.dropdown:hover .dropdown-menu {
+                display: block !important;
+            }
 
-    /* Carousel mượt */
-    .carousel-item {
-        transition: transform 1s ease, opacity 1s ease !important;
-    }
+        /* Carousel mượt */
+        .carousel-item {
+            transition: transform 1s ease, opacity 1s ease !important;
+        }
 
-    .carousel-item img {
-        width: 100%;
-        height: auto;
-        object-fit: cover;
-    }
+            .carousel-item img {
+                width: 100%;
+                height: auto;
+                object-fit: cover;
+            }
 
-    /* ===== FOOTER ===== */
-    footer {
-        background-color: #343a40;
-        color: #fff;
-        padding: 30px 0;
-    }
+        /* ===== FOOTER ===== */
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 30px 0;
+        }
 
-    footer a, footer ul li {
-        transition: color 0.3s ease;
-        cursor: pointer;
-    }
+            footer a, footer ul li {
+                transition: color 0.3s ease;
+                cursor: pointer;
+            }
 
-    footer a:hover, footer ul li:hover {
-        color: #3dd1c3;
-        transform: translateY(-2px);
-        text-shadow: 0 2px 5px rgba(0,0,0,0.4);
-    }
+                footer a:hover, footer ul li:hover {
+                    color: #3dd1c3;
+                    transform: translateY(-2px);
+                    text-shadow: 0 2px 5px rgba(0,0,0,0.4);
+                }
 
-    /* ===== LOGIN POPUP ===== */
-    .login-popup {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.45);
-        display: none;
-        justify-content: flex-end;
-        align-items: flex-start;
-        padding-right: 150px;
-        padding-top: 95px;
-        z-index: 9999;
-        animation: fadein 0.2s ease;
-        pointer-events: none;
-    }
+        /* ===== LOGIN POPUP ===== */
+        .login-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.45);
+            display: none;
+            justify-content: flex-end;
+            align-items: flex-start;
+            padding-right: 150px;
+            padding-top: 95px;
+            z-index: 9999;
+            animation: fadein 0.2s ease;
+            pointer-events: none;
+        }
 
-    .login-popup.active {
-        display: flex !important;
-        pointer-events: auto;
-    }
+            .login-popup.active {
+                display: flex !important;
+                pointer-events: auto;
+            }
 
-    @@keyframes fadein {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
+        @@keyframes fadein {
+            from {
+                opacity: 0;
+            }
 
-    /* Khung đăng nhập */
-    .login-box {
-        width: 400px;
-        padding: 30px 32px;
-        background: #fff;
-        border-radius: 14px;
-        box-shadow: 0 10px 35px rgba(0,0,0,0.25);
-        position: relative;
-    }
+            to {
+                opacity: 1;
+            }
+        }
 
-    .login-box::before {
-        content: "";
-        position: absolute;
-        top: -22px;
-        right: 115px;
-        width: 0;
-        height: 0;
-        border-left: 18px solid transparent;
-        border-right: 18px solid transparent;
-        border-bottom: 18px solid white;
-        filter: drop-shadow(0 -3px 3px rgba(0,0,0,0.1));
-    }
+        /* Khung đăng nhập */
+        .login-box {
+            width: 400px;
+            padding: 30px 32px;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+            position: relative;
+        }
 
-    .login-title {
-        font-size: 26px;
-        font-weight: 700;
-        margin-bottom: 10px;
-    }
+            .login-box::before {
+                content: "";
+                position: absolute;
+                top: -22px;
+                right: 115px;
+                width: 0;
+                height: 0;
+                border-left: 18px solid transparent;
+                border-right: 18px solid transparent;
+                border-bottom: 18px solid white;
+                filter: drop-shadow(0 -3px 3px rgba(0,0,0,0.1));
+            }
 
-    .login-sub {
-        font-size: 15px;
-        color: #666;
-        margin-bottom: 20px;
-    }
+        .login-title {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
 
-    .input-box {
-        width: 100%;
-        padding: 15px;
-        font-size: 15px;
-        border-radius: 6px;
-        background: #f6f6f6;
-        border: 1px solid #ccc;
-        margin-bottom: 16px;
-    }
+        .login-sub {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 20px;
+        }
 
-    .btn-login {
-        width: 100%;
-        padding: 15px;
-        background: #282828;
-        color: #fff;
-        border: none;
-        font-size: 16px;
-        border-radius: 6px;
-        margin-top: 10px;
-        cursor: pointer;
-        transition: 0.2s;
-    }
+        .input-box {
+            width: 100%;
+            padding: 15px;
+            font-size: 15px;
+            border-radius: 6px;
+            background: #f6f6f6;
+            border: 1px solid #ccc;
+            margin-bottom: 16px;
+        }
 
-    .btn-login:hover {
-        background: #000;
-    }
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background: #282828;
+            color: #fff;
+            border: none;
+            font-size: 16px;
+            border-radius: 6px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
 
-    .login-footer {
-        text-align: center;
-        margin-top: 20px;
-        font-size: 14px;
-    }
+            .btn-login:hover {
+                background: #000;
+            }
 
-    .login-footer a {
-        color: #007bff;
-    }
+        .login-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
 
-    .breadcrumb {
-        display: flex;
-        flex-wrap: wrap;
-        padding: 8px 16px;
-        background-color: #f8f9fa;
-        border-radius: 4px;
-        font-size: 0.95rem;
-    }
+            .login-footer a {
+                color: #007bff;
+            }
 
-    .breadcrumb-item + .breadcrumb-item::before {
-        content: "/";
-        padding: 0 8px;
-        color: #6c757d;
-    }
+        .breadcrumb {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 8px 16px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
 
-    .breadcrumb-item a {
-        color: #007bff;
-        text-decoration: none;
-    }
+        .breadcrumb-item + .breadcrumb-item::before {
+            content: "/";
+            padding: 0 8px;
+            color: #6c757d;
+        }
 
-    .breadcrumb-item a:hover {
-        text-decoration: underline;
-    }
+        .breadcrumb-item a {
+            color: #007bff;
+            text-decoration: none;
+        }
 
-    .breadcrumb-item.active {
-        color: #6c757d;
-    }
+            .breadcrumb-item a:hover {
+                text-decoration: underline;
+            }
+
+        .breadcrumb-item.active {
+            color: #6c757d;
+        }
     </style>
 
 
@@ -443,11 +450,17 @@
                     }
 
                     <!-- Giỏ hàng -->
-                    <a href="#" class="nav-link position-relative d-flex align-items-center p-0">
+                    <a href="#" id="btnCart" class="nav-link d-flex align-items-center position-relative">
                         <i class="fas fa-shopping-cart fa-lg mr-1"></i>
-                        <span style="font-size:0.85rem;">Giỏ Hàng</span>
-                        <span class="badge badge-danger position-absolute" style="top:0; right:0; font-size:0.65rem;"></span>
+                        <span>Giỏ hàng</span>
+
+                        <span id="cartBadge"
+                              class="badge badge-danger position-absolute"
+                              style="top:-5px; right:-10px; font-size:0.75rem;">
+                            0
+                        </span>
                     </a>
+
                 </div>
 
 
@@ -668,6 +681,14 @@
 
     @RenderSection("Scripts", required: false)
 
+
+    <!-- OFF-CANVAS CART -->
+    <div id="cartOverlay"></div>
+
+    <div id="cartSide">
+        <div id="cartContent"></div>
+    </div>
+    <script src="~/Scripts/cart.js"></script>
 </body>
 </html>
 

@@ -1,0 +1,12 @@
+[33m2dbf41a[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merge pull request #1 from huydung2401/feature/ProductsDetail
+[33m323628d[m[33m ([m[1;31morigin/feature/ProductsDetail[m[33m)[m Merge branch 'master' into feature/ProductsDetail
+[33m7ab6961[m update
+[33m8f46d01[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m Thêm ảnh sản phẩm, thêm hai bảng SanPhamHinhAnh và BienTheSanPham trong sql, thêm hiển thị cửa hàng trong menu, thêm ảnh trong hiển thị chi tiết sản phẩm hiển thị số sao, giá bán , chọn màu chọn kích thước cho giường DM04 và tử DM05, hiển thị sản phẩm liên quan nếu cùng danh mục , hiển thị mục bán chạy giá tốt gợi ý trong trang index, thêm chuyển động cho mục báo chí và khách hàng tại MoHo cuối trang index.
+[33m2c74eee[m tiến hành sửa ảnh maincourse, phù hợp giao diện trang web, thêm phần chi tiết sản phẩm, layout chi tiết sản phẩm
+[33m1064585[m thêm chức năng đăng nhập, đăng kí, đăng xuất trong taikhoancontroler.cs ,sửa layout
+[33mf3c903b[m thêm ảnh carouse05, 06, viết tài khoản controler đăng nhập và đăng kí.
+[33m6839739[m sửa lại data báse đổi HoaDonId , DanhMucId... thành IdHoaDon,IdDanhMuc Id được sửa lên đứng trước cho đồng bộ và sửa kiểu int thành string như mã sp 1 thành sp01 cho dễ phân biệt
+[33me31b704[m Đánh giá sản phẩm và hiển thị số lượng đã bán, thêm phần chi tiết sản phẩm , cập nhật lại QLMoHo.edmx sau khi thêm hai cột đánh giá và sản phẩm đã bán
+[33mca39b27[m Cập nhật layout về moho nfig và project file MohoFurnitureStore
+[33me39f7e7[m Add project files.
+[33m83ccde9[m Add .gitattributes, .gitignore, and README.md.

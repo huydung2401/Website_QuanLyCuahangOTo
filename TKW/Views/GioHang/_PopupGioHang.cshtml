@@ -1,0 +1,45 @@
+﻿@model List<TKW.Models.GioHang>
+@{
+    Layout = null;
+}
+
+<div class="cart-popup">
+    <div class="cart-header">Giỏ hàng</div>
+
+    @if (!Model.Any())
+    {
+        <p>Giỏ hàng trống.</p>
+        <a href="/SanPham" class="btn btn-primary w-100 mt-3">Tiếp tục mua sắm</a>
+    }
+    else
+    {
+        foreach (var item in Model)
+        {
+            <div class="cart-item">
+                <img src="/Content/images/@item.HinhAnh" />
+
+                <div class="flex-grow-1">
+                    <strong>@item.TenSanPham</strong><br />
+                    <span class="text-danger">@item.ThanhTien.ToString("N0") đ</span>
+
+                    <div class="qty-box mt-1">
+                        <span class="qty-btn" onclick="updateQuantity('@item.IdSanPham','-')">-</span>
+                        <input class="qty-input" value="@item.SoLuong" disabled />
+                        <span class="qty-btn" onclick="updateQuantity('@item.IdSanPham','+')">+</span>
+                    </div>
+                </div>
+
+                <span class="remove" onclick="removeItem('@item.IdSanPham')">×</span>
+            </div>
+        }
+
+        <div class="cart-total">
+            Tổng: @Model.Sum(x => x.ThanhTien).ToString("N0") đ
+        </div>
+
+        <div class="cart-footer mt-3">
+            <a href="/GioHang/Index" class="btn btn-dark w-100">Xem giỏ hàng</a>
+            <a href="/DonHang/ThanhToan" class="btn btn-danger w-100 mt-2">Thanh toán</a>
+        </div>
+    }
+</div>

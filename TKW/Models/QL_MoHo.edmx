@@ -18,7 +18,7 @@
           <Key>
             <PropertyRef Name="IdChiTietHoaDon" />
           </Key>
-          <Property Name="IdChiTietHoaDon" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdChiTietHoaDon" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="IdHoaDon" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="IdSanPham" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="SoLuong" Type="int" Nullable="false" />
@@ -100,7 +100,17 @@
           <Property Name="IdSanPham" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="HinhAnh" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
-        <Association Name="FK__BienTheSa__IdSan__5535A963">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK__BienTheSa__IdSan__3A4CA8FD">
           <End Role="SanPham" Type="Self.SanPham" Multiplicity="1" />
           <End Role="BienTheSanPham" Type="Self.BienTheSanPham" Multiplicity="*" />
           <ReferentialConstraint>
@@ -205,7 +215,8 @@
           <EntitySet Name="NguoiDung" EntityType="Self.NguoiDung" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SanPham" EntityType="Self.SanPham" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SanPhamHinhAnh" EntityType="Self.SanPhamHinhAnh" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__BienTheSa__IdSan__5535A963" Association="Self.FK__BienTheSa__IdSan__5535A963">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__BienTheSa__IdSan__3A4CA8FD" Association="Self.FK__BienTheSa__IdSan__3A4CA8FD">
             <End Role="SanPham" EntitySet="SanPham" />
             <End Role="BienTheSanPham" EntitySet="BienTheSanPham" />
           </AssociationSet>
@@ -245,7 +256,7 @@
 					<Key>
 						<PropertyRef Name="IdChiTietHoaDon" />
 					</Key>
-					<Property Name="IdChiTietHoaDon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+					<Property Name="IdChiTietHoaDon" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
 					<Property Name="IdHoaDon" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
 					<Property Name="IdSanPham" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
 					<Property Name="SoLuong" Type="Int32" Nullable="false" />
@@ -437,6 +448,7 @@
             <End Role="NguoiDung" EntitySet="NguoiDungs" />
             <End Role="DanhGia" EntitySet="DanhGias" />
           </AssociationSet>
+          <EntitySet Name="sysdiagrams" EntityType="QLMohoDBModel.sysdiagram" />
 				</EntityContainer>
 				<ComplexType Name="sp_helpdiagramdefinition_Result">
 					<Property Type="Int32" Name="version" Nullable="true" />
@@ -533,6 +545,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
 			</Schema>
 		</edmx:ConceptualModels>
 		<edmx:Mappings>
@@ -643,6 +665,17 @@
 							</MappingFragment>
 						</EntityTypeMapping>
 					</EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="QLMohoDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
 				</EntityContainerMapping>
 			</Mapping>
 		</edmx:Mappings>
