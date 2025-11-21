@@ -70,56 +70,87 @@
         color: #666;
     }
 
-    /* Hero Section */
+    /* HERO Section – Premium style */
     .hero-section {
         position: relative;
-        height: 600px;
-        background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
-                    url('https://theme.hstatic.net/200000065946/1001264503/14/brandstory_banner.jpg?v=1319') center/cover no-repeat;
+        height: 480px;
+        background: url('https://theme.hstatic.net/200000065946/1001264503/14/brandstory_banner.jpg?v=1319')
+                    center/cover no-repeat;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
-        text-align: center;
-    }
-
-    .hero-content {
-        max-width: 800px;
         padding: 0 20px;
     }
 
-    .hero-content h1 {
-        font-size: 56px;
-        font-weight: 700;
-        margin-bottom: 20px;
-        line-height: 1.2;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.35);      /* nhẹ – giữ màu sản phẩm */
+        backdrop-filter: blur(2px);          /* sang trọng */
     }
 
-    .hero-content p {
+    .hero-content {
+        position: relative;
+        text-align: center;
+        max-width: 780px;
+        color: white;
+        z-index: 2;
+    }
+
+    .hero-title {
+        font-size: 52px;
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 18px;
+        text-shadow: 0 3px 12px rgba(0,0,0,0.35);
+    }
+
+    .hero-subtitle {
         font-size: 20px;
-        line-height: 1.6;
-        margin-bottom: 30px;
-        opacity: 0.95;
+        line-height: 1.7;
+        opacity: 0.92;
+        margin-bottom: 32px;
     }
 
     .hero-btn {
         display: inline-block;
-        padding: 15px 40px;
         background: #d4a574;
-        color: white;
-        text-decoration: none;
+        padding: 14px 40px;
         border-radius: 50px;
-        font-size: 16px;
+        color: white;
+        font-size: 17px;
         font-weight: 600;
-        transition: all 0.3s;
-        box-shadow: 0 5px 15px rgba(212, 165, 116, 0.3);
+        text-decoration: none;
+        box-shadow: 0 6px 20px rgba(212, 165, 116, 0.35);
+        transition: 0.3s;
     }
 
     .hero-btn:hover {
-        background: #c49563;
-        transform: translateY(-2px);
-        box-shadow: 0 7px 20px rgba(212, 165, 116, 0.4);
+        background: #c0925e;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 26px rgba(212, 165, 116, 0.45);
+    }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .hero-section {
+            height: 420px;
+        }
+        .hero-title {
+            font-size: 34px;
+        }
+        .hero-subtitle {
+            font-size: 16px;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .hero-title {
+            font-size: 28px;
+        }
+        .hero-subtitle {
+            font-size: 15px;
+        }
     }
 
     /* Main Content */
@@ -565,16 +596,20 @@
 <div class="brand-story-page">
 
     <!-- Hero Section -->
+    <!-- Hero Section -->
     <section class="hero-section">
+        <div class="hero-overlay"></div>
+
         <div class="hero-content">
-            <h1>MOHO - Nội Thất Hiện Đại</h1>
-            <p>
-                Chúng tôi tin rằng mỗi không gian sống đều xứng đáng có một phong cách riêng,
-                thể hiện cá tính và tạo nên những trải nghiệm đáng nhớ cho gia đình bạn.
+            <h1 class="hero-title">MOHO – Nội Thất Hiện Đại</h1>
+            <p class="hero-subtitle">
+                Không gian sống của bạn xứng đáng được chăm chút bằng những thiết kế
+                tinh giản, chất lượng và bền vững theo thời gian.
             </p>
             <a href="/SanPham" class="hero-btn">Khám Phá Sản Phẩm</a>
         </div>
     </section>
+
 
     <!-- Main Content -->
     <div class="main-content">

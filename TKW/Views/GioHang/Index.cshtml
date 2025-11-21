@@ -1,0 +1,252 @@
+﻿@model List<TKW.Models.GioHang>
+
+@{
+    ViewBag.Title = "Giỏ hàng của bạn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="/Content/css/index.css" />
+
+<div class="container mt-5">
+    <h2 class="cart-title">Giỏ hàng của bạn</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <h4>Giỏ hàng của bạn đang trống</h4>
+            <a href="@Url.Action("Index","Home")" class="btn btn-primary mt-3">Tiếp tục mua sắm</a>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+
+            <!-- LEFT -->
+            <div class="col-md-8">
+                <h5>Có @Model.Count sản phẩm trong giỏ hàng</h5>
+
+                @foreach (var item in Model)
+                {
+                    <div class="cart-item">
+                        <img src="/Content/images/@item.HinhAnh" />
+
+                        <div class="flex-grow-1">
+                            <strong>@item.TenSanPham</strong><br />
+                            <span class="text-danger">@item.ThanhTien.ToString("N0") đ</span>
+
+                            <div class="qty-box mt-1">
+                                <button class="qty-btn btn-minus" data-id="@item.IdSanPham">−</button>
+                                <input class="qty-input" value="@item.SoLuong" disabled />
+                                <button class="qty-btn btn-plus" data-id="@item.IdSanPham">+</button>
+                            </div>
+                        </div>
+
+                        <span class="remove btn-remove" data-id="@item.IdSanPham">×</span>
+                    </div>
+                }
+
+                <div class="cart-total">
+                    Tổng: @Model.Sum(x => x.ThanhTien).ToString("N0") đ
+                </div>
+
+                <!-- GHI CHÚ -->
+                <div class="note-box mt-4 p-4" style="background:#f7f7f7; border-radius:8px;">
+                    <h5 style="font-weight:600;">Ghi chú đơn hàng</h5>
+                    <textarea class="form-control mt-2" rows="5" placeholder="Thêm ghi chú cho đơn hàng..."
+                              style="border-radius:6px; border:1px solid #ddd;">
+                    </textarea>
+                </div>
+            </div>
+
+            <!-- RIGHT -->
+            <div class="col-md-4">
+                <div class="order-box">
+                    <h4>Thông tin đơn hàng</h4>
+
+                    <div class="total-line">
+                        <span>Tổng tiền:</span>
+                        <span class="total-price">@Model.Sum(x => x.ThanhTien).ToString("N0") đ</span>
+                    </div>
+
+                    <a href="/DonHang/ThanhToan" class="btn btn-danger btn-lg w-100 mt-3">THANH TOÁN</a>
+                </div>
+
+                <!-- CHÍNH SÁCH -->
+                <div class="policy-box mt-4 p-4" style="background:white; font-size:15px;">
+                    <p>✔ Miễn phí 1 đổi 1 – <strong>Bảo hành 2 năm</strong> – Bảo trì trọn đời (*)</p>
+                    <p>✔ Thiết kế bởi chuyên gia <strong>Đan Mạch & Hàn Quốc</strong></p>
+                    <p>✔ Chất lượng quốc tế – tiêu chuẩn xuất khẩu</p>
+                    <p>✔ Sản xuất tại SAVIMEX – <strong>40 năm kinh nghiệm</strong></p>
+                    <p style="font-size:13px; opacity:0.8;">
+                        (*) Không áp dụng cho danh mục Đồ Trang Trí
+                        <br />
+                        (**) Clearance bảo hành 01 năm.
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<style>
+    /* TIÊU ĐỀ GIỎ HÀNG */
+    .cart-title {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    /* KHUNG SẢN PHẨM TRONG GIỎ */
+    .cart-item-full,
+    .cart-item {
+        background: #fff;
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        margin-bottom: 15px;
+        position: relative;
+    }
+
+        /* ẢNH SẢN PHẨM */
+        .cart-img,
+        .cart-item img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+
+        /* THÔNG TIN SẢN PHẨM */
+        .cart-info,
+        .cart-item .flex-grow-1 {
+            flex-grow: 1;
+        }
+
+    .quantity-box {
+        margin-top: 10px;
+    }
+
+    /* NÚT TĂNG / GIẢM SỐ LƯỢNG */
+    .qty-btn,
+    .qty-box .qty-btn {
+        width: 30px;
+        height: 30px;
+        border: 1px solid #ccc;
+        background: #fff;
+        cursor: pointer;
+        border-radius: 4px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 16px;
+    }
+
+    .qty-input,
+    .qty-box .qty-input {
+        width: 45px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    /* GIÁ SẢN PHẨM */
+    .cart-price,
+    .cart-item span.text-danger {
+        font-size: 18px;
+        font-weight: 600;
+        color: #e8591c;
+    }
+
+    /* NÚT XÓA SẢN PHẨM */
+    .remove-full,
+    .cart-item .remove {
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        font-size: 22px;
+        cursor: pointer;
+        color: #d9534f;
+    }
+
+    /* HỘP TỔNG TIỀN */
+    .order-box {
+        padding: 28px;
+        background: #fff;
+        border-radius: 14px;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+        .order-box h4 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+    /* DÒNG TỔNG TIỀN */
+    .total-line {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 0;
+        font-size: 18px;
+        border-top: 1px solid #ececec;
+        border-bottom: 1px solid #ececec;
+        margin-bottom: 20px;
+    }
+
+    .total-price {
+        font-weight: bold;
+        font-size: 20px;
+        color: #e8591c;
+    }
+
+    /* NÚT THANH TOÁN */
+    .order-box .btn {
+        padding: 14px 0;
+        border-radius: 10px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+</style>
+
+
+<!-- SCRIPT XỬ LÝ TĂNG GIẢM + XÓA -->
+<script>
+    // Tăng số lượng
+    $(document).on("click", ".btn-plus", function () {
+        let id = $(this).data("id");
+
+        $.post("/GioHang/CapNhatSoLuong", { id: id, type: "+" }, function (res) {
+            if (res.success) {
+                location.reload();
+            }
+        });
+    });
+
+    // Giảm số lượng
+    $(document).on("click", ".btn-minus", function () {
+        let id = $(this).data("id");
+
+        $.post("/GioHang/CapNhatSoLuong", { id: id, type: "-" }, function (res) {
+            if (res.success) {
+                location.reload();
+            }
+        });
+    });
+
+    // Xóa sản phẩm
+    $(document).on("click", ".btn-remove", function () {
+        let id = $(this).data("id");
+
+        $.post("/GioHang/Xoa/" + id, function (res) {
+            if (res.success) {
+                location.reload();
+            }
+        });
+    });
+</script>

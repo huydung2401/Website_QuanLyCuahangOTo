@@ -18,691 +18,384 @@
     var culture = new CultureInfo("vi-VN");
 }
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-<link rel="stylesheet" href="~/Content/css/site.css" />
-
-<div class="carousel-wrapper mt-3">
-    <div id="mainCarousel" class="carousel slide carousel-fade" data-ride="carousel" data-interval="3000">
-        <ol class="carousel-indicators">
-            <li data-target="#mainCarousel" data-slide-to="0" class="active"></li>
-        </ol>
-        <div class="carousel-inner text-center">
-            <div class="carousel-item active"><img src="~/Content/images/carousel02.jpg" class="d-block w-100 carousel-img" alt="Slide 1"></div>
-            <div class="carousel-item"><img src="~/Content/images/carousel06.jpg" class="d-block w-100 carousel-img" alt="Slide 2"></div>
-            <div class="carousel-item"><img src="~/Content/images/carousel03.jpg" class="d-block w-100 carousel-img" alt="Slide 3"></div>
-            <div class="carousel-item"><img src="~/Content/images/carousel04.jpg" class="d-block w-100 carousel-img" alt="Slide 4"></div>
-            <div class="carousel-item"><img src="~/Content/images/carousel05.jpg" class="d-block w-100 carousel-img" alt="Slide 5"></div>
-        </div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/Content/css/site.css" />
+    <link rel="stylesheet" href="~/Content/css/index.css" />
 
 
-        <!-- Nút điều hướng -->
-        <a class="carousel-control-prev" href="#mainCarousel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#mainCarousel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon"></span>
-            <span class="sr-only">Next</span>
-        </a>
+    <body>
+        <div class="carousel-wrapper mt-3">
+            <div id="mainCarousel" class="carousel slide carousel-fade" data-ride="carousel" data-interval="3000">
+                <ol class="carousel-indicators">
+                    <li data-target="#mainCarousel" data-slide-to="0" class="active"></li>
+                </ol>
+                <div class="carousel-inner text-center">
+                    <div class="carousel-item active"><img src="~/Content/images/carousel02.jpg" class="d-block w-100 carousel-img" alt="Slide 1"></div>
+                    <div class="carousel-item"><img src="~/Content/images/carousel06.jpg" class="d-block w-100 carousel-img" alt="Slide 2"></div>
+                    <div class="carousel-item"><img src="~/Content/images/carousel03.jpg" class="d-block w-100 carousel-img" alt="Slide 3"></div>
+                    <div class="carousel-item"><img src="~/Content/images/carousel04.jpg" class="d-block w-100 carousel-img" alt="Slide 4"></div>
+                    <div class="carousel-item"><img src="~/Content/images/carousel05.jpg" class="d-block w-100 carousel-img" alt="Slide 5"></div>
+                </div>
 
-        <a class="carousel-control-prev" href="#mainCarousel" role="button" data-slide="prev"><span class="carousel-control-prev-icon"></span></a>
-        <a class="carousel-control-next" href="#mainCarousel" role="button" data-slide="next"><span class="carousel-control-next-icon"></span></a>
 
-    </div>
+                <!-- Nút điều hướng -->
+                <a class="carousel-control-prev" href="#mainCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#mainCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                    <span class="sr-only">Next</span>
+                </a>
 
-    <section id="ve-chung-toi" class="about-section container py-5">
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <h2 class="section-title">VỀ CHÚNG TÔI</h2>
-                <h4>
-                    <span class="text-danger">HOME DECOR </span> ĐI ĐẦU XU THẾ NỘI THẤT <br>
-                    <span class="text-danger">SANG TRỌNG HIỆN ĐẠI ĐẲNG CẤP</span>
-                </h4>
-                <p>
-                    HOME DECOR được thành lập để thiết kế báo cáo bài tập môn học lập trình web. Ở đây chúng tôi sẽ giới thiệu những sản phẩm nội thất thân thuộc với ngôi nhà của bạn.
-                    <strong>HOME DECOR</strong> mong muốn được là một trong những đơn vị thiết kế nội thất được yêu thích nhất của bạn.
-                    <br><br>
-                    Với tiêu chí <strong>“sáng tạo không giới hạn”</strong>, chúng tôi tập trung vào thiết kế bên ngoài và chất lượng bên trong. Mang lại những trải nghiệm tốt nhất cho khách hàng sử dụng sản phẩm của chúng tôi.
-                </p>
+                <a class="carousel-control-prev" href="#mainCarousel" role="button" data-slide="prev"><span class="carousel-control-prev-icon"></span></a>
+                <a class="carousel-control-next" href="#mainCarousel" role="button" data-slide="next"><span class="carousel-control-next-icon"></span></a>
+
             </div>
-            <div class="col-md-6 text-center">
-                <div class="video-thumbnail position-relative">
-                    <img src="~/Content/images/AnhVeChungToi.png" class="img-fluid rounded" alt="About Image">
-                    <a href="https://youtu.be/I3piKNJDhGE?si=QK2eJ6Sil5DD-15Q" class="play-button"><i class="fas fa-play"></i></a>
-                </div>
-            </div>
-        </div>
-    </section>
-</div>
 
-@if (listGiaTot != null && listGiaTot.Any())
-{
-    <div class="container mt-5">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <div class="moho-title-wrap"><h2 class="moho-section-title mb-0">🔥 Giá siêu tốt</h2></div>
-            <a href="/SanPham/DanhSach?dm=DM04" class="moho-more">Xem thêm</a>
-        </div>
-
-        <div class="row no-gutters">
-            @foreach (var sp in listGiaTot)
-            {
-                int countReview = db.DanhGias.Count(x => x.IdSanPham == sp.IdSanPham);
-                int rating = sp.DanhGia ?? 0;
-
-                <div class="col-6 col-md-4 col-lg-3 mb-4 px-2">
-                    <div class="card h-100 position-relative product-card">
-                        @if (sp.GiaKhuyenMai.HasValue && sp.GiaKhuyenMai.Value > 0 && sp.Gia > 0)
-                        {
-                            var discount = Math.Round(100 - (sp.GiaKhuyenMai.Value / sp.Gia * 100));
-                            <span class="discount-badge">-@discount%</span>
-                        }
-
-                        <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })">
-                            <img src="@Url.Content("~/Content/images/" + sp.HinhAnh)" class="card-img-top product-img" style="width:100%; height:250px; object-fit:cover; cursor:pointer;" />
-                        </a>
-
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">@sp.TenSanPham</h5>
-                            <p class="card-text product-price d-flex align-items-center mb-2">
-                                <span class="text-danger font-weight-bold mr-2">@(sp.GiaKhuyenMai.HasValue ? sp.GiaKhuyenMai.Value.ToString("C0", culture) : "")</span>
-                                <del class="text-muted">@sp.Gia.ToString("C0", culture)</del>
-                            </p>
-
-                            <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })#danhGia" style="text-decoration:none; color:inherit;">
-                                <div class="rating mb-2">
-                                    @for (int i = 1; i <= 5; i++)
-                                    {
-                                        if (i <= rating)
-                                        {<i class="fas fa-star" style="color:#ff9f00; font-size:12px;"></i> }
-                                        else
-                                        { <i class="far fa-star" style="color:#ccc; font-size:12px;"></i>}
-                                    }
-                                    <span style="font-size:12px; color:#777;">(@countReview)</span>
-                                </div>
-                            </a>
-
-                            <div class="d-flex justify-content-end"><span class="sold-text">Đã bán @sp.DaBan</span></div>
-                            <div class="d-flex mt-auto">
-                                <button class="color-btn mr-2" style="background-color:black;" data-img="@Url.Content("~/Content/images/" + sp.HinhAnh)"></button>
-                                <button class="color-btn" style="background-color:white;" data-img="@Url.Content("~/Content/images/" + sp.HinhAnh)"></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
-}
-
-@if (listBanChay != null && listBanChay.Any())
-{
-    <div class="container mt-5">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="mb-0">Bán chạy</h2>
-            <a href="/SanPham/DanhMuc?dm=DM04" class="text-danger font-weight-bold">Xem thêm</a>
-        </div>
-
-        <div class="row no-gutters">
-            @foreach (var sp in listBanChay)
-            {
-                int countReview = db.DanhGias.Count(x => x.IdSanPham == sp.IdSanPham);
-                int rating = sp.DanhGia ?? 0;
-
-                <div class="col-6 col-md-4 col-lg-3 mb-4 px-2">
-                    <div class="card h-100 position-relative product-card">
-                        @if (sp.GiaKhuyenMai.HasValue && sp.GiaKhuyenMai.Value > 0 && sp.Gia > 0)
-                        {
-                            var discount = Math.Round(100 - (sp.GiaKhuyenMai.Value / sp.Gia * 100));
-                            <span class="discount-badge">-@discount%</span>
-                        }
-
-                        <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })">
-                            <img src="@Url.Content("~/Content/images/" + sp.HinhAnh)" class="card-img-top product-img" style="width:100%; height:250px; object-fit:cover; cursor:pointer;" />
-                        </a>
-
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">@sp.TenSanPham</h5>
-                            <p class="card-text product-price d-flex align-items-center mb-2">
-                                @if (sp.GiaKhuyenMai.HasValue)
-                                {
-                                    <span class="text-danger font-weight-bold mr-2">@sp.GiaKhuyenMai.Value.ToString("C0", culture)</span>
-                                    <del class="text-muted">@sp.Gia.ToString("C0", culture)</del>
-                                }
-                                else
-                                {
-                                    <span class="font-weight-bold">@sp.Gia.ToString("C0", culture)</span>
-                                }
-                            </p>
-
-                            <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })#danhGia" style="text-decoration:none; color:inherit;">
-                                <div class="rating mb-2">
-                                    @for (int i = 1; i <= 5; i++)
-                                    {
-                                        if (i <= rating)
-                                        {<i class="fas fa-star" style="color:#ff9f00; font-size:12px;"></i> }
-                                        else
-                                        { <i class="far fa-star" style="color:#ccc; font-size:12px;"></i>}
-                                    }
-                                    <span style="font-size:12px; color:#777;">(@countReview)</span>
-                                </div>
-                            </a>
-
-                            <div class="d-flex justify-content-end"><span class="sold-text">Đã bán @sp.DaBan</span></div>
-                            <div class="d-flex mt-auto">
-                                <button class="color-btn mr-2" style="background-color:black;" data-img="@Url.Content("~/Content/images/" + sp.HinhAnh)"></button>
-                                <button class="color-btn" style="background-color:white;" data-img="@Url.Content("~/Content/images/" + sp.HinhAnh)"></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
-}
-
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="mb-0">Gợi ý</h2>
-        <a href="/SanPham/DanhMuc?dm=DM04" class="text-danger font-weight-bold">Xem thêm</a>
-    </div>
-    <div class="row no-gutters">
-        @foreach (var sp in Model)
-        {
-            int countReview = db.DanhGias.Count(x => x.IdSanPham == sp.IdSanPham);
-            int rating = sp.DanhGia ?? 0;
-
-            <div class="col-6 col-md-4 col-lg-3 mb-4 px-2">
-                <div class="card h-100 position-relative product-card">
-                    @if (sp.GiaKhuyenMai.HasValue && sp.GiaKhuyenMai.Value > 0 && sp.Gia > 0)
-                    {
-                        var discount = Math.Round(100 - (sp.GiaKhuyenMai.Value / sp.Gia * 100));
-                        <span class="discount-badge">-@discount%</span>
-                    }
-                    <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })">
-                        <img src="@Url.Content("~/Content/images/" + sp.HinhAnh)" class="card-img-top product-img" style="width:100%; height:250px; object-fit:cover; cursor:pointer;" />
-                    </a>
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">@sp.TenSanPham</h5>
-                        <p class="card-text product-price d-flex align-items-center mb-2" style="flex-wrap: nowrap; overflow: hidden;">
-                            @if (sp.GiaKhuyenMai.HasValue)
-                            {
-                                <span class="text-danger font-weight-bold mr-2">@sp.GiaKhuyenMai.Value.ToString("C0", culture)</span>
-                                <del class="text-muted">@sp.Gia.ToString("C0", culture)</del>
-                            }
-                            else
-                            {
-                                <span class="font-weight-bold">@sp.Gia.ToString("C0", culture)</span>
-                            }
+            <section id="ve-chung-toi" class="about-section container py-5">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h2 class="section-title">VỀ CHÚNG TÔI</h2>
+                        <h4>
+                            <span class="text-danger">HOME DECOR </span> ĐI ĐẦU XU THẾ NỘI THẤT <br>
+                            <span class="text-danger">SANG TRỌNG HIỆN ĐẠI ĐẲNG CẤP</span>
+                        </h4>
+                        <p>
+                            HOME DECOR được thành lập để thiết kế báo cáo bài tập môn học lập trình web. Ở đây chúng tôi sẽ giới thiệu những sản phẩm nội thất thân thuộc với ngôi nhà của bạn.
+                            <strong>HOME DECOR</strong> mong muốn được là một trong những đơn vị thiết kế nội thất được yêu thích nhất của bạn.
+                            <br><br>
+                            Với tiêu chí <strong>“sáng tạo không giới hạn”</strong>, chúng tôi tập trung vào thiết kế bên ngoài và chất lượng bên trong. Mang lại những trải nghiệm tốt nhất cho khách hàng sử dụng sản phẩm của chúng tôi.
                         </p>
-
-                        <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })#danhGia" style="text-decoration:none; color:inherit;">
-                            <div class="rating mb-2">
-                                @for (int i = 1; i <= 5; i++)
-                                {
-                                    if (i <= rating)
-                                    {<i class="fas fa-star" style="color:#ff9f00; font-size:12px;"></i> }
-                                    else
-                                    { <i class="far fa-star" style="color:#ccc; font-size:12px;"></i>}
-                                }
-                                <span style="font-size:12px; color:#777;">(@countReview)</span>
-                            </div>
-                        </a>
-
-                        <div class="d-flex justify-content-end"><span class="sold-text">Đã bán @sp.DaBan</span></div>
-                        <div class="d-flex mt-auto">
-                            <button class="color-btn mr-2" style="background-color:black;" data-img="@Url.Content("~/Content/images/" + sp.HinhAnh)"></button>
-                            <button class="color-btn" style="background-color:white;" data-img="@Url.Content("~/Content/images/" + sp.HinhAnh)"></button>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <div class="video-thumbnail position-relative">
+                            <img src="~/Content/images/AnhVeChungToi.png" class="img-fluid rounded" alt="About Image">
+                            <a href="https://youtu.be/I3piKNJDhGE?si=QK2eJ6Sil5DD-15Q" class="play-button"><i class="fas fa-play"></i></a>
                         </div>
                     </div>
                 </div>
-            </div>
-        }
-    </div>
-
-    <section class="home-banner">
-        <div class="banner-item"><img src="~/Content/images/banner1.jpg" alt=""></div>
-        <div class="banner-item"><img src="~/Content/images/banner2.jpg" alt=""></div>
-        <div class="banner-item"><img src="~/Content/images/banner3.jpg" alt=""></div>
-    </section>
-</div>
-
-@if (listBep != null && listBep.Any())
-{
-    <div class="container mt-5">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="mb-0">Kitchen</h2>
-            <a href="/SanPham/DanhMuc?dm=DM04" class="text-danger font-weight-bold">Xem thêm</a>
+            </section>
         </div>
 
-        <div class="row no-gutters">
-            @foreach (var sp in listBep)
-            {
-                int countReview = db.DanhGias.Count(x => x.IdSanPham == sp.IdSanPham);
-                int rating = sp.DanhGia ?? 0;
+        @if (listGiaTot != null && listGiaTot.Any())
+        {
+            <div class="container mt-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="moho-title-wrap"><h2 class="moho-section-title mb-0">🔥 Giá siêu tốt</h2></div>
+                    <a href="/SanPham/DanhMuc?dm=DM04" class="text-danger font-weight-bold">Xem thêm</a>
+                </div>
 
-                <div class="col-6 col-md-4 col-lg-3 mb-4 px-2">
-                    <div class="card h-100 position-relative product-card">
-                        @if (sp.GiaKhuyenMai.HasValue && sp.GiaKhuyenMai.Value > 0 && sp.Gia > 0)
-                        {
-                            var discount = Math.Round(100 - (sp.GiaKhuyenMai.Value / sp.Gia * 100));
-                            <span class="discount-badge">-@discount%</span>
-                        }
-                        <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })">
-                            <img src="@Url.Content("~/Content/images/" + sp.HinhAnh)" class="card-img-top product-img" style="width:100%; height:250px; object-fit:cover; cursor:pointer;" />
-                        </a>
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">@sp.TenSanPham</h5>
-                            <p class="card-text product-price d-flex align-items-center mb-2">
-                                <span class="text-danger font-weight-bold mr-2">
-                                    @(sp.GiaKhuyenMai.HasValue ? sp.GiaKhuyenMai.Value.ToString("C0", culture) : sp.Gia.ToString("C0", culture))
-                                </span>
-                                @if (sp.GiaKhuyenMai.HasValue)
+                <div class="row no-gutters">
+                    @foreach (var sp in listGiaTot)
+                    {
+                        int countReview = db.DanhGias.Count(x => x.IdSanPham == sp.IdSanPham);
+                        int rating = sp.DanhGia ?? 0;
+
+                        <div class="col-6 col-md-4 col-lg-3 mb-4 px-2">
+                            <div class="card h-100 position-relative product-card">
+                                @if (sp.GiaKhuyenMai.HasValue && sp.GiaKhuyenMai.Value > 0 && sp.Gia > 0)
                                 {
-                                    <del class="text-muted">@sp.Gia.ToString("C0", culture)</del>
+                                    var discount = Math.Round(100 - (sp.GiaKhuyenMai.Value / sp.Gia * 100));
+                                    <span class="discount-badge">-@discount%</span>
                                 }
-                            </p>
-                            <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })#danhGia" style="text-decoration:none; color:inherit;">
-                                <div class="rating mb-2">
-                                    @for (int i = 1; i <= 5; i++)
-                                    {
-                                        if (i <= rating)
-                                        {<i class="fas fa-star" style="color:#ff9f00; font-size:12px;"></i> }
-                                        else
-                                        { <i class="far fa-star" style="color:#ccc; font-size:12px;"></i>}
-                                    }
-                                    <span style="font-size:12px; color:#777;">(@countReview)</span>
+
+                                <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })">
+                                    <img src="@Url.Content("~/Content/images/" + sp.HinhAnh)" class="card-img-top product-img" style="width:100%; height:250px; object-fit:cover; cursor:pointer;" />
+                                </a>
+
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">@sp.TenSanPham</h5>
+                                    <p class="card-text product-price d-flex align-items-center mb-2">
+                                        <span class="text-danger font-weight-bold mr-2">@(sp.GiaKhuyenMai.HasValue ? sp.GiaKhuyenMai.Value.ToString("C0", culture) : "")</span>
+                                        <del class="text-muted">@sp.Gia.ToString("C0", culture)</del>
+                                    </p>
+
+                                    <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })#danhGia" style="text-decoration:none; color:inherit;">
+                                        <div class="rating mb-2">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                if (i <= rating)
+                                                {<i class="fas fa-star" style="color:#ff9f00; font-size:12px;"></i> }
+                                                else
+                                                { <i class="far fa-star" style="color:#ccc; font-size:12px;"></i>}
+                                            }
+                                            <span style="font-size:12px; color:#777;">(@countReview)</span>
+                                        </div>
+                                    </a>
+
+                                    <div class="d-flex justify-content-end"><span class="sold-text">Đã bán @sp.DaBan</span></div>
+                                    <div class="d-flex mt-auto">
+                                        <button class="color-btn mr-2" style="background-color:black;" data-img="@Url.Content("~/Content/images/" + sp.HinhAnh)"></button>
+                                        <button class="color-btn" style="background-color:white;" data-img="@Url.Content("~/Content/images/" + sp.HinhAnh)"></button>
+                                    </div>
                                 </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+        @if (listBanChay != null && listBanChay.Any())
+        {
+            <div class="container mt-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="mb-0">Bán chạy</h2>
+                    <a href="/SanPham/DanhMuc?dm=DM04" class="text-danger font-weight-bold">Xem thêm</a>
+                </div>
+
+                <div class="row no-gutters">
+                    @foreach (var sp in listBanChay)
+                    {
+                        int countReview = db.DanhGias.Count(x => x.IdSanPham == sp.IdSanPham);
+                        int rating = sp.DanhGia ?? 0;
+
+                        <div class="col-6 col-md-4 col-lg-3 mb-4 px-2">
+                            <div class="card h-100 position-relative product-card">
+                                @if (sp.GiaKhuyenMai.HasValue && sp.GiaKhuyenMai.Value > 0 && sp.Gia > 0)
+                                {
+                                    var discount = Math.Round(100 - (sp.GiaKhuyenMai.Value / sp.Gia * 100));
+                                    <span class="discount-badge">-@discount%</span>
+                                }
+
+                                <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })">
+                                    <img src="@Url.Content("~/Content/images/" + sp.HinhAnh)" class="card-img-top product-img" style="width:100%; height:250px; object-fit:cover; cursor:pointer;" />
+                                </a>
+
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">@sp.TenSanPham</h5>
+                                    <p class="card-text product-price d-flex align-items-center mb-2">
+                                        @if (sp.GiaKhuyenMai.HasValue)
+                                        {
+                                            <span class="text-danger font-weight-bold mr-2">@sp.GiaKhuyenMai.Value.ToString("C0", culture)</span>
+                                            <del class="text-muted">@sp.Gia.ToString("C0", culture)</del>
+                                        }
+                                        else
+                                        {
+                                            <span class="font-weight-bold">@sp.Gia.ToString("C0", culture)</span>
+                                        }
+                                    </p>
+
+                                    <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })#danhGia" style="text-decoration:none; color:inherit;">
+                                        <div class="rating mb-2">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                if (i <= rating)
+                                                {<i class="fas fa-star" style="color:#ff9f00; font-size:12px;"></i> }
+                                                else
+                                                { <i class="far fa-star" style="color:#ccc; font-size:12px;"></i>}
+                                            }
+                                            <span style="font-size:12px; color:#777;">(@countReview)</span>
+                                        </div>
+                                    </a>
+
+                                    <div class="d-flex justify-content-end"><span class="sold-text">Đã bán @sp.DaBan</span></div>
+                                    <div class="d-flex mt-auto">
+                                        <button class="color-btn mr-2" style="background-color:black;" data-img="@Url.Content("~/Content/images/" + sp.HinhAnh)"></button>
+                                        <button class="color-btn" style="background-color:white;" data-img="@Url.Content("~/Content/images/" + sp.HinhAnh)"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+        <div class="container mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="mb-0">Gợi ý</h2>
+                <a href="/SanPham/DanhMuc?dm=DM04" class="text-danger font-weight-bold">Xem thêm</a>
+            </div>
+            <div class="row no-gutters">
+                @foreach (var sp in Model)
+                {
+                    int countReview = db.DanhGias.Count(x => x.IdSanPham == sp.IdSanPham);
+                    int rating = sp.DanhGia ?? 0;
+
+                    <div class="col-6 col-md-4 col-lg-3 mb-4 px-2">
+                        <div class="card h-100 position-relative product-card">
+                            @if (sp.GiaKhuyenMai.HasValue && sp.GiaKhuyenMai.Value > 0 && sp.Gia > 0)
+                            {
+                                var discount = Math.Round(100 - (sp.GiaKhuyenMai.Value / sp.Gia * 100));
+                                <span class="discount-badge">-@discount%</span>
+                            }
+                            <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })">
+                                <img src="@Url.Content("~/Content/images/" + sp.HinhAnh)" class="card-img-top product-img" style="width:100%; height:250px; object-fit:cover; cursor:pointer;" />
                             </a>
-                            <div class="moho-sold">Đã bán @sp.DaBan</div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">@sp.TenSanPham</h5>
+                                <p class="card-text product-price d-flex align-items-center mb-2" style="flex-wrap: nowrap; overflow: hidden;">
+                                    @if (sp.GiaKhuyenMai.HasValue)
+                                    {
+                                        <span class="text-danger font-weight-bold mr-2">@sp.GiaKhuyenMai.Value.ToString("C0", culture)</span>
+                                        <del class="text-muted">@sp.Gia.ToString("C0", culture)</del>
+                                    }
+                                    else
+                                    {
+                                        <span class="font-weight-bold">@sp.Gia.ToString("C0", culture)</span>
+                                    }
+                                </p>
+
+                                <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })#danhGia" style="text-decoration:none; color:inherit;">
+                                    <div class="rating mb-2">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            if (i <= rating)
+                                            {<i class="fas fa-star" style="color:#ff9f00; font-size:12px;"></i> }
+                                            else
+                                            { <i class="far fa-star" style="color:#ccc; font-size:12px;"></i>}
+                                        }
+                                        <span style="font-size:12px; color:#777;">(@countReview)</span>
+                                    </div>
+                                </a>
+
+                                <div class="d-flex justify-content-end"><span class="sold-text">Đã bán @sp.DaBan</span></div>
+                                <div class="d-flex mt-auto">
+                                    <button class="color-btn mr-2" style="background-color:black;" data-img="@Url.Content("~/Content/images/" + sp.HinhAnh)"></button>
+                                    <button class="color-btn" style="background-color:white;" data-img="@Url.Content("~/Content/images/" + sp.HinhAnh)"></button>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                }
+            </div>
+
+            <section class="home-banner">
+                <div class="banner-item"><img src="~/Content/images/banner1.jpg" alt=""></div>
+                <div class="banner-item"><img src="~/Content/images/banner2.jpg" alt=""></div>
+                <div class="banner-item"><img src="~/Content/images/banner3.jpg" alt=""></div>
+            </section>
+        </div>
+
+        @if (listBep != null && listBep.Any())
+        {
+            <div class="container mt-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="mb-0">Kitchen</h2>
+                    <a href="/SanPham/DanhMuc?dm=DM04" class="text-danger font-weight-bold">Xem thêm</a>
                 </div>
-            }
-        </div>
-    </div>
-}
 
-<div class="container mt-5">
-    <h2 class="section-title">Báo chí</h2>
-    <div class="news-slider-wrapper">
-        <div class="news-slider">
-            <div class="news-track">
-                <div class="news-item"><img src="~/Content/images/news1.png" /><h4>[Advertising Vietnam] MOHO – Made in Việt Nam...</h4><a class="more-link" href="#">Xem thêm</a></div>
-                <div class="news-item"><img src="~/Content/images/news2.png" /><h4>[Công Thương] Nội thất MOHO gia nhập thị trường...</h4><a class="more-link" href="#">Xem thêm</a></div>
-                <div class="news-item"><img src="~/Content/images/news3.png" /><h4>[VnExpress] Thương hiệu Nội thất MOHO...</h4><a class="more-link" href="#">Xem thêm</a></div>
-                <div class="news-item"><img src="~/Content/images/news4.png" /><h4>[VnExpress] Thương hiệu Nội thất MOHO...</h4><a class="more-link" href="#">Xem thêm</a></div>
+                <div class="row no-gutters">
+                    @foreach (var sp in listBep)
+                    {
+                        int countReview = db.DanhGias.Count(x => x.IdSanPham == sp.IdSanPham);
+                        int rating = sp.DanhGia ?? 0;
+
+                        <div class="col-6 col-md-4 col-lg-3 mb-4 px-2">
+                            <div class="card h-100 position-relative product-card">
+                                @if (sp.GiaKhuyenMai.HasValue && sp.GiaKhuyenMai.Value > 0 && sp.Gia > 0)
+                                {
+                                    var discount = Math.Round(100 - (sp.GiaKhuyenMai.Value / sp.Gia * 100));
+                                    <span class="discount-badge">-@discount%</span>
+                                }
+                                <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })">
+                                    <img src="@Url.Content("~/Content/images/" + sp.HinhAnh)" class="card-img-top product-img" style="width:100%; height:250px; object-fit:cover; cursor:pointer;" />
+                                </a>
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">@sp.TenSanPham</h5>
+                                    <p class="card-text product-price d-flex align-items-center mb-2">
+                                        <span class="text-danger font-weight-bold mr-2">
+                                            @(sp.GiaKhuyenMai.HasValue ? sp.GiaKhuyenMai.Value.ToString("C0", culture) : sp.Gia.ToString("C0", culture))
+                                        </span>
+                                        @if (sp.GiaKhuyenMai.HasValue)
+                                        {
+                                            <del class="text-muted">@sp.Gia.ToString("C0", culture)</del>
+                                        }
+                                    </p>
+                                    <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })#danhGia" style="text-decoration:none; color:inherit;">
+                                        <div class="rating mb-2">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                if (i <= rating)
+                                                {<i class="fas fa-star" style="color:#ff9f00; font-size:12px;"></i> }
+                                                else
+                                                { <i class="far fa-star" style="color:#ccc; font-size:12px;"></i>}
+                                            }
+                                            <span style="font-size:12px; color:#777;">(@countReview)</span>
+                                        </div>
+                                    </a>
+                                    <div class="moho-sold">Đã bán @sp.DaBan</div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+
+        <div class="container mt-5">
+            <h2 class="section-title">Đánh giá thực tế</h2>
+            <div class="brand-slider-wrapper">
+                <div class="brand-track">
+
+
+                    <!-- ORIGINAL -->
+                    <div class="review-item"><img src="~/Content/images/012.jpg" class="review-img"><h4 class="review-name">Trần Văn Luân</h4><div class="review-stars">★★★★★</div><p class="review-text">Sẽ quay lại mua thêm, sản phẩm tốt</p></div>
+                    <div class="review-item"><img src="~/Content/images/013.jpg" class="review-img"><h4 class="review-name">Ẩn Danh</h4><div class="review-stars">★★★★★</div><p class="review-text">Không gian nhà dễ chịu hơn, hàng đẹp </p></div>
+                    <div class="review-item"><img src="~/Content/images/014.jpg" class="review-img"><h4 class="review-name">Ẩn Danh</h4><div class="review-stars">★★★★★</div><p class="review-text">Kiểu dáng gọn gàng và chất liệu rất tốt.</p></div>
+                    <div class="review-item"><img src="~/Content/images/015.jpg" class="review-img"><h4 class="review-name">Ẩn Danh</h4><div class="review-stars">★★★★★</div><p class="review-text">Giao nhanh – đúng kiểu homestay.</p></div>
+
+                    <!-- CLONE (ghi lại y chang như brand) -->
+                    <div class="review-item clone"><img src="~/Content/images/012.jpg" class="review-img"><h4 class="review-name">Trần Văn Luân</h4><div class="review-stars">★★★★★</div><p class="review-text">Sẽ quay lại mua thêm, sản phẩm tốt</p></div>
+                    <div class="review-item clone"><img src="~/Content/images/013.jpg" class="review-img"><h4 class="review-name">Ẩn Danh</h4><div class="review-stars">★★★★★</div><p class="review-text">Không gian nhà dễ chịu hơn, hàng đẹp.</p></div>
+                    <div class="review-item clone"><img src="~/Content/images/014.jpg" class="review-img"><h4 class="review-name">Ẩn Danh</h4><div class="review-stars">★★★★★</div><p class="review-text">Kiểu dáng gọn gàng và chất liệu rất tốt.</p></div>
+                    <div class="review-item clone"><img src="~/Content/images/015.jpg" class="review-img"><h4 class="review-name">Ẩn Danh</h4><div class="review-stars">★★★★★</div><p class="review-text">Giao nhanh – đúng kiểu homestay.</p></div>
+
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
-<div class="container mt-5">
-    <h2 class="section-title">Khách hàng MOHO tại</h2>
-    <div class="brand-slider-wrapper">
-        <div class="brand-track">
-            <div class="brand-item"><img src="~/Content/images/logo1.png" /></div>
-            <div class="brand-item"><img src="~/Content/images/logo2.png" /></div>
-            <div class="brand-item"><img src="~/Content/images/logo3.png" /></div>
-            <div class="brand-item"><img src="~/Content/images/logo4.png" /></div>
-            <div class="brand-item"><img src="~/Content/images/logo5.png" /></div>
-            <div class="brand-item"><img src="~/Content/images/logo6.png" /></div>
-            <div class="brand-item clone"><img src="~/Content/images/logo1.png" /></div>
-            <div class="brand-item clone"><img src="~/Content/images/logo2.png" /></div>
-            <div class="brand-item clone"><img src="~/Content/images/logo3.png" /></div>
-            <div class="brand-item clone"><img src="~/Content/images/logo4.png" /></div>
-            <div class="brand-item clone"><img src="~/Content/images/logo5.png" /></div>
-            <div class="brand-item clone"><img src="~/Content/images/logo6.png" /></div>
-        </div>
-    </div>
-</div>
-
-<div class="container mt-5">
-    <div class="services">
-        <div class="container">
-            <div class="row text-center g-4">
-                <div class="col-md-3"><div class="service-box"><div class="service-icon"><i class="bi bi-truck"></i></div><div class="service-title">Giao Hàng & Lắp Đặt</div><div class="service-sub">Miễn Phí</div></div></div>
-                <div class="col-md-3"><div class="service-box"><div class="service-icon"><i class="bi bi-arrow-repeat"></i></div><div class="service-title">Đổi Trả 1 - 1</div><div class="service-sub">Miễn Phí</div></div></div>
-                <div class="col-md-3"><div class="service-box"><div class="service-icon"><i class="bi bi-shield-check"></i></div><div class="service-title">Bảo Hành Đến 5 Năm</div><div class="service-sub">Miễn Phí</div></div></div>
-                <div class="col-md-3"><div class="service-box"><div class="service-icon"><i class="bi bi-telephone"></i></div><div class="service-title">Tư Vấn Thiết Kế</div><div class="service-sub">Miễn Phí</div></div></div>
+        <div class="container mt-5">
+            <h2 class="section-title">Báo chí</h2>
+            <div class="news-slider-wrapper">
+                <div class="news-slider">
+                    <div class="news-track">
+                        <div class="news-item"><img src="~/Content/images/news1.png" /><h4>[Advertising Vietnam] MOHO – Made in Việt Nam...</h4><a class="more-link" href="#">Xem thêm</a></div>
+                        <div class="news-item"><img src="~/Content/images/news2.png" /><h4>[Công Thương] Nội thất MOHO gia nhập thị trường...</h4><a class="more-link" href="#">Xem thêm</a></div>
+                        <div class="news-item"><img src="~/Content/images/news3.png" /><h4>[VnExpress] Thương hiệu Nội thất MOHO...</h4><a class="more-link" href="#">Xem thêm</a></div>
+                        <div class="news-item"><img src="~/Content/images/news4.png" /><h4>[VnExpress] Thương hiệu Nội thất MOHO...</h4><a class="more-link" href="#">Xem thêm</a></div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
-<style>
-    /* Ve chung toi*/
-    .about-section {
-        margin-top: 50px;
-    }
-    /* Tiêu đề phần */
-    .section-title {
-        font-size: 32px;
-        font-weight: bold;
-        position: relative;
-        display: inline-block;
-        margin-bottom: 20px;
-    }
-        /* Đường viền dưới tiêu đề phần */
-        .section-title::after {
-            content: "";
-            display: block;
-            width: 50px;
-            height: 3px;
-            background-color: red;
-            margin-top: 5px;
-        }
-    /* Hình ảnh thumbnail video */
-    .video-thumbnail {
-        position: relative;
-        display: inline-block;
-    }
+        <div class="container mt-5">
+            <h2 class="section-title">Khách hàng MOHO tại</h2>
+            <div class="brand-slider-wrapper">
+                <div class="brand-track">
+                    <div class="brand-item"><img src="~/Content/images/logo1.png" /></div>
+                    <div class="brand-item"><img src="~/Content/images/logo2.png" /></div>
+                    <div class="brand-item"><img src="~/Content/images/logo3.png" /></div>
+                    <div class="brand-item"><img src="~/Content/images/logo4.png" /></div>
+                    <div class="brand-item"><img src="~/Content/images/logo5.png" /></div>
+                    <div class="brand-item"><img src="~/Content/images/logo6.png" /></div>
+                    <div class="brand-item clone"><img src="~/Content/images/logo1.png" /></div>
+                    <div class="brand-item clone"><img src="~/Content/images/logo2.png" /></div>
+                    <div class="brand-item clone"><img src="~/Content/images/logo3.png" /></div>
+                    <div class="brand-item clone"><img src="~/Content/images/logo4.png" /></div>
+                    <div class="brand-item clone"><img src="~/Content/images/logo5.png" /></div>
+                    <div class="brand-item clone"><img src="~/Content/images/logo6.png" /></div>
+                </div>
+            </div>
+        </div>
 
-        .video-thumbnail img {
-            border-radius: 20px;
-            max-width: 100%;
-        }
+        <div class="container mt-5">
+            <div class="services">
+                <div class="container">
+                    <div class="row text-center g-4">
+                        <div class="col-md-3"><div class="service-box"><div class="service-icon"><i class="bi bi-truck"></i></div><div class="service-title">Giao Hàng & Lắp Đặt</div><div class="service-sub">Miễn Phí</div></div></div>
+                        <div class="col-md-3"><div class="service-box"><div class="service-icon"><i class="bi bi-arrow-repeat"></i></div><div class="service-title">Đổi Trả 1 - 1</div><div class="service-sub">Miễn Phí</div></div></div>
+                        <div class="col-md-3"><div class="service-box"><div class="service-icon"><i class="bi bi-shield-check"></i></div><div class="service-title">Bảo Hành Đến 5 Năm</div><div class="service-sub">Miễn Phí</div></div></div>
+                        <div class="col-md-3"><div class="service-box"><div class="service-icon"><i class="bi bi-telephone"></i></div><div class="service-title">Tư Vấn Thiết Kế</div><div class="service-sub">Miễn Phí</div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    .play-button {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: red;
-        color: white;
-        font-size: 24px;
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        text-align: center;
-        line-height: 60px;
-        text-decoration: none;
-    }
-
-        .play-button:hover {
-            background-color: darkred;
-        }
-
-
-
-
-    .section-title {
-        font-size: 32px;
-        font-weight: 700;
-        margin-bottom: 25px;
-    }
-
-    .news-slider-wrapper {
-        width: 100%;
-        overflow: hidden;
-        position: relative;
-    }
-
-    .news-track {
-        display: flex;
-        gap: 24px;
-        animation: scrollLeft 20s linear infinite;
-    }
-
-    .news-item {
-        width: calc((100% - 48px) / 3);
-        flex-shrink: 0;
-    }
-
-        .news-item img {
-            width: 100%;
-            height: 240px;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-
-    @@keyframes scrollLeft {
-        0% {
-            transform: translateX(0);
-        }
-
-        100% {
-            transform: translateX(-50%);
-        }
-    }
-
-    .brand-slider-wrapper {
-        width: 100%;
-        overflow: hidden;
-        position: relative;
-        margin-bottom: 40px;
-    }
-
-    .brand-track {
-        display: flex;
-        gap: 60px;
-        align-items: center;
-        animation: brandScroll 25s linear infinite;
-    }
-
-    .brand-item img {
-        width: 160px;
-        height: auto;
-        object-fit: contain;
-        filter: brightness(1);
-        transition: 0.3s;
-    }
-
-        .brand-item img:hover {
-            transform: scale(1.1);
-        }
-
-    @@keyframes brandScroll {
-        0% {
-            transform: translateX(0);
-        }
-
-        100% {
-            transform: translateX(-50%);
-        }
-    }
-
-    .services {
-        background: #f9f9f9;
-        padding: 50px 0;
-        margin-top: 60px;
-    }
-
-    .service-box {
-        text-align: center;
-        padding: 30px 10px;
-        background: #fff;
-        border-radius: 8px;
-        border: 1px solid #eee;
-    }
-
-    .service-icon {
-        font-size: 40px;
-        color: #003c58;
-        margin-bottom: 10px;
-    }
-
-    .service-title {
-        font-weight: 700;
-        font-size: 18px;
-    }
-
-    .service-sub {
-        color: #666;
-    }
-
-    .home-banner {
-        width: 100%;
-        max-width: none;
-        margin: 30px 0 40px;
-        display: flex;
-        gap: 20px;
-        align-items: stretch;
-        justify-content: space-between;
-        padding: 0;
-    }
-
-        .home-banner .banner-item {
-            flex: 1 1 0;
-            min-width: 0;
-            height: 190px;
-            overflow: hidden;
-            border-radius: 12px;
-            background: #fff;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-            .home-banner .banner-item img {
-                width: 100%;
-                height: 100%;
-                object-fit: contain;
-                object-position: center;
-                transition: transform 0.35s ease;
-            }
-
-            .home-banner .banner-item:hover img {
-                transform: scale(1.03);
-            }
-
-    @@media (max-width: 780px) {
-        .home-banner {
-            flex-direction: column;
-            gap: 15px;
-        }
-
-            .home-banner .banner-item {
-                height: 160px;
-            }
-    }
-
-    .carousel-wrapper {
-        width: 100%;
-        max-width: 100%;
-        padding: 0;
-        margin: 0;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .carousel-img {
-        width: 100%;
-        height: 530px;
-        object-fit: cover;
-    }
-
-    .carousel-inner {
-        border-radius: 0;
-    }
-
-    .carousel-control-prev, .carousel-control-next {
-        width: 55px;
-        height: 55px;
-        background-color: rgba(255, 255, 255, 0);
-        border-radius: 50%;
-        top: 50%;
-        transform: translateY(-50%);
-        opacity: 0;
-        transition: all 0.3s ease;
-    }
-
-    .carousel-wrapper:hover .carousel-control-prev, .carousel-wrapper:hover .carousel-control-next {
-        opacity: 1;
-        background-color: #f36f21;
-    }
-
-    .carousel-control-prev-icon, .carousel-control-next-icon {
-        background-size: 40%;
-        background-color: transparent;
-        filter: invert(1);
-    }
-
-    .carousel-control-prev:hover, .carousel-control-next:hover {
-        background-color: #ff8645;
-        transform: translateY(-50%) scale(1.1);
-    }
-
-    .carousel-control-prev {
-        left: 40px;
-    }
-
-    .carousel-control-next {
-        right: 40px;
-    }
-
-    .discount-badge {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        background-color: #e8591c;
-        color: #fff;
-        font-weight: 600;
-        font-size: 13px;
-        padding: 4px 10px;
-        border-radius: 6px;
-        z-index: 5;
-        display: inline-block;
-        line-height: 1.2;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-    }
-
-    .product-card {
-        position: relative;
-        overflow: hidden;
-        border-radius: 8px;
-    }
-
-        .product-card img {
-            width: 100%;
-            border-radius: 8px;
-            transition: transform 0.3s ease;
-        }
-
-        .product-card:hover img {
-            transform: scale(1.03);
-        }
-
-    .color-btn {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        border: 1px solid #ccc;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-
-        .color-btn.active {
-            border: 2px solid #000;
-        }
-
-    .product-card .product-img:hover {
-        opacity: 0.9;
-    }
-
-    .product-card .card-title {
-        font-size: 1rem;
-        font-weight: 600;
-    }
-
-    .product-card .product-price {
-        font-size: 0.9rem;
-    }
-
-    .sold-text {
-        font-size: 14px;
-        color: #777;
-    }
-</style>
-
-<script>
-    $(document).ready(function () {
-        $('.color-btn').click(function () {
-            $(this).siblings().removeClass('active');
-            $(this).addClass('active');
-            var imgUrl = $(this).data('img');
-            $(this).closest('.card').find('.product-img').attr('src', imgUrl);
-        });
-    });
-</script>
+        <script src="~/Scripts/index.js"></script>
+        <script src="~/Scripts/_Layout.js"></script>
+    </body>

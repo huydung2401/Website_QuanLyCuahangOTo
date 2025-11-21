@@ -9,7 +9,7 @@
     @if (!Model.Any())
     {
         <p>Giỏ hàng trống.</p>
-        <a href="/SanPham" class="btn btn-primary w-100 mt-3">Tiếp tục mua sắm</a>
+        <a href="@Url.Action("Index", "Home")" class="btn btn-primary w-100 mt-3">Tiếp tục mua sắm</a>
     }
     else
     {

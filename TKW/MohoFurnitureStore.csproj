@@ -210,8 +210,11 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\css\cart.css" />
+    <Content Include="Content\css\CuaHang.css" />
     <Content Include="Content\css\custom.css" />
+    <Content Include="Content\css\index.css" />
     <Content Include="Content\css\site.css" />
+    <Content Include="Content\css\_Layout.css" />
     <Content Include="Content\images\001.jpg" />
     <Content Include="Content\images\001_1.jpg" />
     <Content Include="Content\images\001_2.jpg" />
@@ -385,6 +388,8 @@
     <Content Include="Content\images\007_5.jpg" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\cart.js" />
+    <Content Include="Scripts\CuaHang.js" />
+    <Content Include="Scripts\index.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
     <Content Include="Scripts\jquery-3.7.0.slim.js" />
@@ -395,6 +400,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\_Layout.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -418,10 +424,12 @@
     <Content Include="Views\DonHang\DatHangThanhCong.cshtml" />
     <Content Include="Views\GioHang\_PopupGioHang.cshtml" />
     <Content Include="Views\SanPham\_BienTheGiuong.cshtml" />
+    <Content Include="Views\GioHang\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\fonts\" />
+    <Folder Include="Views\Blog\" />
     <Folder Include="Views\QuanTri\" />
   </ItemGroup>
   <ItemGroup>

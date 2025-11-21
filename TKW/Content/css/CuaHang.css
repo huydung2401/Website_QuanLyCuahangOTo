@@ -1,0 +1,65 @@
+﻿/* TIÊU ĐỀ & BREADCRUMB */
+/* TIÊU ĐỀ TRANG GIỐNG MOHO */
+.store-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #000;
+    margin-bottom: 5px;
+}
+
+/* CHỮ TRANG CHỦ / ... GIỐNG MOHO */
+.breadcrumb-text {
+    font-family: 'Montserrat', sans-serif;
+    color: #666;
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+
+
+/* KHUNG FORM */
+.store-box {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.filter-title {
+    font-weight: 600;
+    font-size: 20px;
+}
+
+/* LINK BẢN ĐỒ */
+.map-link {
+    color: #e8591c;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+    .map-link:hover {
+        text-decoration: underline;
+    }
+
+/* KHOẢNG TRẮNG DƯỚI GIỐNG MOHO */
+.page-bottom-space {
+    height: 140px; /* 👈 Có thể đổi 100–200 tùy ý */
+}
+
+.store-header-wrapper {
+    width: 100%;
+    padding: 40px 0 10px 0;
+    background: #fff;
+}
+
+.store-title {
+    font-size: 36px;
+    font-weight: 700;
+}
+
+.breadcrumb-text {
+    color: #666;
+    font-size: 16px;
+    margin-top: 8px;
+}

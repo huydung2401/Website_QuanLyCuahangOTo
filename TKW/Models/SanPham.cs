@@ -21,6 +21,8 @@ namespace TKW.Models
             this.SanPhamHinhAnhs = new HashSet<SanPhamHinhAnh>();
             this.BienTheSanPhams = new HashSet<BienTheSanPham>();
             this.DanhGias = new HashSet<DanhGia>();
+
+
         }
     
         public string IdSanPham { get; set; }

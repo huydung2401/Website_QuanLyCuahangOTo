@@ -98,9 +98,14 @@ namespace TKW.Controllers
         // Trang giỏ hàng
         public ActionResult Index()
         {
-            return Redirect("/");
-            //return View(LayGioHang());
+            var cart = Session["GioHang"] as List<GioHang>;
+
+            if (cart == null)
+                cart = new List<GioHang>();
+
+            return View(cart);
         }
+
         // Popup
         public ActionResult Popup()
         {
