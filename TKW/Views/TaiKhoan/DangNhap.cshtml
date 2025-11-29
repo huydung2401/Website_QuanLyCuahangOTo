@@ -6,7 +6,7 @@
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
     <div class="shadow p-4 bg-white rounded" style="width: 450px;">
 
-        <h3 class="text-center mb-3">ĐĂNG NHẬP TÀI KHOẢN</h3>
+        <h3 class="text-center mb-3 font-weight-bold">ĐĂNG NHẬP TÀI KHOẢN</h3>
         <p class="text-center text-muted mb-4">Nhập email và mật khẩu của bạn:</p>
 
         @if (TempData["Error"] != null)
@@ -15,11 +15,23 @@
         }
 
         <form action="/TaiKhoan/DangNhap" method="post">
-            <input type="text" name="Email" class="form-control mb-3" placeholder="Nhập email hoặc số điện thoại" required />
+            @Html.AntiForgeryToken()
 
-            <input type="password" name="MatKhau" class="form-control mb-3" placeholder="Mật khẩu" required />
+            <input type="email"
+                   name="Email"
+                   class="form-control mb-3"
+                   placeholder="Nhập email"
+                   required />
 
-            <button class="btn btn-dark w-100 py-2">ĐĂNG NHẬP</button>
+            <input type="password"
+                   name="MatKhau"
+                   class="form-control mb-3"
+                   placeholder="Mật khẩu"
+                   required />
+
+            <button class="btn btn-dark w-100 py-2 font-weight-bold">
+                ĐĂNG NHẬP
+            </button>
         </form>
 
         <div class="text-center mt-3">

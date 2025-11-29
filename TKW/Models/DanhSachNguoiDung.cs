@@ -7,7 +7,7 @@ namespace TKW.Models
 {
     public class DanhSachNguoiDung
     {
-        private QLMohoDBEntities2 db = new QLMohoDBEntities2();
+        private WebsiteMuaBanOtoDBEntities db = new WebsiteMuaBanOtoDBEntities();
 
         public DanhSachNguoiDung() { }
 
@@ -34,6 +34,9 @@ namespace TKW.Models
         {
             try
             {
+                nd.NgayTao = DateTime.Now;
+                nd.TrangThai = true;
+
                 db.NguoiDungs.Add(nd);
                 db.SaveChanges();
                 return true;
@@ -58,7 +61,7 @@ namespace TKW.Models
                     existing.MatKhau = nd.MatKhau;
                     existing.DiaChi = nd.DiaChi;
                     existing.DienThoai = nd.DienThoai;
-                    existing.LaAdmin = nd.LaAdmin;
+                    existing.VaiTro = nd.VaiTro;       // ✔ Web ô tô dùng VaiTro
 
                     db.SaveChanges();
                     return true;
@@ -93,10 +96,11 @@ namespace TKW.Models
             }
         }
 
-        // 🔹 Kiểm tra đăng nhập (Email + Mật khẩu)
+        // 🔹 Kiểm tra đăng nhập
         public NguoiDung KiemTraDangNhap(string email, string matKhau)
         {
-            return db.NguoiDungs.FirstOrDefault(nd => nd.Email == email && nd.MatKhau == matKhau);
+            return db.NguoiDungs
+                     .FirstOrDefault(nd => nd.Email == email && nd.MatKhau == matKhau);
         }
     }
 }

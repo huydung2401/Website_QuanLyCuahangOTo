@@ -9,140 +9,107 @@ using System.IO;
 
 namespace TKW.Controllers
 {
-    public class SanPhamController : Controller
+    public class XeController : Controller
     {
-        // GET: SanPham
-        QLMohoDBEntities2 db = new QLMohoDBEntities2();
+        WebsiteMuaBanOtoDBEntities db = new WebsiteMuaBanOtoDBEntities();
 
-        // GET: /SanPham/
+        // =============================
+        // DANH SÁCH XE
+        // =============================
         public ActionResult Index()
         {
-            var sanPhams = db.SanPhams
-                 .OrderBy(sp => sp.IdSanPham)   
-                 .ToList();
+            var xe = db.Xes
+                       .OrderBy(x => x.IdXe)
+                       .ToList();
 
-            return View(sanPhams);
+            return View(xe);
         }
 
-        // GET: /SanPham/DanhSach
+        // =============================
+        // DANH SÁCH THEO DANH MỤC
+        // =============================
         public ActionResult DanhSach(string idDanhMuc)
         {
-            var sanPhams = db.SanPhams.AsQueryable();
+            var xe = db.Xes.AsQueryable();
+
             if (!string.IsNullOrEmpty(idDanhMuc))
-            {
-                sanPhams = sanPhams.Where(s => s.IdDanhMuc == idDanhMuc);
-            }
-            return View(sanPhams.OrderBy(s => s.IdSanPham).ToList());
+                xe = xe.Where(x => x.IdDanhMuc == idDanhMuc);
+
+            return View(xe.OrderBy(x => x.IdXe).ToList());
         }
 
-        // GET: /SanPham/ChiTiet/5 (ĐÃ ĐỒNG BỘ LOGIC ĐÁNH GIÁ + BIẾN THỂ + ẢNH)
-        public ActionResult ChiTietSanPham(string id)
+        // =============================
+        // CHI TIẾT XE
+        // =============================
+        public ActionResult ChiTietXe(string id)
         {
-            if (string.IsNullOrEmpty(id)) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (string.IsNullOrEmpty(id))
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var sp = db.SanPhams.FirstOrDefault(s => s.IdSanPham == id);
-            if (sp == null) return HttpNotFound();
+            var xe = db.Xes
+                       .Include("DanhMucXe")
+                       .Include("HangXe")
+                       .Include("DongXe")
+                       .Include("NguoiDung")
+                       .FirstOrDefault(x => x.IdXe == id);
 
-            // 1. Lấy Biến thể (Logic cũ cho Bếp/Giường)
-            List<BienTheSanPham> bienThes = new List<BienTheSanPham>();
-            if (sp.IdDanhMuc == "DM04" || sp.IdDanhMuc == "DM05")
+            if (xe == null) return HttpNotFound();
+
+            var hinh = db.XeHinhAnhs.Where(h => h.IdXe == id).ToList();
+            var nguoiBan = db.NguoiDungs.FirstOrDefault(n => n.IdNguoiDung == xe.IdNguoiBan);
+
+            var danhGia = db.DanhGias
+                            .Where(d => d.IdXe == id)
+                            .OrderByDescending(d => d.NgayDanhGia)
+                            .ToList();
+
+            var tuongTu = db.Xes
+                            .Where(x => x.IdDanhMuc == xe.IdDanhMuc && x.IdXe != xe.IdXe)
+                            .Take(4)
+                            .ToList();
+
+            XeDetailViewModel model = new XeDetailViewModel
             {
-                bienThes = db.BienTheSanPhams
-                             .Where(bt => bt.IdSanPham == sp.IdSanPham)
-                             .OrderBy(bt => bt.Gia)
-                             .ToList();
-            }
+                Xe = xe,
+                HinhAnh = hinh,
+                NguoiBan = nguoiBan,
 
-            // 2. Lấy Gallery ảnh (Logic cũ)
-            var listAnh = db.SanPhamHinhAnhs.Where(a => a.IdSanPham == id).ToList();
+                DanhMuc = xe.DanhMucXe,
+                HangXe = xe.HangXe,
+                DongXe = xe.DongXe,
 
-            // 3. Lấy Danh sách Đánh giá (Logic Mới)
-            var listDanhGia = db.DanhGias
-                                .Where(d => d.IdSanPham == id)
-                                .OrderByDescending(d => d.NgayDanhGia)
-                                .ToList();
-
-            // 4. Gộp vào Model
-            var model = new ChiTietSanPham
-            {
-                SanPham = sp,
-                DanhMuc = sp.DanhMuc,
-                BienThes = bienThes,
-                HinhAnhChiTiet = listAnh,
-                DanhSachDanhGia = listDanhGia, // Đổ dữ liệu đánh giá vào đây
-
-                SanPhamLienQuan = db.SanPhams
-                    .Where(x => x.IdDanhMuc == sp.IdDanhMuc && x.IdSanPham != sp.IdSanPham)
-                    .Take(4)
-                    .ToList()
+                DanhSachDanhGia = danhGia,
+                XeTuongTu = tuongTu
             };
 
             return View(model);
         }
 
-        // POST: Xử lý Gửi Đánh Giá (Logic Mới - Upload ảnh & Lưu DB)
+
+
+        // =============================
+        // GỬI ĐÁNH GIÁ XE
+        // =============================
         [HttpPost]
-        public ActionResult GuiDanhGia(string idSanPham, int soSao, string noiDung, string tenNguoiDung)
+        public ActionResult GuiDanhGia(string idXe, int soSao, string noiDung)
         {
             try
             {
-                string tenFileAnh = null;
-
-                // 1. Xử lý upload ảnh (Giữ nguyên code cũ)
-                if (Request.Files.Count > 0)
+                var user = Session["User"] as NguoiDung;
+                if (user == null)
                 {
-                    var file = Request.Files[0];
-                    if (file != null && file.ContentLength > 0)
-                    {
-                        string fileName = System.IO.Path.GetFileNameWithoutExtension(file.FileName);
-                        string extension = System.IO.Path.GetExtension(file.FileName);
-                        tenFileAnh = fileName + "_" + DateTime.Now.Ticks + extension;
-                        string folderPath = Server.MapPath("~/Images/Reviews/");
-                        if (!System.IO.Directory.Exists(folderPath))
-                        {
-                            System.IO.Directory.CreateDirectory(folderPath);
-                        }
-                        string path = System.IO.Path.Combine(folderPath, tenFileAnh);
-                        file.SaveAs(path);
-                    }
+                    return Json(new { success = false, message = "Bạn phải đăng nhập để đánh giá!" });
                 }
 
-                // 2. Lưu đánh giá mới vào bảng DanhGia
-                var user = Session["User"] as NguoiDung;
-
                 DanhGia dg = new DanhGia();
-                dg.IdSanPham = idSanPham;
-                dg.IdNguoiDung = user?.IdNguoiDung;
-                dg.TenNguoiDung = !string.IsNullOrEmpty(tenNguoiDung) ? tenNguoiDung : (user?.HoTen ?? "Khách ẩn danh");
+                dg.IdXe = idXe;
+                dg.IdNguoiDung = user.IdNguoiDung;
                 dg.SoSao = soSao;
                 dg.NoiDung = noiDung ?? "";
-                dg.HinhAnh = tenFileAnh;
                 dg.NgayDanhGia = DateTime.Now;
 
                 db.DanhGias.Add(dg);
-                db.SaveChanges(); // Lưu xong đánh giá
-
-                // 3. [QUAN TRỌNG] TÍNH LẠI SAO TRUNG BÌNH & ĐỒNG BỘ VÀO BẢNG SẢN PHẨM
-                var sp = db.SanPhams.FirstOrDefault(s => s.IdSanPham == idSanPham);
-                if (sp != null)
-                {
-                    // Lấy tất cả đánh giá của sản phẩm này
-                    var listReviews = db.DanhGias.Where(x => x.IdSanPham == idSanPham).ToList();
-
-                    if (listReviews.Count > 0)
-                    {
-                        // Tính trung bình cộng
-                        double diemTrungBinh = listReviews.Average(x => x.SoSao);
-                        // Làm tròn (Ví dụ 4.5 -> 5) và lưu vào cột DanhGia của bảng SanPham
-                        sp.DanhGia = (int)Math.Round(diemTrungBinh);
-                    }
-                    else
-                    {
-                        sp.DanhGia = soSao; // Nếu là đánh giá đầu tiên
-                    }
-
-                    db.SaveChanges(); // Cập nhật lại bảng Sản Phẩm
-                }
+                db.SaveChanges();
 
                 return Json(new { success = true, message = "Đánh giá thành công!" });
             }
@@ -153,101 +120,72 @@ namespace TKW.Controllers
         }
 
 
-
-
-        // ==========================================================
-        // PHẦN 2: QUẢN LÝ SẢN PHẨM (ADMIN - CRUD - CODE CŨ)
-        // ==========================================================
-
-        // GET: /SanPham/Them
+        // =============================
+        // CRUD XE CHO ADMIN
+        // =============================
         public ActionResult Them()
         {
-            ViewBag.DanhMucId = new SelectList(db.DanhMucs, "IdDanhMuc", "TenDanhMuc");
+            ViewBag.HangXe = new SelectList(db.HangXes, "IdHangXe", "TenHang");
+            ViewBag.DanhMuc = new SelectList(db.DanhMucXes, "IdDanhMuc", "TenDanhMuc");
+            ViewBag.DongXe = new SelectList(db.DongXes, "IdDongXe", "TenDong");
             return View();
         }
 
-        // POST: /SanPham/Them
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Them(SanPham sp)
+        public ActionResult Them(Xe xe)
         {
             if (ModelState.IsValid)
             {
-                sp.NgayThem = DateTime.Now;
-                db.SanPhams.Add(sp);
+                xe.NgayDang = DateTime.Now;
+                db.Xes.Add(xe);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.DanhMucId = new SelectList(db.DanhMucs, "IdDanhMuc", "TenDanhMuc", sp.IdDanhMuc);
-            return View(sp);
+            return View(xe);
         }
 
-        // GET: /SanPham/Sua/5
         public ActionResult Sua(string id)
         {
-            if (string.IsNullOrEmpty(id)) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            var xe = db.Xes.FirstOrDefault(x => x.IdXe == id);
+            if (xe == null) return HttpNotFound();
 
-            var sp = db.SanPhams.FirstOrDefault(s => s.IdSanPham == id);
-            if (sp == null) return HttpNotFound();
+            ViewBag.HangXe = new SelectList(db.HangXes, "IdHangXe", "TenHang", xe.IdHangXe);
+            ViewBag.DanhMuc = new SelectList(db.DanhMucXes, "IdDanhMuc", "TenDanhMuc", xe.IdDanhMuc);
+            ViewBag.DongXe = new SelectList(db.DongXes, "IdDongXe", "TenDong", xe.IdDongXe);
 
-            ViewBag.DanhMucId = new SelectList(db.DanhMucs, "IdDanhMuc", "TenDanhMuc", sp.IdDanhMuc);
-            return View(sp);
+            return View(xe);
         }
 
-        // POST: /SanPham/Sua
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Sua(SanPham sp)
+        public ActionResult Sua(Xe xe)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(sp).State = System.Data.Entity.EntityState.Modified;
+                db.Entry(xe).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.DanhMucId = new SelectList(db.DanhMucs, "IdDanhMuc", "TenDanhMuc", sp.IdDanhMuc);
-            return View(sp);
+            return View(xe);
         }
 
-        // GET: /SanPham/Xoa/5
         public ActionResult Xoa(string id)
         {
-            if (string.IsNullOrEmpty(id)) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            var sp = db.SanPhams.FirstOrDefault(s => s.IdSanPham == id);
-            if (sp == null) return HttpNotFound();
-
-            return View(sp);
+            var xe = db.Xes.FirstOrDefault(x => x.IdXe == id);
+            if (xe == null) return HttpNotFound();
+            return View(xe);
         }
 
-        // POST: /SanPham/Xoa (Xác nhận)
         [HttpPost, ActionName("Xoa")]
-        [ValidateAntiForgeryToken]
         public ActionResult XoaConfirmed(string id)
         {
-            var sp = db.SanPhams.FirstOrDefault(s => s.IdSanPham == id);
-            if (sp != null)
+            var xe = db.Xes.FirstOrDefault(x => x.IdXe == id);
+            if (xe != null)
             {
-                db.SanPhams.Remove(sp);
+                db.Xes.Remove(xe);
                 db.SaveChanges();
             }
             return RedirectToAction("Index");
-        }
-
-        // GET: Specifications (Partial View cũ)
-        public ActionResult Specifications(string ID)
-        {
-            var sp = db.SanPhams.FirstOrDefault(s => s.IdSanPham == ID);
-            if (sp == null) return HttpNotFound();
-            return PartialView("_Specifications", sp);
-        }
-
-        // Giải phóng tài nguyên
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing) db.Dispose();
-            base.Dispose(disposing);
         }
     }
 }

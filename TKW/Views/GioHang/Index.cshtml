@@ -23,7 +23,7 @@
 
             <!-- LEFT -->
             <div class="col-md-8">
-                <h5>Có @Model.Count sản phẩm trong giỏ hàng</h5>
+                <h5>Có @Model.Count xe trong giỏ hàng</h5>
 
                 @foreach (var item in Model)
                 {
@@ -31,30 +31,34 @@
                         <img src="/Content/images/@item.HinhAnh" />
 
                         <div class="flex-grow-1">
-                            <strong>@item.TenSanPham</strong><br />
-                            <span class="text-danger">@item.ThanhTien.ToString("N0") đ</span>
+                            <!-- TÊN XE -->
+                            <strong>@item.TenXe</strong><br />
+
+                            <!-- THÀNH TIỀN -->
+                            <span class="text-danger">
+                                @( (item.SoLuong * item.Gia).ToString("N0") ) đ
+                            </span>
 
                             <div class="qty-box mt-1">
-                                <button class="qty-btn btn-minus" data-id="@item.IdSanPham">−</button>
+                                <button class="qty-btn btn-minus" data-id="@item.IdXe">−</button>
                                 <input class="qty-input" value="@item.SoLuong" disabled />
-                                <button class="qty-btn btn-plus" data-id="@item.IdSanPham">+</button>
+                                <button class="qty-btn btn-plus" data-id="@item.IdXe">+</button>
                             </div>
                         </div>
 
-                        <span class="remove btn-remove" data-id="@item.IdSanPham">×</span>
+                        <span class="remove btn-remove" data-id="@item.IdXe">×</span>
                     </div>
                 }
 
                 <div class="cart-total">
-                    Tổng: @Model.Sum(x => x.ThanhTien).ToString("N0") đ
+                    Tổng: @Model.Sum(x => x.SoLuong * x.Gia).ToString("N0") đ
                 </div>
 
                 <!-- GHI CHÚ -->
                 <div class="note-box mt-4 p-4" style="background:#f7f7f7; border-radius:8px;">
                     <h5 style="font-weight:600;">Ghi chú đơn hàng</h5>
                     <textarea class="form-control mt-2" rows="5" placeholder="Thêm ghi chú cho đơn hàng..."
-                              style="border-radius:6px; border:1px solid #ddd;">
-                    </textarea>
+                              style="border-radius:6px; border:1px solid #ddd;"></textarea>
                 </div>
             </div>
 
@@ -65,7 +69,7 @@
 
                     <div class="total-line">
                         <span>Tổng tiền:</span>
-                        <span class="total-price">@Model.Sum(x => x.ThanhTien).ToString("N0") đ</span>
+                        <span class="total-price">@Model.Sum(x => x.SoLuong * x.Gia).ToString("N0") đ</span>
                     </div>
 
                     <a href="/DonHang/ThanhToan" class="btn btn-danger btn-lg w-100 mt-3">THANH TOÁN</a>
@@ -78,8 +82,7 @@
                     <p>✔ Chất lượng quốc tế – tiêu chuẩn xuất khẩu</p>
                     <p>✔ Sản xuất tại SAVIMEX – <strong>40 năm kinh nghiệm</strong></p>
                     <p style="font-size:13px; opacity:0.8;">
-                        (*) Không áp dụng cho danh mục Đồ Trang Trí
-                        <br />
+                        (*) Không áp dụng cho danh mục Đồ Trang Trí <br />
                         (**) Clearance bảo hành 01 năm.
                     </p>
                 </div>
@@ -87,135 +90,6 @@
         </div>
     }
 </div>
-<style>
-    /* TIÊU ĐỀ GIỎ HÀNG */
-    .cart-title {
-        font-size: 32px;
-        font-weight: 700;
-        margin-bottom: 25px;
-        text-align: center;
-    }
-
-    /* KHUNG SẢN PHẨM TRONG GIỎ */
-    .cart-item-full,
-    .cart-item {
-        background: #fff;
-        display: flex;
-        align-items: center;
-        padding: 15px;
-        border-radius: 12px;
-        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        margin-bottom: 15px;
-        position: relative;
-    }
-
-        /* ẢNH SẢN PHẨM */
-        .cart-img,
-        .cart-item img {
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-right: 20px;
-        }
-
-        /* THÔNG TIN SẢN PHẨM */
-        .cart-info,
-        .cart-item .flex-grow-1 {
-            flex-grow: 1;
-        }
-
-    .quantity-box {
-        margin-top: 10px;
-    }
-
-    /* NÚT TĂNG / GIẢM SỐ LƯỢNG */
-    .qty-btn,
-    .qty-box .qty-btn {
-        width: 30px;
-        height: 30px;
-        border: 1px solid #ccc;
-        background: #fff;
-        cursor: pointer;
-        border-radius: 4px;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 16px;
-    }
-
-    .qty-input,
-    .qty-box .qty-input {
-        width: 45px;
-        text-align: center;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
-
-    /* GIÁ SẢN PHẨM */
-    .cart-price,
-    .cart-item span.text-danger {
-        font-size: 18px;
-        font-weight: 600;
-        color: #e8591c;
-    }
-
-    /* NÚT XÓA SẢN PHẨM */
-    .remove-full,
-    .cart-item .remove {
-        position: absolute;
-        right: 15px;
-        top: 10px;
-        font-size: 22px;
-        cursor: pointer;
-        color: #d9534f;
-    }
-
-    /* HỘP TỔNG TIỀN */
-    .order-box {
-        padding: 28px;
-        background: #fff;
-        border-radius: 14px;
-        box-shadow: 0 4px 18px rgba(0,0,0,0.08);
-        font-size: 16px;
-        line-height: 1.6;
-    }
-
-        .order-box h4 {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-    /* DÒNG TỔNG TIỀN */
-    .total-line {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 14px 0;
-        font-size: 18px;
-        border-top: 1px solid #ececec;
-        border-bottom: 1px solid #ececec;
-        margin-bottom: 20px;
-    }
-
-    .total-price {
-        font-weight: bold;
-        font-size: 20px;
-        color: #e8591c;
-    }
-
-    /* NÚT THANH TOÁN */
-    .order-box .btn {
-        padding: 14px 0;
-        border-radius: 10px;
-        font-size: 18px;
-        font-weight: 600;
-    }
-</style>
-
-
-<!-- SCRIPT XỬ LÝ TĂNG GIẢM + XÓA -->
 <script>
     // Tăng số lượng
     $(document).on("click", ".btn-plus", function () {

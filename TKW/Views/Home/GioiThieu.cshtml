@@ -1,0 +1,370 @@
+﻿@{
+    ViewBag.Title = "GioiThieu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    /* ========================== GENERAL ========================== */
+    .carmudi-container {
+        max-width: 1160px;
+        margin: auto;
+    }
+
+    h1, h2, h3, h4 {
+        font-weight: 700;
+    }
+
+    /* ========================== SECTION: TITLE ========================== */
+    .intro-title {
+        margin-top: 40px;
+        text-align: center;
+        font-size: 42px;
+        color: #1d1d1d;
+        margin-bottom: 16px;
+    }
+
+    .intro-line {
+        width: 140px;
+        height: 4px;
+        background: #0059a9;
+        margin: 0 auto 40px auto;
+        border-radius: 6px;
+    }
+
+    /* ========================== SECTION: ABOUT ========================== */
+    .intro-about {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 80px;
+        align-items: center;
+    }
+
+    .intro-about-text {
+        width: 55%;
+        font-size: 18px;
+        line-height: 30px;
+        color: #333;
+    }
+
+    .intro-about img {
+        width: 38%;
+    }
+
+    /* ========================== BLUE BLOCK ========================== */
+    .blue-block {
+        background: #073c64;
+        padding: 60px 0;
+        color: white;
+        margin: 50px 0;
+    }
+
+        .blue-block h3 {
+            font-size: 32px;
+            margin-bottom: 18px;
+        }
+
+        .blue-block p {
+            font-size: 18px;
+            line-height: 32px;
+            max-width: 900px;
+        }
+
+    /* ========================== TIMELINE ========================== */
+    .timeline-section {
+        margin: 60px 0;
+    }
+
+    .timeline-title {
+        text-align: center;
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 40px;
+    }
+
+    .timeline-wrapper {
+        border-left: 3px dashed #0a3c63;
+        margin-left: 50%;
+        padding-left: 40px;
+        position: relative;
+    }
+
+    .timeline-item {
+        margin-bottom: 60px;
+        position: relative;
+    }
+
+        .timeline-item .dot {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #0a3c63;
+            position: absolute;
+            left: -52px;
+            top: 5px;
+        }
+
+    .timeline-year {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 12px;
+    }
+
+    .timeline-text {
+        font-size: 18px;
+        line-height: 30px;
+        color: #333;
+    }
+
+    /* ========================== CTA BANNER ========================== */
+    /* ========================= */
+    /* CTA BANNER CARMUDI */
+    /* ========================= */
+    .cta-banner {
+        position: relative;
+        width: 100%;
+        height: 480px;
+        background: url('/Content/images/cta-bg.jpg') center/cover no-repeat;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 70px 0;
+    }
+
+    /* LỚP OVERLAY LÀM TỐI ẢNH */
+    .cta-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+    }
+
+    /* NỘI DUNG */
+    .cta-content {
+        position: relative;
+        z-index: 2;
+        color: white;
+        text-align: center;
+        max-width: 900px;
+    }
+
+        .cta-content h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .cta-content p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+    /* NÚT */
+    .cta-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .btn-sell {
+        background: #fff;
+        color: #003c80;
+        padding: 14px 34px;
+        border-radius: 8px;
+        font-size: 20px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .btn-buy {
+        background: #005bbf;
+        color: #fff;
+        padding: 14px 34px;
+        border-radius: 8px;
+        font-size: 20px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+
+    /* ========================== CAR BRAND LIST ========================== */
+    .brand-section {
+        padding: 50px 0;
+    }
+
+    .brand-title {
+        font-size: 32px;
+        margin-bottom: 24px;
+        font-weight: bold;
+    }
+
+    .brand-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 40px;
+    }
+
+    .brand-col h4 {
+        font-size: 22px;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    .brand-col a {
+        display: block;
+        font-size: 17px;
+        padding: 4px 0;
+        color: #000;
+        text-decoration: none;
+    }
+
+        .brand-col a:hover {
+            color: #0059a9;
+        }
+</style>
+
+<div class="carmudi-container">
+
+    <!-- TITLE -->
+    <h1 class="intro-title">Giới thiệu về Carmudi</h1>
+    <div class="intro-line"></div>
+
+    <!-- ABOUT -->
+    <div class="intro-about">
+        <div class="intro-about-text">
+            Carmudi.vn là thương hiệu uy tín, dẫn đầu thị trường về dịch vụ rao vặt và
+            truyền thông xe ô tô tại Việt Nam. Cam kết mang đến trải nghiệm mua bán xe
+            minh bạch, nhanh chóng và chuyên nghiệp.
+            <br /><br />
+            Chúng tôi cung cấp dịch vụ tối ưu cho người mua và người bán: mua bán xe,
+            thẩm định, bảo hiểm, trả góp và nhiều dịch vụ hỗ trợ khác.
+        </div>
+
+        <img src="~/Content/images/imageGioiThieu.jpg" />
+    </div>
+
+</div>
+
+<!-- BLUE BLOCK -->
+<div class="blue-block">
+    <div class="carmudi-container">
+        <h3>Tầm nhìn</h3>
+        <p>
+            Trở thành nền tảng hàng đầu trong lĩnh vực xe cũ tại Việt Nam bằng việc cho khách hàng trải nghiệm
+            hoàn toàn minh bạch, tin cậy, nhanh chóng và thông tin rõ ràng. Chúng tôi cam kết sử dụng công nghệ
+            tiên tiến và hiện đại nhất để đảm bảo quá trình mua bán xe cũ diễn ra một cách thuận tiện và đáng tin cậy nhất.
+        </p>
+
+        <h3 style="margin-top:40px;">Sứ mệnh</h3>
+        <p>
+            Trở thành lựa chọn tối ưu cho mọi nhu cầu liên quan đến xe ô tô tại Việt Nam. Carmudi cam kết nâng tầm
+            hệ sinh thái ô tô bằng cách thiết lập các tiêu chuẩn cao và đem lại trải nghiệm tuyệt vời cho khách hàng
+            và đối tác của chúng tôi.
+        </p>
+    </div>
+</div>
+
+<!-- TIMELINE -->
+<div class="carmudi-container timeline-section">
+
+    <h2 class="timeline-title">Lịch sử phát triển Carmudi</h2>
+
+    <div class="timeline-wrapper">
+
+        <!-- 2014 -->
+        <div class="timeline-item">
+            <div class="dot"></div>
+            <div class="timeline-year">2014</div>
+            <div class="timeline-text">
+                Carmudi ra mắt dưới sự điều hành của Rocket Internet...
+            </div>
+        </div>
+
+        <!-- 2017 -->
+        <div class="timeline-item">
+            <div class="dot"></div>
+            <div class="timeline-year">2017</div>
+            <div class="timeline-text">
+                Fram^ chính thức tiếp quản Carmudi từ Rocket Internet...
+            </div>
+        </div>
+
+        <!-- 2018 -->
+        <div class="timeline-item">
+            <div class="dot"></div>
+            <div class="timeline-year">2018</div>
+            <div class="timeline-text">
+                Carmudi hợp tác với OtoS...
+            </div>
+        </div>
+
+        <!-- 2020 -->
+        <div class="timeline-item">
+            <div class="dot"></div>
+            <div class="timeline-year">2020</div>
+            <div class="timeline-text">
+                Carmudi phát triển mạnh dịch vụ đăng tin...
+            </div>
+        </div>
+
+        <!-- 2023 -->
+        <div class="timeline-item">
+            <div class="dot"></div>
+            <div class="timeline-year">2023</div>
+            <div class="timeline-text">
+                Hoàn thiện hệ sinh thái mua bán xe toàn diện...
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- CTA BANNER -->
+<div class="cta-banner">
+    <div class="cta-overlay"></div>
+
+    <div class="cta-content">
+        <h1>Mua hoặc bán xe ngay hôm nay</h1>
+        <p>Cho dù là xe mới hay xe cũ, Carmudi luôn có sẵn để bạn lựa chọn chiếc xe mà bạn yêu thích.</p>
+
+        <div class="cta-buttons">
+            <a href="#" class="btn-sell">Bán xe ngay</a>
+            <a href="#" class="btn-buy">Mua xe ngay</a>
+        </div>
+    </div>
+</div>
+
+
+<!-- BRAND SECTION -->
+<div class="carmudi-container brand-section">
+
+    <div class="brand-grid">
+
+        <div class="brand-col">
+            <h4>Xe Toyota</h4>
+            <a>Xe Toyota Vios</a>
+            <a>Xe Toyota Veloz</a>
+            <a>Xe Toyota Fortuner</a>
+        </div>
+
+        <div class="brand-col">
+            <h4>Xe KIA</h4>
+            <a>Xe Kia K3</a>
+            <a>Xe Kia Seltos</a>
+            <a>Xe Kia Sorento</a>
+        </div>
+
+        <div class="brand-col">
+            <h4>Xe Hyundai</h4>
+            <a>Xe Hyundai Accent</a>
+            <a>Xe Hyundai SantaFe</a>
+        </div>
+
+        <div class="brand-col">
+            <h4>Xe Honda</h4>
+            <a>Xe Honda City</a>
+            <a>Xe Honda Civic</a>
+            <a>Xe Honda CR-V</a>
+        </div>
+
+    </div>
+
+</div>

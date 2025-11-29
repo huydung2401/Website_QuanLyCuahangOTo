@@ -9,48 +9,111 @@ namespace TKW.Controllers
 {
     public class QuanTriController : Controller
     {
-        // GET: QuanTri
-        QLMohoDBEntities2 db = new QLMohoDBEntities2();
+        WebsiteMuaBanOtoDBEntities db = new WebsiteMuaBanOtoDBEntities();
 
-        // 🔸 Trang Dashboard (Admin Home)
+        // ============================
+        // 📌 DASHBOARD ADMIN
+        // ============================
         public ActionResult Index()
         {
-            ViewBag.TongSanPham = db.SanPhams.Count();
+            ViewBag.TongXe = db.Xes.Count();
             ViewBag.TongNguoiDung = db.NguoiDungs.Count();
-            ViewBag.TongHoaDon = db.HoaDons.Count();
-            ViewBag.TongDoanhThu = db.HoaDons.Sum(h => (decimal?)h.TongTien) ?? 0;
+            ViewBag.TongDanhGia = db.DanhGias.Count();
+            ViewBag.TongYeuThich = db.YeuThiches.Count();
+
+            // Đếm số tin CHỜ DUYỆT
+            ViewBag.TinChoDuyet = db.Xes.Count(x => x.TrangThaiTin == "Chờ duyệt");
 
             return View();
         }
 
-        // 🔸 Quản lý Sản phẩm
-        public ActionResult SanPham()
+        // ============================
+        // 📌 QUẢN LÝ XE
+        // ============================
+        public ActionResult Xe()
         {
-            var sanPhams = db.SanPhams.ToList();
-            return View(sanPhams);
+            var ds = db.Xes.OrderByDescending(x => x.NgayDang).ToList();
+            return View(ds);
         }
 
-        // 🔸 Quản lý Danh mục (Loại sản phẩm)
-        public ActionResult LoaiSanPham()
+        // ============================
+        // 📌 QUẢN LÝ DANH MỤC XE
+        // ============================
+        public ActionResult DanhMucXe()
         {
-            var danhMucs = db.DanhMucs.ToList();
-            return View(danhMucs);
+            var ds = db.DanhMucXes.ToList();
+            return View(ds);
         }
 
-        // 🔸 Quản lý Người dùng
+        // ============================
+        // 📌 QUẢN LÝ HÃNG XE
+        // ============================
+        public ActionResult HangXe()
+        {
+            var ds = db.HangXes.ToList();
+            return View(ds);
+        }
+
+        // ============================
+        // 📌 QUẢN LÝ DÒNG XE
+        // ============================
+        public ActionResult DongXe()
+        {
+            var ds = db.DongXes.ToList();
+            return View(ds);
+        }
+
+        // ============================
+        // 📌 QUẢN LÝ NGƯỜI DÙNG
+        // ============================
         public ActionResult TaiKhoan()
         {
-            var nguoiDungs = db.NguoiDungs.ToList();
-            return View(nguoiDungs);
+            var ds = db.NguoiDungs.OrderByDescending(x => x.NgayTao).ToList();
+            return View(ds);
         }
 
-        // 🔸 Quản lý Đơn hàng
-        public ActionResult DonHang()
+        // ============================
+        // 📌 QUẢN LÝ ĐÁNH GIÁ XE
+        // ============================
+        public ActionResult DanhGia()
         {
-            var hoaDons = db.HoaDons
-                            .OrderByDescending(h => h.NgayDat)
-                            .ToList();
-            return View(hoaDons);
+            var ds = db.DanhGias
+                        .OrderByDescending(x => x.NgayDanhGia)
+                        .ToList();
+            return View(ds);
+        }
+
+        // ============================
+        // 📌 QUẢN LÝ YÊU THÍCH
+        // ============================
+        public ActionResult YeuThich()
+        {
+            var ds = db.YeuThiches.ToList();
+            return View(ds);
+        }
+
+        // ============================
+        // 📌 QUẢN LÝ LIÊN HỆ (khách liên hệ người bán)
+        // ============================
+        public ActionResult LienHe()
+        {
+            var ds = db.LienHes
+                        .OrderByDescending(x => x.NgayGui)
+                        .ToList();
+            return View(ds);
+        }
+
+        // ============================
+        // 📌 QUẢN LÝ DUYỆT TIN ĐĂNG XE
+        // ============================
+        public ActionResult DuyetTin()
+        {
+            var ds = db.Xes
+                        .Where(x => x.TrangThaiTin == "Chờ duyệt")
+                        .OrderByDescending(x => x.NgayDang)
+                        .ToList();
+
+            return View(ds);
         }
     }
 }

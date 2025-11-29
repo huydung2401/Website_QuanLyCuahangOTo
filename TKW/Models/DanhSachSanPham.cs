@@ -7,59 +7,72 @@ namespace TKW.Models
 {
     public class DanhSachSanPham
     {
-        // Kết nối đến DB thông qua Entity Framework Model
-        QLMohoDBEntities2 db = new QLMohoDBEntities2();
+        // KẾT NỐI ĐÚNG DATABASE WEBSITE MUA BÁN Ô TÔ
+        WebsiteMuaBanOtoDBEntities db = new WebsiteMuaBanOtoDBEntities();
 
         public DanhSachSanPham() { }
 
-        // 🔹 Lấy toàn bộ danh sách sản phẩm
-        public List<SanPham> LayTatCa()
+        // 🔹 Lấy toàn bộ danh sách sản phẩm (Xe)
+        public List<Xe> LayTatCa()
         {
-            return db.SanPhams.ToList();
+            return db.Xes.ToList();
         }
 
-        // 🔹 Lấy sản phẩm theo Id
-        public SanPham LayTheoId(string id)
+        // 🔹 Lấy sản phẩm (Xe) theo Id
+        public Xe LayTheoId(string id)
         {
-            return db.SanPhams.FirstOrDefault(sp => sp.IdSanPham == id);
+            return db.Xes.FirstOrDefault(sp => sp.IdXe == id);
         }
 
-        // 🔹 Thêm mới sản phẩm
-        public void ThemSanPham(SanPham sp)
+        // 🔹 Thêm mới sản phẩm (Xe)
+        public void ThemSanPham(Xe sp)
         {
-            db.SanPhams.Add(sp);
+            db.Xes.Add(sp);
             db.SaveChanges();
         }
 
-        // 🔹 Sửa sản phẩm
-        public void SuaSanPham(SanPham sp)
+        // 🔹 Sửa sản phẩm (Xe)
+        public void SuaSanPham(Xe sp)
         {
-            var spCu = db.SanPhams.FirstOrDefault(x => x.IdSanPham == sp.IdSanPham);
+            var spCu = db.Xes.FirstOrDefault(x => x.IdXe == sp.IdXe);
             if (spCu != null)
             {
-                spCu.TenSanPham = sp.TenSanPham;
+                spCu.TieuDe = sp.TieuDe;
                 spCu.Gia = sp.Gia;
-                spCu.GiaKhuyenMai = sp.GiaKhuyenMai;
+                spCu.NamSX = sp.NamSX;
+                spCu.SoKM = sp.SoKM;
+
+                spCu.HopSo = sp.HopSo;
+                spCu.NhienLieu = sp.NhienLieu;
+                spCu.MauSac = sp.MauSac;
+
+                spCu.DongCo = sp.DongCo;
+                spCu.CongSuat = sp.CongSuat;
+                spCu.KichThuoc = sp.KichThuoc;
+                spCu.XuatXu = sp.XuatXu;
+
                 spCu.MoTaNgan = sp.MoTaNgan;
                 spCu.MoTaChiTiet = sp.MoTaChiTiet;
-                spCu.HinhAnh = sp.HinhAnh;
+                spCu.DiaDiem = sp.DiaDiem;
+
+                spCu.TrangThaiTin = sp.TrangThaiTin;
+
+                spCu.IdNguoiBan = sp.IdNguoiBan;
                 spCu.IdDanhMuc = sp.IdDanhMuc;
-                spCu.ChatLieu = sp.ChatLieu;
-                spCu.MauSac = sp.MauSac;
-                spCu.SoLuongTon = sp.SoLuongTon;
-                spCu.NgayThem = sp.NgayThem;
-                spCu.TrangThai = sp.TrangThai;
+                spCu.IdHangXe = sp.IdHangXe;
+                spCu.IdDongXe = sp.IdDongXe;
+
                 db.SaveChanges();
             }
         }
 
-        // 🔹 Xóa sản phẩm
+        // 🔹 Xóa sản phẩm (Xe)
         public void XoaSanPham(string id)
         {
-            var sp = db.SanPhams.FirstOrDefault(x => x.IdSanPham == id);
+            var sp = db.Xes.FirstOrDefault(x => x.IdXe == id);
             if (sp != null)
             {
-                db.SanPhams.Remove(sp);
+                db.Xes.Remove(sp);
                 db.SaveChanges();
             }
         }

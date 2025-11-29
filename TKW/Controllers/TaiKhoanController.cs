@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Validation;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity.Validation;
 using TKW.Models;
 
 namespace TKW.Controllers
 {
     public class TaiKhoanController : Controller
     {
-        // GET: TaiKhoan
-        QLMohoDBEntities2 db = new QLMohoDBEntities2();
+        WebsiteMuaBanOtoDBEntities db = new WebsiteMuaBanOtoDBEntities();
 
         // ========================
         // GET: Đăng nhập
@@ -25,7 +22,7 @@ namespace TKW.Controllers
         public ActionResult DangNhap(string Email, string MatKhau)
         {
             var user = db.NguoiDungs
-                         .FirstOrDefault(x => x.Email == Email && x.MatKhau == MatKhau);
+                         .FirstOrDefault(x => x.Email == Email && x.MatKhau == MatKhau && x.TrangThai == true);
 
             if (user == null)
             {
@@ -33,10 +30,10 @@ namespace TKW.Controllers
                 return RedirectToAction("DangNhap");
             }
 
-            // Lưu session
             Session["User"] = user;
             Session["UserName"] = user.HoTen;
             Session["UserId"] = user.IdNguoiDung;
+            Session["Role"] = user.VaiTro;
 
             return RedirectToAction("Index", "Home");
         }
@@ -52,7 +49,6 @@ namespace TKW.Controllers
         [HttpPost]
         public ActionResult DangKy(NguoiDung model)
         {
-            // VALIDATION TỐI THIỂU
             if (string.IsNullOrWhiteSpace(model.HoTen) ||
                 string.IsNullOrWhiteSpace(model.Email) ||
                 string.IsNullOrWhiteSpace(model.MatKhau))
@@ -61,17 +57,27 @@ namespace TKW.Controllers
                 return RedirectToAction("DangKy");
             }
 
-            // CHECK EMAIL TRÙNG
             if (db.NguoiDungs.Any(u => u.Email == model.Email))
             {
                 TempData["Error"] = "Email này đã được sử dụng!";
                 return RedirectToAction("DangKy");
             }
 
-            // TẠO MÃ ID KHÔNG BAO GIỜ TRÙNG
-            model.IdNguoiDung = "ND" + DateTime.Now.Ticks.ToString().Substring(10);
+            // Sinh ID dạng ND001, ND002
+            string newId = "ND001";
+            var last = db.NguoiDungs.OrderByDescending(x => x.IdNguoiDung).FirstOrDefault();
+            if (last != null)
+            {
+                int num = int.Parse(last.IdNguoiDung.Substring(2)) + 1;
+                newId = "ND" + num.ToString("000");
+            }
 
-            model.LaAdmin = false;
+            model.IdNguoiDung = newId;
+
+            // Gán giá trị mặc định theo database mới
+            model.VaiTro = "User";
+            model.NgayTao = DateTime.Now;
+            model.TrangThai = true;
 
             try
             {
@@ -80,17 +86,7 @@ namespace TKW.Controllers
             }
             catch (DbEntityValidationException ex)
             {
-                foreach (var e in ex.EntityValidationErrors)
-                {
-                    foreach (var v in e.ValidationErrors)
-                    {
-                        System.Diagnostics.Debug.WriteLine(
-                            "Lỗi: " + v.PropertyName + " - " + v.ErrorMessage
-                        );
-                    }
-                }
-
-                TempData["Error"] = "Dữ liệu không hợp lệ! Kiểm tra lại thông tin.";
+                TempData["Error"] = "Dữ liệu không hợp lệ!";
                 return RedirectToAction("DangKy");
             }
 
@@ -98,10 +94,6 @@ namespace TKW.Controllers
             return RedirectToAction("DangNhap");
         }
 
-
-        // ========================
-        // Đăng xuất
-        // ========================
         public ActionResult DangXuat()
         {
             Session.Clear();

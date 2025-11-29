@@ -15,15 +15,13 @@ namespace TKW.Models
     public partial class DanhGia
     {
         public int IdDanhGia { get; set; }
-        public string IdSanPham { get; set; }
-        public string TenNguoiDung { get; set; }
-        public int SoSao { get; set; }
-        public string NoiDung { get; set; }
-        public string HinhAnh { get; set; }
-        public Nullable<System.DateTime> NgayDanhGia { get; set; }
+        public string IdXe { get; set; }
         public string IdNguoiDung { get; set; }
+        public Nullable<int> SoSao { get; set; }
+        public string NoiDung { get; set; }
+        public Nullable<System.DateTime> NgayDanhGia { get; set; }
     
-        public virtual SanPham SanPham { get; set; }
         public virtual NguoiDung NguoiDung { get; set; }
+        public virtual Xe Xe { get; set; }
     }
 }

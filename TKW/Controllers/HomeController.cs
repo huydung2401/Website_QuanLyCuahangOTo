@@ -1,85 +1,90 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
-using TKW.Models; 
+using TKW.Models;
+
 
 namespace TKW.Controllers
 {
     public class HomeController : Controller
     {
-        // Khởi tạo DbContext
-        private QLMohoDBEntities2 db = new QLMohoDBEntities2();
+        private WebsiteMuaBanOtoDBEntities db = new WebsiteMuaBanOtoDBEntities();
 
-        // Trang chủ: hiển thị danh sách sản phẩm
+        // =============================
+        // TRANG CHỦ
+        // =============================
         public ActionResult Index()
         {
-            var bep = db.SanPhams
-              .Where(s => s.IdDanhMuc == "DM04")   // chỉ lấy bếp
-              .OrderByDescending(s => s.DaBan)      // sắp xếp theo đã bán
-              .Take(4)                              // hiển thị 4 sản phẩm
-              .ToList();
-
-
-            // 🔥 Lọc những sản phẩm giảm giá mạnh (giá khuyến mãi < giá gốc)
-            var giaTot = db.SanPhams
-                          .Where(sp => sp.GiaKhuyenMai > 0 && sp.GiaKhuyenMai < sp.Gia)
-                          .OrderByDescending(sp => (sp.Gia - sp.GiaKhuyenMai))
+            // 1) Xe mới đăng gần đây
+            var xeMoi = db.Xes
+                          .Include("XeHinhAnhs")
+                          .OrderByDescending(x => x.NgayDang)
                           .Take(4)
                           .ToList();
 
-            // 🔥 4 sản phẩm bán chạy nhất
-            var banChay = db.SanPhams
-                            .OrderByDescending(sp => sp.DaBan)
-                            .Take(4)
-                            .ToList();
+            // 2) Xe giá tốt (giá < 1 tỷ)
+            var giaTot = db.Xes
+                           .Include("XeHinhAnhs")
+                           .Where(x => x.Gia < 1000000000)
+                           .OrderBy(x => x.Gia)
+                           .Take(4)
+                           .ToList();
 
-            // 🔥 Tất cả sản phẩm
-            var sanPhams = db.SanPhams
-                             .OrderBy(sp => sp.IdSanPham)
-                             .ToList();
+            // 3) Xe theo danh mục “Sedan”
+            var sedan = db.Xes
+                          .Include("XeHinhAnhs")
+                          .Where(x => x.IdDanhMuc == "DM01")
+                          .Take(4)
+                          .ToList();
 
-            // Gửi dữ liệu ra View
+            // 4) Lấy 12 xe bất kỳ hiển thị chính
+            var xe = db.Xes
+                       .Include("XeHinhAnhs")
+                       .OrderBy(x => x.IdXe)
+                       .Take(12)
+                       .ToList();
 
+            ViewBag.XeMoi = xeMoi;
             ViewBag.GiaTot = giaTot;
-            ViewBag.BanChay = banChay;
-            ViewBag.Bep = bep;
+            ViewBag.Sedan = sedan;
 
-            return View(sanPhams);
-        }
-
-        public ActionResult BrandStory()
-        {
-            return View();
-        }
-        public ActionResult ThietKe_ThiCong()
-        {
-            return View();
+            return View(xe);   // Model chính
         }
 
 
+        // =============================
+        // Cửa hàng
+        // =============================
         public ActionResult CuaHang()
         {
             return View();
         }
 
-
-        // Trang giới thiệu
+        // =============================
+        // Giới thiệu
+        // =============================
         public ActionResult About()
         {
-            ViewBag.Message = "Trang thông tin về cửa hàng.";
+            ViewBag.Message = "Trang thông tin về website.";
             return View();
         }
 
-        // Trang liên hệ
+        // =============================
+        // Liên hệ
+        // =============================
         public ActionResult Contact()
         {
-            ViewBag.Message = "Trang liên hệ cửa hàng.";
+            ViewBag.Message = "Trang liên hệ.";
             return View();
         }
 
+        // =============================
         // Giải phóng tài nguyên
+        // =============================
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -87,6 +92,11 @@ namespace TKW.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult GioiThieu()
+        {
+            return View();
         }
     }
 }

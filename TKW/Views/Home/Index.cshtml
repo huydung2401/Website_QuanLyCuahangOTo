@@ -1,401 +1,1271 @@
-﻿@model List<TKW.Models.SanPham>
-@using System.Globalization
-@using TKW.Models
+﻿@model List<TKW.Models.Xe>
 
 @{
-    ViewBag.Title = "Trang chủ - Moho Furniture";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-
-    // 1. KHỞI TẠO DB
-    QLMohoDBEntities2 db = new QLMohoDBEntities2();
-
-    // 2. ÉP KIỂU DỮ LIỆU (Tránh lỗi Dynamic)
-    var listGiaTot = ViewBag.GiaTot as List<SanPham>;
-    var listBanChay = ViewBag.BanChay as List<SanPham>;
-    var listBep = ViewBag.Bep as List<SanPham>;
-
-    // 3. Định dạng tiền tệ
-    var culture = new CultureInfo("vi-VN");
+    ViewBag.Title = "Mua bán ô tô - Carmudi Clone";
 }
+@using TKW.Models
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="~/Content/css/site.css" />
-    <link rel="stylesheet" href="~/Content/css/index.css" />
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-    <body>
-        <div class="carousel-wrapper mt-3">
-            <div id="mainCarousel" class="carousel slide carousel-fade" data-ride="carousel" data-interval="3000">
-                <ol class="carousel-indicators">
-                    <li data-target="#mainCarousel" data-slide-to="0" class="active"></li>
-                </ol>
-                <div class="carousel-inner text-center">
-                    <div class="carousel-item active"><img src="~/Content/images/carousel02.jpg" class="d-block w-100 carousel-img" alt="Slide 1"></div>
-                    <div class="carousel-item"><img src="~/Content/images/carousel06.jpg" class="d-block w-100 carousel-img" alt="Slide 2"></div>
-                    <div class="carousel-item"><img src="~/Content/images/carousel03.jpg" class="d-block w-100 carousel-img" alt="Slide 3"></div>
-                    <div class="carousel-item"><img src="~/Content/images/carousel04.jpg" class="d-block w-100 carousel-img" alt="Slide 4"></div>
-                    <div class="carousel-item"><img src="~/Content/images/carousel05.jpg" class="d-block w-100 carousel-img" alt="Slide 5"></div>
-                </div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-
-                <!-- Nút điều hướng -->
-                <a class="carousel-control-prev" href="#mainCarousel" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#mainCarousel" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-
-                <a class="carousel-control-prev" href="#mainCarousel" role="button" data-slide="prev"><span class="carousel-control-prev-icon"></span></a>
-                <a class="carousel-control-next" href="#mainCarousel" role="button" data-slide="next"><span class="carousel-control-next-icon"></span></a>
-
+<!-- STRIP BANNER CHẠY VÔ TẬN -->
+<section class="carmudi-top-banners">
+    <div class="banner-strip carmudi-container">
+        <div class="banner-track">
+            <!-- 5 banner gốc -->
+            <div class="banner-item">
+                <img src="~/Content/images/card_discount1.jpg" alt="">
+            </div>
+            <div class="banner-item">
+                <img src="~/Content/images/card_discount2.jpg" alt="">
+            </div>
+            <div class="banner-item">
+                <img src="~/Content/images/card_discount3.jpg" alt="">
+            </div>
+            <div class="banner-item">
+                <img src="~/Content/images/card_discount4.jpg" alt="">
+            </div>
+            <div class="banner-item">
+                <img src="~/Content/images/card_discount5.jpg" alt="">
             </div>
 
-            <section id="ve-chung-toi" class="about-section container py-5">
-                <div class="row align-items-center">
-                    <div class="col-md-6">
-                        <h2 class="section-title">VỀ CHÚNG TÔI</h2>
-                        <h4>
-                            <span class="text-danger">HOME DECOR </span> ĐI ĐẦU XU THẾ NỘI THẤT <br>
-                            <span class="text-danger">SANG TRỌNG HIỆN ĐẠI ĐẲNG CẤP</span>
-                        </h4>
-                        <p>
-                            HOME DECOR được thành lập để thiết kế báo cáo bài tập môn học lập trình web. Ở đây chúng tôi sẽ giới thiệu những sản phẩm nội thất thân thuộc với ngôi nhà của bạn.
-                            <strong>HOME DECOR</strong> mong muốn được là một trong những đơn vị thiết kế nội thất được yêu thích nhất của bạn.
-                            <br><br>
-                            Với tiêu chí <strong>“sáng tạo không giới hạn”</strong>, chúng tôi tập trung vào thiết kế bên ngoài và chất lượng bên trong. Mang lại những trải nghiệm tốt nhất cho khách hàng sử dụng sản phẩm của chúng tôi.
-                        </p>
-                    </div>
-                    <div class="col-md-6 text-center">
-                        <div class="video-thumbnail position-relative">
-                            <img src="~/Content/images/AnhVeChungToi.png" class="img-fluid rounded" alt="About Image">
-                            <a href="https://youtu.be/I3piKNJDhGE?si=QK2eJ6Sil5DD-15Q" class="play-button"><i class="fas fa-play"></i></a>
+            <!-- Lặp lại để cuộn vô tận -->
+            <div class="banner-item">
+                <img src="~/Content/images/card_discount1.jpg" alt="">
+            </div>
+            <div class="banner-item">
+                <img src="~/Content/images/card_discount2.jpg" alt="">
+            </div>
+            <div class="banner-item">
+                <img src="~/Content/images/card_discount3.jpg" alt="">
+            </div>
+            <div class="banner-item">
+                <img src="~/Content/images/card_discount4.jpg" alt="">
+            </div>
+            <div class="banner-item">
+                <img src="~/Content/images/card_discount5.jpg" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+<!-- SEARCH BAR -->
+<div class="container carmudi-container mt-4">
+    <div class="search-box-wrapper shadow-sm p-3 rounded d-flex align-items-center">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-input" placeholder="Tìm kiếm theo Hãng xe, Dòng xe hoặc Từ khóa...">
+    </div>
+</div>
+
+<!-- BỘ LỌC + DANH SÁCH XE -->
+<div class="container carmudi-container mt-4">
+    <div class="row">
+
+        <!-- ======== BỘ LỌC (SIDEBAR) ======== -->
+        <div class="col-md-3">
+            <aside class="filter-panel">
+
+                <div class="filter-header">Bộ lọc</div>
+                <!-- FILTER ITEM: HÃNG XE, DÒNG XE -->
+                <div class="filter-group">
+
+                    <!-- NÚT BẤM (bạn đang dùng) -->
+                    <button type="button" class="filter-row filter-toggle-btn">
+                        <span class="filter-icon"><i class="fas fa-building"></i></span>
+                        <span class="filter-label">Hãng xe, Dòng xe</span>
+                        <span class="filter-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </button>
+
+                    <!-- PHẦN ẨN/HIỆN -->
+                    <div class="filter-content">
+                        <div class="filter-search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Tìm kiếm theo hãng xe, dòng xe">
                         </div>
+
+                        <ul class="filter-list">
+                            <li><input type="checkbox"> Acura</li>
+                            <li><input type="checkbox"> Audi</li>
+                            <li><input type="checkbox"> BMW</li>
+                            <li><input type="checkbox"> Chevrolet</li>
+                            <li><input type="checkbox"> Ford</li>
+                            <li><input type="checkbox"> Toyota</li>
+                            <li><input type="checkbox"> VinFast</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+
+                <!-- ====================== ĐỊA ĐIỂM ====================== -->
+                <div class="filter-group">
+                    <button type="button" class="filter-row filter-toggle-btn">
+                        <span class="filter-icon"><i class="fas fa-map-marker-alt"></i></span>
+                        <span class="filter-label">Địa điểm</span>
+                        <span class="filter-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </button>
+
+                    <div class="filter-content">
+                        <ul class="filter-list">
+                            <li><input type="checkbox"> Hà Nội</li>
+                            <li><input type="checkbox"> TP. Hồ Chí Minh</li>
+                            <li><input type="checkbox"> Đà Nẵng</li>
+                            <li><input type="checkbox"> Hải Phòng</li>
+                            <li><input type="checkbox"> Cần Thơ</li>
+                        </ul>
                     </div>
                 </div>
-            </section>
+
+
+                <!-- ====================== GIÁ ====================== -->
+                <div class="filter-group">
+                    <button type="button" class="filter-row filter-toggle-btn">
+                        <span class="filter-icon"><i class="fas fa-wallet"></i></span>
+                        <span class="filter-label">Giá</span>
+                        <span class="filter-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </button>
+
+                    <div class="filter-content">
+                        <ul class="filter-list">
+                            <li><input type="checkbox"> Dưới 300 triệu</li>
+                            <li><input type="checkbox"> 300 - 500 triệu</li>
+                            <li><input type="checkbox"> 500 - 800 triệu</li>
+                            <li><input type="checkbox"> 800 triệu - 1.2 tỷ</li>
+                            <li><input type="checkbox"> Trên 1.2 tỷ</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <button type="button" class="filter-row filter-toggle-btn">
+                        <span class="filter-icon"><i class="fas fa-calendar-alt"></i></span>
+                        <span class="filter-label">Năm sản xuất</span>
+                        <span class="filter-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </button>
+
+                    <div class="filter-content">
+
+                        <div class="year-slider-box">
+                            <div class="slider-track"></div>
+
+                            <input type="range" id="year-min" min="2000" max="2025" value="2000">
+                            <input type="range" id="year-max" min="2000" max="2025" value="2023">
+                        </div>
+
+                        <div class="year-values">
+                            <div class="year-box">
+                                <label>Tối thiểu</label>
+                                <input type="text" id="year-min-value" value="2000" readonly>
+                            </div>
+
+                            <div class="year-box">
+                                <label>Tối đa</label>
+                                <input type="text" id="year-max-value" value="2023" readonly>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <!-- ====================== SỐ KM ====================== -->
+                <div class="filter-group">
+                    <button type="button" class="filter-row filter-toggle-btn">
+                        <span class="filter-icon"><i class="fas fa-road"></i></span>
+                        <span class="filter-label">Số KM</span>
+                        <span class="filter-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </button>
+
+                    <div class="filter-content">
+                        <ul class="filter-list">
+                            <li><input type="checkbox"> Dưới 5.000 km</li>
+                            <li><input type="checkbox"> 5.000 - 20.000 km</li>
+                            <li><input type="checkbox"> 20.000 - 50.000 km</li>
+                            <li><input type="checkbox"> 50.000 - 100.000 km</li>
+                            <li><input type="checkbox"> Trên 100.000 km</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <!-- ====================== KIỂU DÁNG ====================== -->
+                <div class="filter-group">
+                    <button type="button" class="filter-row filter-toggle-btn">
+                        <span class="filter-icon"><i class="fas fa-car-side"></i></span>
+                        <span class="filter-label">Kiểu dáng</span>
+                        <span class="filter-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </button>
+
+                    <div class="filter-content">
+                        <ul class="filter-list">
+                            <li><input type="checkbox"> Sedan</li>
+                            <li><input type="checkbox"> SUV</li>
+                            <li><input type="checkbox"> Hatchback</li>
+                            <li><input type="checkbox"> Pickup</li>
+                            <li><input type="checkbox"> Coupe</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <!-- ====================== NHIÊN LIỆU ====================== -->
+                <div class="filter-group">
+                    <button type="button" class="filter-row filter-toggle-btn">
+                        <span class="filter-icon"><i class="fas fa-gas-pump"></i></span>
+                        <span class="filter-label">Nhiên liệu</span>
+                        <span class="filter-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </button>
+
+                    <div class="filter-content">
+                        <ul class="filter-list">
+                            <li><input type="checkbox"> Xăng</li>
+                            <li><input type="checkbox"> Dầu</li>
+                            <li><input type="checkbox"> Hybrid</li>
+                            <li><input type="checkbox"> Điện</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <!-- ====================== HỘP SỐ ====================== -->
+                <div class="filter-group">
+                    <button type="button" class="filter-row filter-toggle-btn">
+                        <span class="filter-icon"><i class="fas fa-cogs"></i></span>
+                        <span class="filter-label">Hộp số</span>
+                        <span class="filter-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </button>
+
+                    <div class="filter-content">
+                        <ul class="filter-list">
+                            <li><input type="checkbox"> Số tự động</li>
+                            <li><input type="checkbox"> Số sàn</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <!-- ====================== MÀU SẮC ====================== -->
+                <div class="filter-group">
+                    <button type="button" class="filter-row filter-toggle-btn">
+                        <span class="filter-icon"><i class="fas fa-palette"></i></span>
+                        <span class="filter-label">Màu sắc</span>
+                        <span class="filter-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </button>
+
+                    <div class="filter-content">
+                        <ul class="filter-list">
+                            <li><input type="checkbox"> Trắng</li>
+                            <li><input type="checkbox"> Đen</li>
+                            <li><input type="checkbox"> Đỏ</li>
+                            <li><input type="checkbox"> Bạc</li>
+                            <li><input type="checkbox"> Xanh</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <!-- ====================== ĐĂNG BỞI ====================== -->
+                <div class="filter-group">
+                    <button type="button" class="filter-row filter-toggle-btn">
+                        <span class="filter-icon"><i class="fas fa-user-circle"></i></span>
+                        <span class="filter-label">Đăng bởi</span>
+                        <span class="filter-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </button>
+
+                    <div class="filter-content">
+                        <ul class="filter-list">
+                            <li><input type="checkbox"> Cá nhân</li>
+                            <li><input type="checkbox"> Salon</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </aside>
+
+        </div>
+        <div class="col-md-9">
+            <div class="container banner-small">
+
+                <div id="mainCarousel" class="carousel slide carousel-fade" data-ride="carousel" data-interval="2000">
+
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#mainCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#mainCarousel" data-slide-to="1"></li>
+                        <li data-target="#mainCarousel" data-slide-to="2"></li>
+                        <li data-target="#mainCarousel" data-slide-to="3"></li>
+                        <li data-target="#mainCarousel" data-slide-to="4"></li>
+                    </ol>
+
+                    <!-- Slides -->
+                    <div class="carousel-inner text-center">
+                        <div class="carousel-item active">
+                            <img src="~/Content/images/cta-bg.jpg" class="d-block w-100 carousel-img" alt="Slide 1">
+                        </div>
+
+                        <div class="carousel-item">
+                            <img src="~/Content/images/background01.jpg" class="d-block w-100 carousel-img" alt="Slide 2">
+                        </div>
+
+                        <div class="carousel-item">
+                            <img src="~/Content/images/background02.jpg" class="d-block w-100 carousel-img" alt="Slide 3">
+                        </div>
+
+                        <div class="carousel-item">
+                            <img src="~/Content/images/background03.jpg" class="d-block w-100 carousel-img" alt="Slide 4">
+                        </div>
+
+                        <div class="carousel-item">
+                            <img src="~/Content/images/background04.jpg" class="d-block w-100 carousel-img" alt="Slide 5">
+                        </div>
+                    </div>
+
+                    <!-- Điều hướng -->
+                    <a class="carousel-control-prev" href="#mainCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </a>
+
+                    <a class="carousel-control-next" href="#mainCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </a>
+
+                </div>
+
+            </div>
         </div>
 
-        @if (listGiaTot != null && listGiaTot.Any())
-        {
-            <div class="container mt-5">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div class="moho-title-wrap"><h2 class="moho-section-title mb-0">🔥 Giá siêu tốt</h2></div>
-                    <a href="/SanPham/DanhMuc?dm=DM04" class="text-danger font-weight-bold">Xem thêm</a>
-                </div>
 
-                <div class="row no-gutters">
-                    @foreach (var sp in listGiaTot)
-                    {
-                        int countReview = db.DanhGias.Count(x => x.IdSanPham == sp.IdSanPham);
-                        int rating = sp.DanhGia ?? 0;
+        @functions {
+            string FormatGia(decimal gia)
+            {
+                // giá tính bằng VND
+                long vnd = (long)gia;
 
-                        <div class="col-6 col-md-4 col-lg-3 mb-4 px-2">
-                            <div class="card h-100 position-relative product-card">
-                                @if (sp.GiaKhuyenMai.HasValue && sp.GiaKhuyenMai.Value > 0 && sp.Gia > 0)
-                                {
-                                    var discount = Math.Round(100 - (sp.GiaKhuyenMai.Value / sp.Gia * 100));
-                                    <span class="discount-badge">-@discount%</span>
-                                }
-
-                                <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })">
-                                    <img src="@Url.Content("~/Content/images/" + sp.HinhAnh)" class="card-img-top product-img" style="width:100%; height:250px; object-fit:cover; cursor:pointer;" />
-                                </a>
-
-                                <div class="card-body d-flex flex-column">
-                                    <h5 class="card-title">@sp.TenSanPham</h5>
-                                    <p class="card-text product-price d-flex align-items-center mb-2">
-                                        <span class="text-danger font-weight-bold mr-2">@(sp.GiaKhuyenMai.HasValue ? sp.GiaKhuyenMai.Value.ToString("C0", culture) : "")</span>
-                                        <del class="text-muted">@sp.Gia.ToString("C0", culture)</del>
-                                    </p>
-
-                                    <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })#danhGia" style="text-decoration:none; color:inherit;">
-                                        <div class="rating mb-2">
-                                            @for (int i = 1; i <= 5; i++)
-                                            {
-                                                if (i <= rating)
-                                                {<i class="fas fa-star" style="color:#ff9f00; font-size:12px;"></i> }
-                                                else
-                                                { <i class="far fa-star" style="color:#ccc; font-size:12px;"></i>}
-                                            }
-                                            <span style="font-size:12px; color:#777;">(@countReview)</span>
-                                        </div>
-                                    </a>
-
-                                    <div class="d-flex justify-content-end"><span class="sold-text">Đã bán @sp.DaBan</span></div>
-                                    <div class="d-flex mt-auto">
-                                        <button class="color-btn mr-2" style="background-color:black;" data-img="@Url.Content("~/Content/images/" + sp.HinhAnh)"></button>
-                                        <button class="color-btn" style="background-color:white;" data-img="@Url.Content("~/Content/images/" + sp.HinhAnh)"></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
-        }
-
-        @if (listBanChay != null && listBanChay.Any())
-        {
-            <div class="container mt-5">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="mb-0">Bán chạy</h2>
-                    <a href="/SanPham/DanhMuc?dm=DM04" class="text-danger font-weight-bold">Xem thêm</a>
-                </div>
-
-                <div class="row no-gutters">
-                    @foreach (var sp in listBanChay)
-                    {
-                        int countReview = db.DanhGias.Count(x => x.IdSanPham == sp.IdSanPham);
-                        int rating = sp.DanhGia ?? 0;
-
-                        <div class="col-6 col-md-4 col-lg-3 mb-4 px-2">
-                            <div class="card h-100 position-relative product-card">
-                                @if (sp.GiaKhuyenMai.HasValue && sp.GiaKhuyenMai.Value > 0 && sp.Gia > 0)
-                                {
-                                    var discount = Math.Round(100 - (sp.GiaKhuyenMai.Value / sp.Gia * 100));
-                                    <span class="discount-badge">-@discount%</span>
-                                }
-
-                                <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })">
-                                    <img src="@Url.Content("~/Content/images/" + sp.HinhAnh)" class="card-img-top product-img" style="width:100%; height:250px; object-fit:cover; cursor:pointer;" />
-                                </a>
-
-                                <div class="card-body d-flex flex-column">
-                                    <h5 class="card-title">@sp.TenSanPham</h5>
-                                    <p class="card-text product-price d-flex align-items-center mb-2">
-                                        @if (sp.GiaKhuyenMai.HasValue)
-                                        {
-                                            <span class="text-danger font-weight-bold mr-2">@sp.GiaKhuyenMai.Value.ToString("C0", culture)</span>
-                                            <del class="text-muted">@sp.Gia.ToString("C0", culture)</del>
-                                        }
-                                        else
-                                        {
-                                            <span class="font-weight-bold">@sp.Gia.ToString("C0", culture)</span>
-                                        }
-                                    </p>
-
-                                    <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })#danhGia" style="text-decoration:none; color:inherit;">
-                                        <div class="rating mb-2">
-                                            @for (int i = 1; i <= 5; i++)
-                                            {
-                                                if (i <= rating)
-                                                {<i class="fas fa-star" style="color:#ff9f00; font-size:12px;"></i> }
-                                                else
-                                                { <i class="far fa-star" style="color:#ccc; font-size:12px;"></i>}
-                                            }
-                                            <span style="font-size:12px; color:#777;">(@countReview)</span>
-                                        </div>
-                                    </a>
-
-                                    <div class="d-flex justify-content-end"><span class="sold-text">Đã bán @sp.DaBan</span></div>
-                                    <div class="d-flex mt-auto">
-                                        <button class="color-btn mr-2" style="background-color:black;" data-img="@Url.Content("~/Content/images/" + sp.HinhAnh)"></button>
-                                        <button class="color-btn" style="background-color:white;" data-img="@Url.Content("~/Content/images/" + sp.HinhAnh)"></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
-        }
-
-        <div class="container mt-4">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h2 class="mb-0">Gợi ý</h2>
-                <a href="/SanPham/DanhMuc?dm=DM04" class="text-danger font-weight-bold">Xem thêm</a>
-            </div>
-            <div class="row no-gutters">
-                @foreach (var sp in Model)
+                // Nếu giá dưới 1 tỷ
+                if (vnd < 1_000_000_000)
                 {
-                    int countReview = db.DanhGias.Count(x => x.IdSanPham == sp.IdSanPham);
-                    int rating = sp.DanhGia ?? 0;
+                    long trieu = vnd / 1_000_000;
+                    return $"{trieu:N0} triệu";
+                }
 
-                    <div class="col-6 col-md-4 col-lg-3 mb-4 px-2">
-                        <div class="card h-100 position-relative product-card">
-                            @if (sp.GiaKhuyenMai.HasValue && sp.GiaKhuyenMai.Value > 0 && sp.Gia > 0)
-                            {
-                                var discount = Math.Round(100 - (sp.GiaKhuyenMai.Value / sp.Gia * 100));
-                                <span class="discount-badge">-@discount%</span>
-                            }
-                            <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })">
-                                <img src="@Url.Content("~/Content/images/" + sp.HinhAnh)" class="card-img-top product-img" style="width:100%; height:250px; object-fit:cover; cursor:pointer;" />
-                            </a>
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">@sp.TenSanPham</h5>
-                                <p class="card-text product-price d-flex align-items-center mb-2" style="flex-wrap: nowrap; overflow: hidden;">
-                                    @if (sp.GiaKhuyenMai.HasValue)
-                                    {
-                                        <span class="text-danger font-weight-bold mr-2">@sp.GiaKhuyenMai.Value.ToString("C0", culture)</span>
-                                        <del class="text-muted">@sp.Gia.ToString("C0", culture)</del>
-                                    }
-                                    else
-                                    {
-                                        <span class="font-weight-bold">@sp.Gia.ToString("C0", culture)</span>
-                                    }
-                                </p>
+                // Nếu giá từ 1 tỷ trở lên
+                long ty = vnd / 1_000_000_000;
+                long trieuConLai = (vnd % 1_000_000_000) / 1_000_000;
 
-                                <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })#danhGia" style="text-decoration:none; color:inherit;">
-                                    <div class="rating mb-2">
-                                        @for (int i = 1; i <= 5; i++)
-                                        {
-                                            if (i <= rating)
-                                            {<i class="fas fa-star" style="color:#ff9f00; font-size:12px;"></i> }
-                                            else
-                                            { <i class="far fa-star" style="color:#ccc; font-size:12px;"></i>}
-                                        }
-                                        <span style="font-size:12px; color:#777;">(@countReview)</span>
+                if (trieuConLai > 0)
+                    return $"{ty} tỷ {trieuConLai:N0} triệu";
+
+                return $"{ty} tỷ";
+            }
+        }
+
+
+        <!-- ======== DANH SÁCH XE ======== -->
+        <div class="col-md-12">
+
+            <h4 class="car-list-title">Mua bán ô tô - Xe ô tô cũ - Xe hơi toàn quốc</h4>
+            <p class="car-list-sub">
+                Có 3453 tin bán xe giá từ 75 triệu đến 15 tỷ 990 triệu (cập nhật mới nhất 11/2025)
+            </p>
+
+            <!-- ===== ROW CHÍNH – 4 CỘT ===== -->
+            <div class="row g-4">
+                @foreach (var xe in Model)
+                {
+                    var img = xe.XeHinhAnhs.FirstOrDefault()?.HinhAnh ?? "no-image.jpg";
+
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+
+                        <a href="@Url.Action("ChiTietXe","Xe", new { id = xe.IdXe })" class="card-link-wrapper">
+                            <div class="car-card-carmudi">
+
+                                <div class="car-img-wrap">
+                                    <img src="@Url.Content("~/Content/images/" + img)" class="car-img-carmudi" />
+                                </div>
+
+                                <div class="car-body-carmudi">
+
+                                    <h5 class="car-title-carmudi">@xe.TieuDe</h5>
+
+                                    <div class="car-info-row">
+                                        <div class="car-info-item"><i class="fas fa-calendar"></i> <span>No data</span></div>
+                                        <div class="car-info-item"><i class="fas fa-road"></i> <span>Xe mới</span></div>
                                     </div>
-                                </a>
 
-                                <div class="d-flex justify-content-end"><span class="sold-text">Đã bán @sp.DaBan</span></div>
-                                <div class="d-flex mt-auto">
-                                    <button class="color-btn mr-2" style="background-color:black;" data-img="@Url.Content("~/Content/images/" + sp.HinhAnh)"></button>
-                                    <button class="color-btn" style="background-color:white;" data-img="@Url.Content("~/Content/images/" + sp.HinhAnh)"></button>
+                                    <div class="car-info-row">
+                                        <div class="car-info-item"><i class="fas fa-gas-pump"></i> <span>@xe.NhienLieu</span></div>
+                                        <div class="car-info-item"><i class="fas fa-cogs"></i> <span>@xe.HopSo</span></div>
+                                    </div>
+
+                                    <div class="car-price-carmudi">@FormatGia(xe.Gia)</div>
+
+                                    <div class="car-location">
+                                        <i class="fas fa-map-marker-alt"></i> @xe.DiaDiem
+                                    </div>
+
                                 </div>
                             </div>
-                        </div>
+                        </a>
+
                     </div>
                 }
             </div>
 
-            <section class="home-banner">
-                <div class="banner-item"><img src="~/Content/images/banner1.jpg" alt=""></div>
-                <div class="banner-item"><img src="~/Content/images/banner2.jpg" alt=""></div>
-                <div class="banner-item"><img src="~/Content/images/banner3.jpg" alt=""></div>
-            </section>
-        </div>
 
-        @if (listBep != null && listBep.Any())
-        {
-            <div class="container mt-5">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="mb-0">Kitchen</h2>
-                    <a href="/SanPham/DanhMuc?dm=DM04" class="text-danger font-weight-bold">Xem thêm</a>
-                </div>
 
-                <div class="row no-gutters">
-                    @foreach (var sp in listBep)
+        </div> <!-- END col-md-9 -->
+        <div class="car-section">
+            <h2 class="title">THÔNG TIN DÒNG XE MỚI</h2>
+
+            <!-- Tabs -->
+            <ul class="car-tabs">
+                <li class="active">Tất cả</li>
+                <li>Hatchback</li>
+                <li>MPV</li>
+                <li>Sedan</li>
+                <li>SUV</li>
+                <li>Pickup</li>
+                <li>CUV</li>
+                <li>Coupe</li>
+                <li>Van/Minibus</li>
+                <li>Xe tải</li>
+                <li>Xe du lịch</li>
+                <li>Xe khách</li>
+            </ul>
+
+            <!-- Slider -->
+            <!-- Slider -->
+            <div class="swiper carSwiper">
+                <div class="swiper-wrapper">
+
+                    @foreach (var item in (List<Xe>)ViewBag.XeMoi)
                     {
-                        int countReview = db.DanhGias.Count(x => x.IdSanPham == sp.IdSanPham);
-                        int rating = sp.DanhGia ?? 0;
+                        <div class="swiper-slide">
+                            <div class="car-card">
 
-                        <div class="col-6 col-md-4 col-lg-3 mb-4 px-2">
-                            <div class="card h-100 position-relative product-card">
-                                @if (sp.GiaKhuyenMai.HasValue && sp.GiaKhuyenMai.Value > 0 && sp.Gia > 0)
-                                {
-                                    var discount = Math.Round(100 - (sp.GiaKhuyenMai.Value / sp.Gia * 100));
-                                    <span class="discount-badge">-@discount%</span>
-                                }
-                                <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })">
-                                    <img src="@Url.Content("~/Content/images/" + sp.HinhAnh)" class="card-img-top product-img" style="width:100%; height:250px; object-fit:cover; cursor:pointer;" />
-                                </a>
-                                <div class="card-body d-flex flex-column">
-                                    <h5 class="card-title">@sp.TenSanPham</h5>
-                                    <p class="card-text product-price d-flex align-items-center mb-2">
-                                        <span class="text-danger font-weight-bold mr-2">
-                                            @(sp.GiaKhuyenMai.HasValue ? sp.GiaKhuyenMai.Value.ToString("C0", culture) : sp.Gia.ToString("C0", culture))
-                                        </span>
-                                        @if (sp.GiaKhuyenMai.HasValue)
-                                        {
-                                            <del class="text-muted">@sp.Gia.ToString("C0", culture)</del>
-                                        }
-                                    </p>
-                                    <a href="@Url.Action("ChiTietSanPham", "SanPham", new { id = sp.IdSanPham })#danhGia" style="text-decoration:none; color:inherit;">
-                                        <div class="rating mb-2">
-                                            @for (int i = 1; i <= 5; i++)
-                                            {
-                                                if (i <= rating)
-                                                {<i class="fas fa-star" style="color:#ff9f00; font-size:12px;"></i> }
-                                                else
-                                                { <i class="far fa-star" style="color:#ccc; font-size:12px;"></i>}
-                                            }
-                                            <span style="font-size:12px; color:#777;">(@countReview)</span>
-                                        </div>
-                                    </a>
-                                    <div class="moho-sold">Đã bán @sp.DaBan</div>
+                                <!-- Ảnh đại diện -->
+                                <div class="car-img-wrap">
+                                    <img src="@Url.Content("~/Content/images/" + item.XeHinhAnhs.First().HinhAnh)"
+                                         class="car-img-carmudi" />
                                 </div>
+
+                                <div class="car-info">
+
+                                    <!-- TÊN HÃNG (sửa DynamicProxy) -->
+                                    @*<div class="badge">@item.HangXe.TenHangXe</div>*@
+
+                                    <div class="year">@item.NamSX</div>
+
+                                    <div class="name">@item.TieuDe</div>
+
+                                    <div class="price">@item.Gia.ToString("N0") VNĐ</div>
+
+                                </div>
+
+
                             </div>
                         </div>
                     }
+
                 </div>
+
+                <!-- Dots -->
+                <div class="swiper-pagination"></div>
             </div>
+
+
+            <div class="center-btn">
+                <a href="/Xe/TatCa" class="view-all-btn">Xem tất cả →</a>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+    var swiper = new Swiper(".carSwiper", {
+        slidesPerView: 4,
+        spaceBetween: 20,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        breakpoints: {
+            1200: { slidesPerView: 4 },
+            992: { slidesPerView: 3 },
+            768: { slidesPerView: 2 },
+            576: { slidesPerView: 1 }
+        }
+    });
+
+    // nam san xuat slider
+    document.querySelectorAll('.filter-toggle-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const parent = btn.closest('.filter-group');
+            parent.classList.toggle('active');
+        });
+    });
+    const minRange = document.getElementById("year-min");
+    const maxRange = document.getElementById("year-max");
+
+    const minValue = document.getElementById("year-min-value");
+    const maxValue = document.getElementById("year-max-value");
+
+    function updateYearSlider() {
+        let min = parseInt(minRange.value);
+        let max = parseInt(maxRange.value);
+
+        if (min > max - 1) {
+            minRange.value = max - 1;
+            min = max - 1;
+        }
+
+        if (max < min + 1) {
+            maxRange.value = min + 1;
+            max = min + 1;
+        }
+
+        minValue.value = min;
+        maxValue.value = max;
+
+        updateTrackFill();
+    }
+
+    function updateTrackFill() {
+        const track = document.querySelector(".slider-track");
+        const min = minRange.value;
+        const max = maxRange.value;
+
+        const percent1 = ((min - 2000) / (2025 - 2000)) * 100;
+        const percent2 = ((max - 2000) / (2025 - 2000)) * 100;
+
+        track.style.background = `linear-gradient(to right,
+        #d7d7d7 ${percent1}%,
+        #1b66d1 ${percent1}%,
+        #1b66d1 ${percent2}%,
+        #d7d7d7 ${percent2}%)`;
+    }
+
+    minRange.addEventListener("input", updateYearSlider);
+    maxRange.addEventListener("input", updateYearSlider);
+
+    updateYearSlider();
+
+
+    // an hien filter
+
+    // ĐÓNG/MỞ TỪNG FILTER – CHỈ 1 CÁI ĐƯỢC MỞ
+    document.querySelectorAll(".filter-toggle-btn").forEach(btn => {
+
+        btn.addEventListener("click", function () {
+
+            const currentGroup = this.closest(".filter-group");
+            const currentContent = currentGroup.querySelector(".filter-content");
+
+            // đóng tất cả group khác
+            document.querySelectorAll(".filter-group").forEach(group => {
+                if (group !== currentGroup) {
+                    group.classList.remove("open");
+                    group.querySelector(".filter-content").style.display = "none";
+                    group.querySelector(".filter-toggle i").classList.remove("rotated");
+                }
+            });
+
+            // toggle group đang bấm
+            const isOpen = currentGroup.classList.contains("open");
+
+            if (isOpen) {
+                currentGroup.classList.remove("open");
+                currentContent.style.display = "none";
+                this.querySelector(".filter-toggle i").classList.remove("rotated");
+            } else {
+                currentGroup.classList.add("open");
+                currentContent.style.display = "block";
+                this.querySelector(".filter-toggle i").classList.add("rotated");
+            }
+
+        });
+
+    });
+
+</script>
+
+<style>
+    /* ==== KHỐI FILTER COLLAPSE ==== */
+    .filter-group {
+        margin-bottom: 10px;
+    }
+
+    .filter-row {
+        width: 100%;
+        background: none;
+        border: none;
+        padding: 14px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        color: #1d3557;
+    }
+
+        .filter-row:hover {
+            background: #f5f8ff;
+        }
+
+    .filter-content {
+        display: none;
+        padding: 15px 20px 25px;
+        border-top: 1px solid #eee;
+    }
+
+        .filter-content.active {
+            display: block;
+        }
+
+    /* ==== SLIDER BOX ==== */
+    .year-slider-box {
+        position: relative;
+        height: 40px;
+        margin-top: 10px;
+    }
+
+    /* Track mờ */
+    .slider-track {
+        position: absolute;
+        width: 100%;
+        height: 6px;
+        background: #ddd;
+        border-radius: 4px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    /* ==== INPUT RANGE ==== */
+    .year-slider-box input[type=range] {
+        position: absolute;
+        width: 100%;
+        height: 6px;
+        top: 50%;
+        transform: translateY(-50%);
+        -webkit-appearance: none;
+        background: none;
+        pointer-events: none; /* để 2 cái overlap */
+    }
+
+    /* Track của input bị ẩn */
+    input[type=range]::-webkit-slider-runnable-track {
+        height: 6px;
+        background: none;
+    }
+
+    /* NÚT TRÒN */
+    input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 20px;
+        width: 20px;
+        background: #1a73e8;
+        border-radius: 50%;
+        cursor: pointer;
+        pointer-events: auto;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+        margin-top: -7px;
+    }
+
+    /* ==== VÙNG ĐÃ CHỌN (MÀU XANH) ==== */
+    .slider-track::before {
+        content: "";
+        position: absolute;
+        height: 6px;
+        background: linear-gradient(90deg, #005bea, #00c6fb);
+        border-radius: 4px;
+        top: 0;
+        left: 0;
+        width: 0%;
+    }
+
+    .year-slider-box.active .slider-track::before {
+        transition: width 0.15s ease;
+    }
+
+    /* ==== KHUNG HIỂN THỊ GIÁ TRỊ ==== */
+    .year-values {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .year-box label {
+        font-size: 14px;
+        color: #8d99ae;
+    }
+
+    .year-box input {
+        width: 120px;
+        text-align: center;
+        font-size: 20px;
+        font-weight: 700;
+        padding: 10px 0;
+        border: 1px solid #d8d8d8;
+        background: #fff;
+        border-radius: 10px;
+        margin-top: 5px;
+        color: #1d3557;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    /* ================= YEAR SLIDER ================= */
+
+    .year-slider-box {
+        position: relative;
+        height: 35px;
+        margin: 15px 10px 10px 10px;
+    }
+
+        .year-slider-box input[type=range] {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            background: none;
+            pointer-events: none;
+        }
+
+            .year-slider-box input[type=range]::-webkit-slider-thumb {
+                pointer-events: auto;
+                -webkit-appearance: none;
+                width: 22px;
+                height: 22px;
+                background: #1b66d1;
+                border-radius: 50%;
+                cursor: pointer;
+            }
+
+    .slider-track {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        height: 6px;
+        width: 100%;
+        background: #d7d7d7;
+        border-radius: 3px;
+        transform: translateY(-50%);
+    }
+
+    .year-values {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        padding: 10px;
+    }
+
+    .year-box {
+        width: 46%;
+    }
+
+        .year-box label {
+            display: block;
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 4px;
+        }
+
+        .year-box input {
+            width: 100%;
+            border: 1px solid #d3d7df;
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 700;
+            color: #243a76;
+        }
+
+    .filter-group {
+        border-bottom: 1px solid #edf0f6;
+    }
+
+    /* nút tiêu đề */
+    .filter-toggle-btn {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        background: transparent;
+        border: none;
+        padding: 12px 24px;
+        cursor: pointer;
+    }
+
+    /* icon dropdown */
+    .filter-toggle i {
+        transition: .3s ease;
+    }
+
+    /* xoay icon khi mở */
+    .filter-group.active .filter-toggle i {
+        transform: rotate(180deg);
+    }
+
+    /* khung ẩn */
+    .filter-content {
+        display: none;
+        padding: 12px 24px 18px 24px;
+    }
+
+    /* mở */
+    .filter-group.active .filter-content {
+        display: block;
+    }
+
+    /* ô tìm kiếm */
+    .filter-search-box {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        padding: 10px;
+        background: #fff;
+        margin-bottom: 12px;
+    }
+
+        .filter-search-box input {
+            border: none;
+            flex: 1;
+            outline: none;
+            font-size: 14px;
+        }
+
+    /* danh sách */
+    .filter-list li {
+        list-style: none;
+        padding: 8px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+    }
+
+
+
+    .car-section {
+        background: #0c1f52;
+        padding: 40px;
+        border-radius: 25px;
+        color: #fff;
+        margin-bottom: 50px;
+    }
+
+        .car-section .title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+    .car-tabs {
+        display: flex;
+        gap: 25px;
+        margin-bottom: 25px;
+        border-bottom: 2px solid #334a7d;
+        padding-bottom: 10px;
+        overflow-x: auto;
+    }
+
+        .car-tabs li {
+            list-style: none;
+            cursor: pointer;
+            font-weight: 600;
+            opacity: 0.8;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+
+            .car-tabs li.active {
+                border-bottom: 3px solid #ffea00;
+                padding-bottom: 5px;
+                opacity: 1;
+            }
+
+    /* CAR CARD */
+    .car-card {
+        background: #fff;
+        border-radius: 20px;
+        overflow: hidden;
+        padding-bottom: 15px;
+    }
+
+    .car-img {
+        width: 100%;
+        height: 170px;
+        object-fit: cover;
+    }
+
+    .car-info {
+        padding: 15px;
+        color: #0c1f52;
+        font-weight: 600;
+    }
+
+    .badge {
+        display: inline-block;
+        background: #ffea00;
+        padding: 5px 10px;
+        border-radius: 10px;
+        font-size: 13px;
+        color: #0c1f52;
+    }
+
+    .year {
+        margin-left: 10px;
+        opacity: 0.7;
+    }
+
+    .name {
+        margin-top: 10px;
+        font-size: 18px;
+    }
+
+    .price {
+        margin-top: 5px;
+        color: #e6372d;
+    }
+
+    /* View all */
+    .center-btn {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    .view-all-btn {
+        background: #ffe200;
+        color: #0c1f52;
+        padding: 10px 25px;
+        border-radius: 25px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+
+
+    /* =========================
+        CHỈNH SỬA BANNER VÀ CAROUSEL BOOTSTRAP*/
+    .carousel-img {
+        height: 510px !important;
+        object-fit: cover;
+    }
+
+    .banner-small {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    .col-md-9 {
+        padding-top: 0 !important;
+    }
+
+    #mainCarousel {
+        margin-top: 0 !important;
+    }
+
+
+    .car-card-carmudi {
+        height: 100%;
+    }
+
+    .row.g-4 > div {
+        padding-bottom: 24px !important; /* tạo khoảng giữa các hàng */
+    }
+
+    .banner-small {
+        max-width: 900px; /* kích thước nhỏ lại */
+        margin: 40px auto; /* căn giữa */
+    }
+
+    .banner-img {
+        width: 100%;
+        border-radius: 14px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+
+    /* =========================
+        CARD XE CHUẨN CARMUDI
+    ========================= */
+    .card-link-wrapper {
+        text-decoration: none !important;
+        color: inherit !important;
+        display: block;
+    }
+
+
+    .car-card-carmudi {
+        background: #fff;
+        border-radius: 18px;
+        border: 1px solid #e5e7eb;
+        overflow: hidden;
+        transition: 0.2s ease;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+
+        .car-card-carmudi:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 6px 26px rgba(0,0,0,0.14);
+        }
+
+    /* ẢNH */
+    .car-img-wrap {
+        width: 100%;
+        height: 230px;
+        overflow: hidden;
+    }
+
+    .car-img-carmudi {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* THÂN */
+    .car-body-carmudi {
+        padding: 18px 20px 22px 20px;
+    }
+
+    /* TIÊU ĐỀ */
+    .car-title-carmudi {
+        font-size: 18px;
+        font-weight: 700;
+        color: #1d1d1d;
+        margin-bottom: 14px;
+        line-height: 1.35;
+    }
+
+    /* ====== 2 CỘT ICON MỖI HÀNG ====== */
+    .car-info-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* 2 cột bằng nhau */
+        column-gap: 20px;
+        margin-bottom: 6px;
+    }
+
+    /* Item trong từng cột */
+    .car-info-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+    }
+
+        /* Icon luôn cố định kích thước – không lệch */
+        .car-info-item i {
+            width: 18px; /* cố định icon 18px */
+            text-align: center; /* icon luôn giữa */
+            font-size: 15px;
+            color: #3e3e3e;
+        }
+
+        /* Text */
+        .car-info-item span {
+            font-size: 14px;
+            color: #4f4f4f;
         }
 
 
-        <div class="container mt-5">
-            <h2 class="section-title">Đánh giá thực tế</h2>
-            <div class="brand-slider-wrapper">
-                <div class="brand-track">
+    /* GIÁ */
+    .car-price-carmudi {
+        font-size: 22px;
+        font-weight: 800;
+        color: #e40000;
+        margin-bottom: 8px;
+    }
+
+    /* ĐỊA ĐIỂM */
+    .car-time-carmudi {
+        font-size: 14px;
+        color: #666;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+        .car-time-carmudi i {
+            font-size: 15px;
+            color: #444;
+        }
 
 
-                    <!-- ORIGINAL -->
-                    <div class="review-item"><img src="~/Content/images/012.jpg" class="review-img"><h4 class="review-name">Trần Văn Luân</h4><div class="review-stars">★★★★★</div><p class="review-text">Sẽ quay lại mua thêm, sản phẩm tốt</p></div>
-                    <div class="review-item"><img src="~/Content/images/013.jpg" class="review-img"><h4 class="review-name">Ẩn Danh</h4><div class="review-stars">★★★★★</div><p class="review-text">Không gian nhà dễ chịu hơn, hàng đẹp </p></div>
-                    <div class="review-item"><img src="~/Content/images/014.jpg" class="review-img"><h4 class="review-name">Ẩn Danh</h4><div class="review-stars">★★★★★</div><p class="review-text">Kiểu dáng gọn gàng và chất liệu rất tốt.</p></div>
-                    <div class="review-item"><img src="~/Content/images/015.jpg" class="review-img"><h4 class="review-name">Ẩn Danh</h4><div class="review-stars">★★★★★</div><p class="review-text">Giao nhanh – đúng kiểu homestay.</p></div>
 
-                    <!-- CLONE (ghi lại y chang như brand) -->
-                    <div class="review-item clone"><img src="~/Content/images/012.jpg" class="review-img"><h4 class="review-name">Trần Văn Luân</h4><div class="review-stars">★★★★★</div><p class="review-text">Sẽ quay lại mua thêm, sản phẩm tốt</p></div>
-                    <div class="review-item clone"><img src="~/Content/images/013.jpg" class="review-img"><h4 class="review-name">Ẩn Danh</h4><div class="review-stars">★★★★★</div><p class="review-text">Không gian nhà dễ chịu hơn, hàng đẹp.</p></div>
-                    <div class="review-item clone"><img src="~/Content/images/014.jpg" class="review-img"><h4 class="review-name">Ẩn Danh</h4><div class="review-stars">★★★★★</div><p class="review-text">Kiểu dáng gọn gàng và chất liệu rất tốt.</p></div>
-                    <div class="review-item clone"><img src="~/Content/images/015.jpg" class="review-img"><h4 class="review-name">Ẩn Danh</h4><div class="review-stars">★★★★★</div><p class="review-text">Giao nhanh – đúng kiểu homestay.</p></div>
 
-                </div>
-            </div>
-        </div>
+    /* ===============================
+                CONTAINER RỘNG GIỐNG CARMUDI
+            =============================== */
+    .carmudi-container {
+        max-width: 1360px;
+        width: 100%;
+    }
 
-        <div class="container mt-5">
-            <h2 class="section-title">Báo chí</h2>
-            <div class="news-slider-wrapper">
-                <div class="news-slider">
-                    <div class="news-track">
-                        <div class="news-item"><img src="~/Content/images/news1.png" /><h4>[Advertising Vietnam] MOHO – Made in Việt Nam...</h4><a class="more-link" href="#">Xem thêm</a></div>
-                        <div class="news-item"><img src="~/Content/images/news2.png" /><h4>[Công Thương] Nội thất MOHO gia nhập thị trường...</h4><a class="more-link" href="#">Xem thêm</a></div>
-                        <div class="news-item"><img src="~/Content/images/news3.png" /><h4>[VnExpress] Thương hiệu Nội thất MOHO...</h4><a class="more-link" href="#">Xem thêm</a></div>
-                        <div class="news-item"><img src="~/Content/images/news4.png" /><h4>[VnExpress] Thương hiệu Nội thất MOHO...</h4><a class="more-link" href="#">Xem thêm</a></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    /* ===============================
+                SEARCH BOX
+            =============================== */
+    .search-box-wrapper {
+        border: 1px solid #ddd;
+        background: #fff;
+        border-radius: 8px;
+    }
 
-        <div class="container mt-5">
-            <h2 class="section-title">Khách hàng MOHO tại</h2>
-            <div class="brand-slider-wrapper">
-                <div class="brand-track">
-                    <div class="brand-item"><img src="~/Content/images/logo1.png" /></div>
-                    <div class="brand-item"><img src="~/Content/images/logo2.png" /></div>
-                    <div class="brand-item"><img src="~/Content/images/logo3.png" /></div>
-                    <div class="brand-item"><img src="~/Content/images/logo4.png" /></div>
-                    <div class="brand-item"><img src="~/Content/images/logo5.png" /></div>
-                    <div class="brand-item"><img src="~/Content/images/logo6.png" /></div>
-                    <div class="brand-item clone"><img src="~/Content/images/logo1.png" /></div>
-                    <div class="brand-item clone"><img src="~/Content/images/logo2.png" /></div>
-                    <div class="brand-item clone"><img src="~/Content/images/logo3.png" /></div>
-                    <div class="brand-item clone"><img src="~/Content/images/logo4.png" /></div>
-                    <div class="brand-item clone"><img src="~/Content/images/logo5.png" /></div>
-                    <div class="brand-item clone"><img src="~/Content/images/logo6.png" /></div>
-                </div>
-            </div>
-        </div>
+    .search-icon {
+        font-size: 18px;
+        color: #999;
+    }
 
-        <div class="container mt-5">
-            <div class="services">
-                <div class="container">
-                    <div class="row text-center g-4">
-                        <div class="col-md-3"><div class="service-box"><div class="service-icon"><i class="bi bi-truck"></i></div><div class="service-title">Giao Hàng & Lắp Đặt</div><div class="service-sub">Miễn Phí</div></div></div>
-                        <div class="col-md-3"><div class="service-box"><div class="service-icon"><i class="bi bi-arrow-repeat"></i></div><div class="service-title">Đổi Trả 1 - 1</div><div class="service-sub">Miễn Phí</div></div></div>
-                        <div class="col-md-3"><div class="service-box"><div class="service-icon"><i class="bi bi-shield-check"></i></div><div class="service-title">Bảo Hành Đến 5 Năm</div><div class="service-sub">Miễn Phí</div></div></div>
-                        <div class="col-md-3"><div class="service-box"><div class="service-icon"><i class="bi bi-telephone"></i></div><div class="service-title">Tư Vấn Thiết Kế</div><div class="service-sub">Miễn Phí</div></div></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    .search-input {
+        border: none;
+        outline: none;
+        width: 100%;
+        font-size: 15px;
+    }
 
-        <script src="~/Scripts/index.js"></script>
-        <script src="~/Scripts/_Layout.js"></script>
-    </body>
+    /* ===============================
+                FILTER PANEL GIỐNG HÌNH GỬI
+            =============================== */
+    .filter-panel {
+        background: #ffffff;
+        border-radius: 22px;
+        box-shadow: 0 14px 32px rgba(15, 35, 95, 0.12);
+        padding: 14px 0 6px 0;
+        color: #243a76;
+    }
+
+    .filter-header {
+        font-size: 15px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        padding: 4px 24px 10px 24px;
+    }
+
+    .filter-row {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 10px 24px;
+        background: transparent;
+        border: 0;
+        border-top: 1px solid #edf0f6;
+        font-size: 14px;
+        color: #243a76;
+        cursor: pointer;
+        outline: none;
+        transition: background 0.15s ease, color 0.15s ease;
+    }
+
+        .filter-row:hover {
+            background: #f6f8ff;
+        }
+
+    .filter-icon {
+        width: 26px;
+        display: inline-flex;
+        justify-content: center;
+    }
+
+        .filter-icon i {
+            font-size: 18px;
+        }
+
+    .filter-label {
+        flex: 1;
+        text-align: left;
+        font-weight: 500;
+    }
+
+    .filter-toggle i {
+        font-size: 11px;
+    }
+
+    /* ===============================
+                CAR ITEM
+            =============================== */
+    .car-card {
+        transition: 0.2s;
+        background: #fff;
+    }
+
+        .car-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
+        }
+
+    .car-img {
+        height: 170px;
+        object-fit: cover;
+    }
+
+    .car-title {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .car-info {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 6px;
+    }
+
+    .car-price {
+        font-size: 18px;
+    }
+
+    /* =========================
+            STRIP BANNER CHẠY VÔ TẬN
+            ========================= */
+    .carmudi-top-banners {
+        background: #ffffff;
+        border-bottom: 1px solid #eeeeee;
+        padding: 16px 0 8px 0;
+    }
+
+    .banner-strip {
+        max-width: 1360px;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+
+    .banner-track {
+        display: flex;
+        align-items: stretch;
+        animation: bannerScroll 35s linear infinite; /* tốc độ cuộn */
+    }
+
+    .banner-item {
+        flex: 0 0 auto;
+        margin-right: 12px;
+    }
+
+        .banner-item img {
+            display: block;
+            height: 120px; /* chỉnh lại nếu muốn cao/thấp hơn */
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+    /* lặp 2 lần nên kéo -50% là vừa */
+    @@keyframes bannerScroll {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+</style>
+

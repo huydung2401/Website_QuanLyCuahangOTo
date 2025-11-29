@@ -16,25 +16,38 @@
         foreach (var item in Model)
         {
             <div class="cart-item">
+
+                <!-- Ảnh xe -->
                 <img src="/Content/images/@item.HinhAnh" />
 
                 <div class="flex-grow-1">
-                    <strong>@item.TenSanPham</strong><br />
-                    <span class="text-danger">@item.ThanhTien.ToString("N0") đ</span>
 
+                    <!-- TÊN XE -->
+                    <strong>@item.TenXe</strong><br />
+
+                    <!-- GIÁ X SỐ LƯỢNG -->
+                    <span class="text-danger">
+                        @( (item.Gia * item.SoLuong).ToString("N0") ) đ
+                    </span>
+
+                    <!-- TĂNG GIẢM SỐ LƯỢNG -->
                     <div class="qty-box mt-1">
-                        <span class="qty-btn" onclick="updateQuantity('@item.IdSanPham','-')">-</span>
+                        <span class="qty-btn" onclick="updateQuantity('@item.IdXe','-')">-</span>
+
                         <input class="qty-input" value="@item.SoLuong" disabled />
-                        <span class="qty-btn" onclick="updateQuantity('@item.IdSanPham','+')">+</span>
+
+                        <span class="qty-btn" onclick="updateQuantity('@item.IdXe','+')">+</span>
                     </div>
                 </div>
 
-                <span class="remove" onclick="removeItem('@item.IdSanPham')">×</span>
+                <!-- NÚT XÓA -->
+                <span class="remove" onclick="removeItem('@item.IdXe')">×</span>
             </div>
         }
 
+        <!-- TỔNG TIỀN -->
         <div class="cart-total">
-            Tổng: @Model.Sum(x => x.ThanhTien).ToString("N0") đ
+            Tổng: @Model.Sum(x => x.SoLuong * x.Gia).ToString("N0") đ
         </div>
 
         <div class="cart-footer mt-3">

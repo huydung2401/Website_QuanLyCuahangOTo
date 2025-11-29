@@ -13,12 +13,15 @@ namespace TKW
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+
+
+
          
-            routes.MapRoute(
-                name: "SanPhamTheoDanhMuc",
-                url: "san-pham/danh-muc/{id}",
-                defaults: new { controller = "SanPham", action = "DanhMuc", id = UrlParameter.Optional }  
-            );
+            //routes.MapRoute(
+            //    name: "SanPhamTheoDanhMuc",
+            //    url: "san-pham/danh-muc/{id}",
+            //    defaults: new { controller = "SanPham", action = "DanhMuc", id = UrlParameter.Optional }  
+            //);
     
           
             routes.MapRoute(

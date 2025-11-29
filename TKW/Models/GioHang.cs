@@ -7,16 +7,16 @@ namespace TKW.Models
 {
     public class GioHang
     {
-        public string IdSanPham { get; set; }
-        public string TenSanPham { get; set; }
-        public string HinhAnh { get; set; }
-        public int SoLuong { get; set; }
-        public decimal Gia { get; set; }
-        public decimal? GiaKhuyenMai { get; set; }
+        public string IdXe { get; set; }       // Mã xe
+        public string TenXe { get; set; }      // Tên xe
+        public string HinhAnh { get; set; }    // Ảnh đại diện
+        public int SoLuong { get; set; }       // Mỗi lần thêm vào, tăng số lượng
+        public decimal Gia { get; set; }       // Giá bán
 
+        // Thành tiền = số lượng * giá
         public decimal ThanhTien
         {
-            get { return (GiaKhuyenMai ?? Gia) * SoLuong; }
+            get { return SoLuong * Gia; }
         }
     }
 }

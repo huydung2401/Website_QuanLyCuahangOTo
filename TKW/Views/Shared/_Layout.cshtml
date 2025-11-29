@@ -8,269 +8,140 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/Content/css/site.css" />
-
-    <!-- jQuery & Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="~/Content/css/cart.css" />
     <link rel="stylesheet" href="~/Content/css/_Layout.css" />
 
+    <!-- Icons & Fonts -->
+ 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 
-
-
-
+    @RenderSection("Styles", required: false)
 </head>
+
 <body>
-    <header>
-        <div class="container">
-            <!-- Hàng trên Desktop: Logo + Thanh tìm kiếm + Đăng nhập/Đăng ký + Tài khoản của tôi + Giỏ hàng -->
-            <div class="d-none d-md-flex align-items-center justify-content-between py-2">
-                <!-- Logo + Tìm kiếm -->
-                <div class="d-flex align-items-center">
-                    <!-- Logo -->
-                    <a class="navbar-brand mr-3" href="@Url.Action("Index","Home")">
-                        <img src="~/Content/images/logo.png" alt="Logo" style="height:40px;">
+    <header class="shadow-sm">
+        <div class="top-bar py-2">
+            <div class="container d-flex justify-content-between align-items-center">
+
+                <!-- Logo -->
+                <a href="@Url.Action("Index","Home")" class="d-flex align-items-center">
+                    <img src="~/Content/images/logo-carmudi.png" class="carmudi-logo">
+                </a>
+
+                <!-- MENU CHÍNH -->
+                <nav class="main-menu d-none d-md-flex">
+                    <a href="#" class="menu-item">Mua xe <i class="fas fa-chevron-down ml-1"></i></a>
+                    <a href="#" class="menu-item">Bán xe</a>
+                    <a href="@Url.Action("GioiThieu","Home")" class="menu-item">Giới thiệu</a>
+                    <a href="#" class="menu-item">Tin tức</a>
+                    <a href="#" class="menu-item">Tài chính Toyota</a>
+                </nav>
+
+                <!-- ACTION ZONE -->
+                <div class="actions d-flex align-items-center">
+
+                    <!-- ĐĂNG TIN -->
+                    <a href="#" class="btn-post mr-5">
+                        <i class="fas fa-car-side mr-4"></i> ĐĂNG TIN
                     </a>
 
-                    <!-- Thanh tìm kiếm Desktop với icon kính lúp -->
-                    <form class="form-inline">
-                        <div class="input-group mr-2 search-box-desktop">
-                            <input type="search" class="form-control form-control-sm search-input" placeholder="Tìm sản phẩm...">
+                    <!-- PHONE -->
+                    <!--<div class="phone-box mr-4">
+                        <i class="fas fa-phone-alt"></i> 0967 390 575
+                    </div>-->
+                    <!-- Nhóm người dùng + Giỏ hàng -->
+                    <div class="d-flex align-items-center">
 
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="fas fa-search"></i>
-                                </span>
-                            </div>
-                        </div>
+                        @if (Session["User"] == null)
+                        {
+                            <!-- CHƯA ĐĂNG NHẬP -->
+                            <div class="nav-item dropdown d-flex align-items-center user-box mr-4" style="white-space:nowrap;">
 
-                       
-                    </form>
-                </div>
+                                <i class="far fa-user user-icon mr-2"></i>
 
-                <!-- Nhóm người dùng + Giỏ hàng -->
-                <div class="d-flex align-items-center">
-
-                    @if (Session["User"] == null)
-                    {
-                        <!-- CHƯA ĐĂNG NHẬP -->
-                     <div class="nav-item dropdown d-flex align-items-center user-box mr-4">
-
-                        <i class="far fa-user user-icon"></i>
-
-
-                        <div class="d-flex flex-column">
-
-                            <!-- Nút mở popup đăng nhập -->
-                            <a href="#" class="nav-link p-0 mb-1 open-login-modal">
-                                Đăng nhập/Đăng ký
-                            </a>
-
-                            <span class="nav-link p-0 d-flex align-items-center small-account text-muted">
-                                Tài khoản của tôi
-                            </span>
-                        </div>
-                    </div>
-                    }
-                    else
-                    {
-                        <!-- ĐÃ ĐĂNG NHẬP -->
-                        var userName = Session["UserName"] as string;
-
-                        <div class="nav-item dropdown d-flex align-items-center mr-3">
-                            <i class="fas fa-user fa-lg mr-2"></i>
-
-                            <div class="d-flex flex-column">
-
-                                <!-- Lời chào -->
-                                <span class="nav-link p-0 mb-1 user-welcome" style="color:#28a745;">
-                                    Xin chào, @userName
-                                </span>
-
-                                <!-- Dropdown -->
-                                <a class="nav-link p-0 d-flex align-items-center small-account"
-                                   href="#" id="accountDropdown"
-                                   data-toggle="dropdown" aria-expanded="false">
-                                    <span>Tài khoản của tôi <i class="fas fa-caret-down ml-1"></i></span>
+                                <a href="#" class="nav-link p-0 open-login-modal">
+                                    Đăng nhập/Đăng ký
                                 </a>
 
-                                <div class="dropdown-menu" aria-labelledby="accountDropdown">
+                            </div>
+                        }
+                        else
+                        {
+                            <!-- ĐÃ ĐĂNG NHẬP -->
+                            var userName = Session["UserName"] as string;
+
+                            <div class="nav-item dropdown d-flex align-items-center mr-3" style="white-space:nowrap;">
+
+                                <i class="fas fa-user fa-lg mr-2"></i>
+
+                                <a href="#" class="nav-link p-0 dropdown-toggle"
+                                   id="accountDropdown"
+                                   data-toggle="dropdown" aria-expanded="false">
+                                    Xin chào, @userName
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdown">
                                     <a class="dropdown-item" href="/TaiKhoan/ThongTin">Thông tin cá nhân</a>
                                     <a class="dropdown-item" href="/DonHang/CuaToi">Đơn hàng của tôi</a>
                                     <a class="dropdown-item" href="/TaiKhoan/DangXuat">Đăng xuất</a>
                                 </div>
 
                             </div>
-                        </div>
-                    }
+                        }
 
-                    <!-- Giỏ hàng -->
-                    <a href="#" id="btnCart" class="nav-link d-flex align-items-center position-relative">
-                        <i class="fas fa-shopping-cart fa-lg mr-1"></i>
-                        <span>Giỏ hàng</span>
+                        <!-- Giỏ hàng -->
+                        <a href="#" id="btnCart" class="nav-link d-flex align-items-center position-relative" style="white-space:nowrap;">
+                            <i class="fas fa-shopping-cart fa-lg mr-1"></i>
+                            <span>Giỏ hàng</span>
 
-                        <span id="cartBadge"
-                              class="badge badge-danger position-absolute"
-                              style="top:-5px; right:-10px; font-size:0.75rem;">
-                            0
-                        </span>
-                    </a>
+                            <span id="cartBadge"
+                                  class="badge badge-danger position-absolute"
+                                  style="top:-5px; right:-10px; font-size:0.75rem;">
+                                0
+                            </span>
+                        </a>
 
-                </div>
-
-
-            </div>
-
-            <!-- Hàng trên Mobile: Hamburger + Logo + Nút 3D House + Icon người/giỏ hàng -->
-            <div class="d-flex d-md-none w-100 align-items-center justify-content-between py-2">
-                <!-- Nút hamburger -->
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="custom-toggler"></span>
-                </button>
-
-
-                <!-- Logo -->
-                <a class="navbar-brand mx-auto" href="@Url.Action("Index","Home")">
-                    <img src="~/Content/images/logo.png" alt="Logo" style="height:40px;">
-                </a>
-
-                <!-- Nhóm nút 3D House + Icon người + Giỏ hàng -->
-                <div class="d-flex align-items-center">
-                    <!-- Nút 3D House -->
-                    <button class="btn btn-warning btn-sm mr-2">3D House</button>
-
-                    <!-- Icon người -->
-                    <a href="#" class="nav-link p-0 mr-2">
-                        <i class="fas fa-user fa-lg"></i>
-                    </a>
-
-                    <!-- Giỏ hàng -->
-                    <a href="#" class="nav-link position-relative p-0">
-                        <i class="fas fa-shopping-cart fa-lg"></i>
-                        <span id="cartCount" class="badge badge-danger position-absolute" style="top:0; right:0;">0</span>
-                    </a>
-                   
-                </div>
-            </div>
-
-            <!-- Thanh tìm kiếm Mobile (nằm dưới) -->
-            <form class="form-inline w-100 mt-2 d-md-none">
-                <div class="input-group w-100">
-                    <input type="search" class="form-control form-control-sm" placeholder="Tìm sản phẩm..." aria-label="Search">
-                    <div class="input-group-append">
-                        <span class="input-group-text">
-                            <i class="fas fa-search"></i>
-                        </span>
                     </div>
+
+
+
                 </div>
-            </form>
 
-            <!-- Menu danh mục -->
-            <nav class="navbar navbar-expand-lg navbar-light p-0 mt-2">
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav flex-wrap">
-                        <!-- Dropdown Sản phẩm -->
-                        <li class="nav-item dropdown mr-3">
-                            <a class="nav-link" href="#">
-                                Sản phẩm
-                                <span class="arrow-icon">▼</span>
-                            </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="/collections/bo-suu-tap">Bộ Sưu Tập</a>
-                                <a class="dropdown-item" href="/collections/phong-ngu">Phòng Ngủ</a>
-                                <a class="dropdown-item" href="/collections/phong-khach">Phòng Khách</a>
-                                <a class="dropdown-item" href="/collections/phong-an">Phòng Ăn</a>
-                                <a class="dropdown-item" href="/collections/phong-lam-viec">Phòng Làm Việc</a>
-                                <a class="dropdown-item" href="/collections/tu-bep">Tủ Bếp</a>
-                                <a class="dropdown-item" href="/collections/nem">Nệm</a>
-                            </div>
-                        </li>
-
-
-
-
-
-                        <!-- Các mục khác -->
-                        <li class="nav-item mr-3">
-                            <a class="nav-link" href="@Url.Action("ThietKe_ThiCong", "Home")">Thiết kế - Thi công</a>
-                        </li>
-                        <ul class="navbar-nav flex-wrap">
-                            <li class="nav-item dropdown mr-3">
-                                <a class="nav-link" href="#">Khuyến mãi <span class="arrow-icon">▼</span></a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">Ưu đãi phái đẹp</a>
-                                    <a class="dropdown-item" href="#">MOHO Outlet - Hàng thanh lý</a>
-                                </div>
-                            </li>
-                        </ul>
-
-                        <ul class="navbar-nav flex-wrap">
-                            <li class="nav-item dropdown mr-3">
-                                <a class="nav-link" href="#">Tin tức<span class="arrow-icon">▼</span></a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">Media</a>
-                                    <a class="dropdown-item" href="#">News</a>
-                                    <a class="dropdown-item" href="#">People</a>
-                                    <a class="dropdown-item" href="#">Inspiration</a>
-                                    <a class="dropdown-item" href="#">Tips</a>
-                                    <a class="dropdown-item" href="#">Thiết kế - Thi công</a>
-                                    <a class="dropdown-item" href="#">Báo chí </a>
-                                </div>
-                            </li>
-                        </ul>
-
-
-                        <li class="nav-item mr-3"><a class="nav-link" href="@Url.Action("BrandStory", "Home")">Về MOHO</a></li>
-                        <li class="nav-item mr-3"><a class="nav-link" href="@Url.Action("CuaHang", "Home")">Cửa hàng</a></li>
-                    </ul>
-                </div>
-            </nav>
-
-        </div>
-
-        <div id="loginPopup" class="login-popup">
-            <div class="login-box">
-                <h2 class="login-title">ĐĂNG NHẬP TÀI KHOẢN</h2>
-                <p class="login-sub">Nhập email và mật khẩu của bạn:</p>
-
-                <form action="/TaiKhoan/DangNhap" method="post">
-                    <input type="text" name="Email" class="input-box" placeholder="Nhập email hoặc số điện thoại" required>
-                    <input type="password" name="MatKhau" class="input-box" placeholder="Mật khẩu" required>
-
-                    <p class="captcha-note">
-                        Website được bảo vệ bởi reCAPTCHA và
-                        <a href="#">Chính sách bảo mật</a> và
-                        <a href="#">Điều khoản dịch vụ</a> của Google.
-                    </p>
-
-                    <button class="btn-login">ĐĂNG NHẬP</button>
-                </form>
-
-                <div class="login-footer">
-                    <p>Khách hàng mới? <a href="/TaiKhoan/DangKy">Tạo tài khoản</a></p>
-                    <p>Quên mật khẩu? <a href="#">Khôi phục mật khẩu</a></p>
-                </div>
             </div>
         </div>
 
-
+        <!-- Thanh banner dưới header -->
+        <!-- Thanh search -->
     </header>
 
+    <!-- ==================== LOGIN POPUP ==================== -->
+    <div id="loginPopup" class="login-popup">
+        <div class="login-box">
+            <h2 class="login-title">ĐĂNG NHẬP TÀI KHOẢN</h2>
+            <p class="login-sub">Nhập email và mật khẩu của bạn:</p>
 
+            <form action="/TaiKhoan/DangNhap" method="post">
+                <input type="text" name="Email" class="input-box" placeholder="Email hoặc SĐT" required>
+                <input type="password" name="MatKhau" class="input-box" placeholder="Mật khẩu" required>
+                <button class="btn-login">ĐĂNG NHẬP</button>
+            </form>
 
+            <div class="login-footer">
+                <p>Khách hàng mới? <a href="/TaiKhoan/DangKy">Tạo tài khoản</a></p>
+                <p>Quên mật khẩu? <a href="#">Khôi phục mật khẩu</a></p>
+            </div>
+        </div>
+    </div>
 
-
+    <!-- ==================== BODY ==================== -->
     <main class="container-fluid px-0 mt-3">
         @RenderBody()
     </main>
 
+    <!-- ==================== FOOTER ==================== -->
     <footer style="background-color: #1d1d1d; color: #eee; padding: 10px 50px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
         <div style="max-width: 1100px; margin: auto; display: flex; flex-wrap: wrap; gap: 40px; justify-content: space-between;">
 
@@ -279,14 +150,14 @@
                 <h5 style="font-size: 1.3rem; margin-bottom: 20px; color: #3dd1c3; text-transform: uppercase; letter-spacing: 1.2px;">Hỗ trợ và liên hệ</h5>
                 <p style="margin: 6px 0;"><strong>Hotline:</strong> <a href="tel:0967390575" style="color:#a0f0e6; text-decoration:none;">0967 390 575</a></p>
                 <p style="margin: 6px 0;"><strong>Email:</strong> <a href="mailto:salehdn@HomeDecor.vn" style="color:#a0f0e6; text-decoration:none;">salehdn@HomeDecor.vn</a></p>
-                <img src="~/Content/images/logo.png" alt="MoHo" style="width: 80px;">
+                <img src="~/Content/images/logo-carmudi.png" alt="MoHo" style="width: 80px;">
             </div>
 
             <!-- Cột 2: Giới thiệu -->
             <div style="flex: 1 1 180px; min-width: 180px;">
                 <h5 style="font-size: 1.3rem; margin-bottom: 20px; color: #3dd1c3; text-transform: uppercase; letter-spacing: 1.2px;">Giới thiệu</h5>
                 <ul style="list-style: none; padding-left: 0; margin: 0; color: #ccc; font-size: 0.95rem;">
-                    <li style="margin-bottom: 12px; cursor: pointer; transition: color 0.3s;">Về Nội Thất Home Decor</li>
+                    <li style="margin-bottom: 12px; cursor: pointer; transition: color 0.3s;">Về cửa hàng Carmudi</li>
                     <li style="margin-bottom: 12px; cursor: pointer; transition: color 0.3s;">Tuyển dụng</li>
                     <li style="margin-bottom: 12px; cursor: pointer; transition: color 0.3s;">Hệ thống cửa hàng</li>
                 </ul>
@@ -305,7 +176,7 @@
 
             <!-- Cột 4: Kết nối & email -->
             <div style="flex: 1 1 220px; min-width: 220px;">
-                <h5 style="font-size: 1.3rem; margin-bottom: 20px; color: #3dd1c3; text-transform: uppercase; letter-spacing: 1.2px;">Kết nối với Home Decor</h5>
+                <h5 style="font-size: 1.3rem; margin-bottom: 20px; color: #3dd1c3; text-transform: uppercase; letter-spacing: 1.2px;">Kết nối với Carmudi</h5>
                 <form style="display: flex; gap: 6px; margin-bottom: 20px;">
                     <input type="email" placeholder="Nhập địa chỉ email"
                            style="flex: 1; padding: 4px 8px; font-size: 0.8rem; border-radius: 4px; border: 1px solid #ccc; height: 30px;" required />
@@ -336,24 +207,263 @@
         <hr style="border-color: #444; margin: 10px 0; opacity: 0.5;">
 
         <p style="text-align: center; color: #bbb; font-size: 0.8rem; user-select: none;">
-            © 2025 Bản quyền thuộc về nội thất MoHo - Cửa hàng nội thất uy tín
+            © 2025 Bản quyền thuộc về Carmudi - Cửa hàng trao đổi mua bán uy tín
         </p>
 
     </footer>
 
     @RenderSection("Scripts", required: false)
 
-
-    <!-- OFF-CANVAS CART -->
-    <div id="cartOverlay"></div>
-
-    <div id="cartSide">
-        <div id="cartContent"></div>
-    </div>
+    <!-- Cart scripts -->
+    @*<script src="~/Scripts/cart.js"></script>
+        <script src="~/Scripts/_Layout.js"></script>*@
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
     <script src="~/Scripts/cart.js"></script>
     <script src="~/Scripts/_Layout.js"></script>
 </body>
 </html>
 
+<style>
+
+    /* ===============================
+   HEADER GIỐNG CARMUDI
+================================*/
+    header {
+        background: #fff;
+        border-bottom: 1px solid #eeeeee;
+        padding: 5px 0;
+    }
+
+    /* Thanh trên của header */
+    .top-bar {
+        background: #fff;
+        /* tăng chiều cao giống carmudi */
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+        /* Cho header “dài” hơn – giống chiều rộng carmudi */
+        .top-bar .container {
+            max-width: 1360px; /* rộng hơn container mặc định */
+            width: 100%;
+        }
+
+    /* Logo bên trái */
+    .carmudi-logo {
+        height: 30px;
+    }
+    /* MENU CHÍNH Ở GIỮA – CĂN GIỐNG CARMUDI */
+    /* Cấu hình font chung */
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+
+    /* Menu chính */
+    .main-menu {
+        display: flex;
+        align-items: center;
+        white-space: nowrap; /* Không cho xuống dòng */
+        margin-left: 40px;
+        gap: 32px; /* Khoảng cách đều nhau */
+    }
+
+        /* Kiểu chữ giống Carmudi */
+        .main-menu .menu-item {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            color: #2c2c2c !important;
+            padding: 0; /* bỏ padding làm tràn hàng */
+            line-height: normal !important; /* NGĂN CHỮ XUỐNG DÒNG */
+            letter-spacing: 0.2px;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center; /* center icon + text */
+        }
+
+            /* Hover */
+            .main-menu .menu-item:hover {
+                color: #0066cc !important;
+                text-decoration: none;
+            }
+
+            /* Active */
+            .main-menu .menu-item.active {
+                font-weight: 600;
+                color: #0066cc !important;
+            }
+
+            /* Icon ▼ */
+            .main-menu .menu-item i {
+                margin-left: 4px;
+            }
 
 
+
+    /* KHỐI BÊN PHẢI (ĐĂNG TIN + PHONE + USER) */
+    .actions {
+        display: flex;
+        align-items: center;
+        gap: 24px; /* giống khoảng cách bên trái */
+    }
+
+    /* Nút ĐĂNG TIN */
+    .btn-post {
+        background: #ef7f31;
+        color: #fff !important;
+        padding: 8px 18px;
+        border-radius: 10px;
+        font-size: 15px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+        margin-left: 10px !important; /* giảm kéo nút xa menu */
+        margin-right: 28px !important; /* đưa nút gần qua phải */
+    }
+
+
+
+        .btn-post:hover {
+            background: #d96f20;
+            color: #fff !important;
+        }
+
+    /* Phone */
+    .phone-box {
+        font-size: 14px;
+        font-weight: 500;
+        color: #222;
+        white-space: nowrap;
+    }
+
+        .phone-box i {
+            margin-right: 6px;
+            color: #333;
+        }
+
+    /* User */
+    .user-area .user-text {
+        font-size: 14px;
+        color: #222;
+        white-space: nowrap;
+    }
+
+        .user-area .user-text:hover {
+            color: #007bff;
+        }
+
+    .user-area .dropdown-menu {
+        min-width: 160px;
+    }
+
+
+    .dropdown-menu {
+        border-radius: 6px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+
+    /* ================================
+        SEARCH BOX (giống Carmudi)
+    ================================ */
+    .search-section {
+        background: #fff;
+        border-bottom: 1px solid #eee;
+    }
+    .search-wrapper {
+        background: #f5f8fb;
+        border: 1px solid #dfe4ea;
+        border-radius: 10px;
+        padding: 12px 18px;
+        display: flex;
+        align-items: center;
+    }
+    .search-icon {
+        color: #8899a6;
+        font-size: 18px;
+        margin-right: 12px;
+    }
+    .search-input {
+        width: 100%;
+        border: none;
+        font-size: 15px;
+        background: transparent;
+        outline: none;
+    }
+
+    /* ================================
+        LOGIN POPUP
+    ================================ */
+    .login-popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.45);
+        display: none;
+        justify-content: flex-end;
+        align-items: flex-start;
+        padding-right: 120px;
+        padding-top: 85px;
+        z-index: 9999;
+    }
+    .login-popup.active {
+        display: flex !important;
+    }
+
+    .login-box {
+        width: 380px;
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    }
+
+    .login-box input {
+        height: 42px;
+        font-size: 15px;
+    }
+
+    .btn-login {
+        background: #ef7f31;
+        color: #fff;
+        padding: 10px 0;
+        width: 100%;
+        border-radius: 6px;
+    }
+    .btn-login:hover {
+        background: #d96f20;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+        background-color: #343a40;
+        color: #fff;
+        padding: 30px 0;
+    }
+
+        footer a, footer ul li {
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+            footer a:hover, footer ul li:hover {
+                color: #3dd1c3;
+                transform: translateY(-2px);
+                text-shadow: 0 2px 5px rgba(0,0,0,0.4);
+            }
+
+    /* ================================
+        RESPONSIVE TUNING
+    ================================ */
+    @@media (max-width: 768px) {
+        .main-menu { display: none !important; }
+        .btn-post { padding: 6px 14px; font-size: 13px; }
+        .search-wrapper { padding: 10px; }
+    }
+
+</style>

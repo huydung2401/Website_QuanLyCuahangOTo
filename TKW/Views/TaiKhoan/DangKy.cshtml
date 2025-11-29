@@ -3,20 +3,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <style>
-    /* Bọc toàn bộ form trong khung container */
     .register-wrap {
         display: flex;
-        justify-content: space-between; /* 2 cột đều nhau */
+        justify-content: space-between;
         align-items: flex-start;
-        max-width: 1200px; /* ngang bằng header Moho */
-        margin: 0 auto; /* căn giữa toàn trang */
-        padding: 60px 0; /* bỏ padding 100px gây lệch */
-        gap: 80px; /* khoảng cách vừa phải */
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 60px 0;
+        gap: 80px;
     }
 
-    /* Cột trái */
     .register-left {
         flex: 1;
     }
@@ -30,7 +27,7 @@
         margin-top: 10px;
         font-size: 18px;
         color: #666;
-        max-width: 400px; /* giữ text gọn */
+        max-width: 400px;
     }
 
     .reg-line {
@@ -40,27 +37,10 @@
         margin-top: 18px;
     }
 
-    /* Cột phải */
     .register-right {
         flex: 1;
     }
 
-    /* Form phần bên phải */
-    .reg-method {
-        display: flex;
-        gap: 35px;
-        font-size: 16px;
-        margin-bottom: 20px;
-    }
-
-    /* Giới tính */
-    .gender-group {
-        display: flex;
-        gap: 28px;
-        margin-bottom: 18px;
-    }
-
-    /* Input */
     .input-box {
         width: 100%;
         padding: 15px;
@@ -71,7 +51,6 @@
         font-size: 16px;
     }
 
-    /* Nút đăng ký */
     .btn-register {
         background: #2d2d2d;
         color: #fff;
@@ -83,11 +62,10 @@
         font-size: 17px;
     }
 
-        .btn-register:hover {
-            background: #000;
-        }
+    .btn-register:hover {
+        background: #000;
+    }
 
-    /* Quay lại */
     .back-home {
         display: inline-block;
         margin: 20px 0;
@@ -95,7 +73,6 @@
         color: #2d2d2d;
     }
 
-    /* Social login */
     .social-login {
         display: flex;
         gap: 10px;
@@ -117,14 +94,12 @@
         border: none;
     }
 
-    /* Note recaptcha */
     .captcha-note {
         font-size: 14px;
         color: #777;
         margin-bottom: 15px;
     }
 
-    /* Responsive cho mobile */
     @@media (max-width: 992px) {
         .register-wrap {
             flex-direction: column;
@@ -133,6 +108,7 @@
         }
     }
 </style>
+
 <div class="container">
     <div class="register-wrap">
 
@@ -140,33 +116,31 @@
         <div class="register-left">
             <h1 class="reg-title">Tạo tài khoản</h1>
             <p class="reg-desc">
-                Đăng ký tài khoản chỉ trong 1 phút để tích lũy điểm và nhận ưu đãi từ MOHO.
+                Đăng ký tài khoản chỉ trong 1 phút để tích lũy điểm và nhận ưu đãi.
             </p>
             <div class="reg-line"></div>
         </div>
 
         <!-- CỘT PHẢI -->
         <div class="register-right">
-            <form action="/TaiKhoan/DangKy" method="post">
+            <form id="formDangKy" action="/TaiKhoan/DangKy" method="post">
+                @Html.AntiForgeryToken()
 
-                <div class="reg-method">
-                    <label><input type="radio" name="type" value="email" checked> Đăng ký bằng email</label>
-                    <label><input type="radio" name="type" value="phone"> Đăng ký bằng số điện thoại</label>
-                </div>
+                <!-- Họ / Tên -->
+                <input type="text" id="Ho" class="input-box" placeholder="Họ" required />
+                <input type="text" id="Ten" class="input-box" placeholder="Tên" required />
 
-                <input type="text" id="Ho" class="input-box" placeholder="Họ" required>
-                <input type="text" id="Ten" class="input-box" placeholder="Tên" required>
+                <!-- Hidden gửi lên đúng field HoTen trong model -->
+                <input type="hidden" name="HoTen" id="HoTen" />
 
-                <div class="gender-group">
-                    <label><input type="radio" name="GioiTinh" value="Nữ"> Nữ</label>
-                    <label><input type="radio" name="GioiTinh" value="Nam"> Nam</label>
-                </div>
+                <!-- Email (BẮT BUỘC – khớp với DB) -->
+                <input type="email" name="Email" class="input-box" placeholder="Email" required />
 
-                <input type="hidden" name="HoTen" id="HoTen">
+                <!-- Số điện thoại (tùy chọn) -->
+                <input type="text" name="DienThoai" class="input-box" placeholder="Số điện thoại" />
 
-                <input type="email" name="Email" class="input-box reg-email" placeholder="Email" required>
-                <input type="text" name="DienThoai" class="input-box reg-phone" placeholder="Số điện thoại" style="display:none;">
-                <input type="password" name="MatKhau" class="input-box" placeholder="Mật khẩu" required>
+                <!-- Mật khẩu -->
+                <input type="password" name="MatKhau" class="input-box" placeholder="Mật khẩu" required />
 
                 <p class="captcha-note">
                     Website được bảo vệ bởi reCAPTCHA và
@@ -174,7 +148,7 @@
                     <a href="#">Điều khoản dịch vụ</a> của Google.
                 </p>
 
-                <button class="btn-register">ĐĂNG KÝ</button>
+                <button type="submit" class="btn-register">ĐĂNG KÝ</button>
 
                 <a href="/" class="back-home">← Quay lại trang chủ</a>
 
@@ -183,6 +157,14 @@
                     <button type="button" class="btn-facebook">Đăng nhập Facebook</button>
                 </div>
 
+                @if (TempData["Error"] != null)
+                {
+                    <p style="color:red; margin-top:10px;">@TempData["Error"]</p>
+                }
+                @if (TempData["Success"] != null)
+                {
+                    <p style="color:green; margin-top:10px;">@TempData["Success"]</p>
+                }
             </form>
         </div>
 
@@ -190,23 +172,10 @@
 </div>
 
 <script>
-    // Gộp họ tên trước khi submit
-    document.querySelector(".btn-register").addEventListener("click", function () {
-        let ho = document.getElementById("Ho").value.trim();
-        let ten = document.getElementById("Ten").value.trim();
-        document.getElementById("HoTen").value = ho + " " + ten;
-    });
-
-    // Chuyển đổi email / phone
-    document.querySelectorAll("input[name='type']").forEach(r => {
-        r.addEventListener("change", function () {
-            if (this.value === "email") {
-                document.querySelector(".reg-email").style.display = "block";
-                document.querySelector(".reg-phone").style.display = "none";
-            } else {
-                document.querySelector(".reg-email").style.display = "none";
-                document.querySelector(".reg-phone").style.display = "block";
-            }
-        });
+    // Gộp Họ + Tên vào HoTen trước khi submit
+    document.getElementById("formDangKy").addEventListener("submit", function () {
+        var ho = document.getElementById("Ho").value.trim();
+        var ten = document.getElementById("Ten").value.trim();
+        document.getElementById("HoTen").value = (ho + " " + ten).trim();
     });
 </script>

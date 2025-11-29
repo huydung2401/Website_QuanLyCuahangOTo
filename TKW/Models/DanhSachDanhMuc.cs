@@ -7,41 +7,54 @@ using System.Web;
 
 namespace TKW.Models
 {
-    public class DanhSachDanhMuc
+    public class DanhSachDanhMucXe
     {
-        QLMohoDBEntities2 db = new QLMohoDBEntities2();
+        WebsiteMuaBanOtoDBEntities db = new WebsiteMuaBanOtoDBEntities();
 
-        public DanhSachDanhMuc() 
-        { 
+        public DanhSachDanhMucXe()
+        {
 
         }
 
-        public List<DanhMuc> GetDanhSachDanhMuc(string id = null)
+        // =============================
+        // 🔹 Lấy danh sách danh mục xe
+        // =============================
+        public List<DanhMucXe> GetDanhSachDanhMuc(string id = null)
         {
             if (!string.IsNullOrEmpty(id))
             {
-                return db.DanhMucs
+                return db.DanhMucXes
                          .Where(dm => dm.IdDanhMuc == id)
                          .ToList();
             }
 
-            return db.DanhMucs.ToList();
+            return db.DanhMucXes.ToList();
         }
 
-        // ===============================
-        // 🔹 Thêm danh mục
-        // ===============================
+        // =============================
+        // 🔹 Tạo mã danh mục tự động DM01 → DM99
+        // =============================
+        private string TaoMaDanhMuc()
+        {
+            int count = db.DanhMucXes.Count() + 1;
+            return "DM" + count.ToString("00");
+        }
+
+        // =============================
+        // 🔹 Thêm danh mục xe
+        // =============================
         public bool AddDanhMuc(string ten, string mota)
         {
             try
             {
-                DanhMuc dm = new DanhMuc
+                DanhMucXe dm = new DanhMucXe
                 {
+                    IdDanhMuc = TaoMaDanhMuc(),
                     TenDanhMuc = ten,
                     MoTa = mota ?? ""
                 };
 
-                db.DanhMucs.Add(dm);
+                db.DanhMucXes.Add(dm);
                 db.SaveChanges();
                 return true;
             }
@@ -52,14 +65,14 @@ namespace TKW.Models
             }
         }
 
-        // ===============================
-        // 🔹 Cập nhật danh mục
-        // ===============================
+        // =============================
+        // 🔹 Cập nhật danh mục xe
+        // =============================
         public bool UpdateDanhMuc(string id, string ten, string mota)
         {
             try
             {
-                var dm = db.DanhMucs.FirstOrDefault(d => d.IdDanhMuc == id);
+                var dm = db.DanhMucXes.FirstOrDefault(d => d.IdDanhMuc == id);
                 if (dm == null) return false;
 
                 dm.TenDanhMuc = ten;
@@ -75,17 +88,22 @@ namespace TKW.Models
             }
         }
 
-        // ===============================
-        // 🔹 Xóa danh mục
-        // ===============================
+        // =============================
+        // 🔹 Xóa danh mục xe
+        // =============================
         public bool DeleteDanhMuc(string id)
         {
             try
             {
-                var dm = db.DanhMucs.FirstOrDefault(d => d.IdDanhMuc == id);
+                var dm = db.DanhMucXes.FirstOrDefault(d => d.IdDanhMuc == id);
                 if (dm == null) return false;
 
-                db.DanhMucs.Remove(dm);
+                // Kiểm tra danh mục có xe không
+                bool tonTaiXe = db.Xes.Any(x => x.IdDanhMuc == id);
+                if (tonTaiXe)
+                    return false; // Không xóa được vì đang có xe thuộc danh mục
+
+                db.DanhMucXes.Remove(dm);
                 db.SaveChanges();
                 return true;
             }

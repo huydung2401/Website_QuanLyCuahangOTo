@@ -9,20 +9,9 @@ namespace TKW.Controllers
 {
     public class GioHangController : Controller
     {
-        // GET: GioHang
-        //private List<SanPham> LayGioHang()
-        //{
-        //    List<SanPham> gioHang = Session["GioHang"] as List<SanPham>;
-        //    if (gioHang == null)
-        //    {
-        //        gioHang = new List<SanPham>();
-        //        Session["GioHang"] = gioHang;
-        //    }
-        //    return gioHang;
-        //}
+        WebsiteMuaBanOtoDBEntities db = new WebsiteMuaBanOtoDBEntities();
 
-        QLMohoDBEntities2 db = new QLMohoDBEntities2();
-
+        // Lấy giỏ hàng trong Session
         private List<GioHang> LayGioHang()
         {
             var gio = Session["GioHang"] as List<GioHang>;
@@ -34,85 +23,105 @@ namespace TKW.Controllers
             return gio;
         }
 
+        // ============================
+        // THÊM VÀO GIỎ
+        // ============================
         [HttpPost]
         public ActionResult ThemGioHang(string id)
         {
-            var sp = db.SanPhams.Find(id);
-            if (sp == null) return Json(new { success = false });
+            var xe = db.Xes.Find(id);
+            if (xe == null)
+                return Json(new { success = false });
+
+            // Ảnh đầu tiên hoặc ảnh mặc định
+            var hinh = db.XeHinhAnhs
+                         .Where(h => h.IdXe == id)
+                         .Select(h => h.HinhAnh)
+                         .FirstOrDefault() ?? "no-image.jpg";
 
             var gio = LayGioHang();
-            var item = gio.FirstOrDefault(x => x.IdSanPham == id);
+            var item = gio.FirstOrDefault(x => x.IdXe == id);
 
             if (item == null)
             {
                 gio.Add(new GioHang
                 {
-                    IdSanPham = sp.IdSanPham,
-                    TenSanPham = sp.TenSanPham,
-                    HinhAnh = sp.HinhAnh,
+                    IdXe = xe.IdXe,
+                    TenXe = xe.TieuDe,
+                    HinhAnh = hinh,
                     SoLuong = 1,
-                    Gia = sp.Gia,
-                    GiaKhuyenMai = sp.GiaKhuyenMai
+                    Gia = xe.Gia
                 });
             }
-            else item.SoLuong++;
+            else
+            {
+                item.SoLuong++;
+            }
 
             return Json(new { success = true });
         }
 
-
-        // Cập nhật số lượng
+        // ============================
+        // CẬP NHẬT SỐ LƯỢNG
+        // ============================
         [HttpPost]
         public ActionResult CapNhatSoLuong(string id, string type)
         {
             var gio = LayGioHang();
-            var item = gio.FirstOrDefault(x => x.IdSanPham == id);
+            var item = gio.FirstOrDefault(x => x.IdXe == id);
 
             if (item == null)
                 return Json(new { success = false });
 
-            if (type == "+") item.SoLuong++;
-            if (type == "-" && item.SoLuong > 1) item.SoLuong--;
+            if (type == "+")
+                item.SoLuong++;
+            else if (type == "-" && item.SoLuong > 1)
+                item.SoLuong--;
 
-            return Json(new { success = true });
+            return Json(new { success = true, qty = item.SoLuong });
         }
 
-        // Xóa
+        // ============================
+        // XÓA KHỎI GIỎ
+        // ============================
         public ActionResult Xoa(string id)
         {
             var gio = LayGioHang();
-            var item = gio.FirstOrDefault(x => x.IdSanPham == id);
-            if (item != null) gio.Remove(item);
+            var item = gio.FirstOrDefault(x => x.IdXe == id);
 
-            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            if (item != null)
+                gio.Remove(item);
+
+            int newCount = gio.Sum(x => x.SoLuong);
+
+            return Json(new { success = true, count = newCount }, JsonRequestBehavior.AllowGet);
         }
 
-        // Tổng số lượng (badge)
+        // ============================
+        // LẤY SỐ LƯỢNG GIỎ HÀNG
+        // ============================
         public ActionResult SoLuong()
         {
             var gio = LayGioHang();
             int count = gio.Sum(x => x.SoLuong);
+
             return Json(new { count }, JsonRequestBehavior.AllowGet);
         }
 
-        // Trang giỏ hàng
+        // ============================
+        // TRANG GIỎ HÀNG
+        // ============================
         public ActionResult Index()
         {
-            var cart = Session["GioHang"] as List<GioHang>;
-
-            if (cart == null)
-                cart = new List<GioHang>();
-
-            return View(cart);
+            return View(LayGioHang());
         }
 
-        // Popup
+        // ============================
+        // POPUP GIỎ HÀNG
+        // ============================
         public ActionResult Popup()
         {
             return PartialView("_PopupGioHang", LayGioHang());
         }
-
-
-
     }
 }

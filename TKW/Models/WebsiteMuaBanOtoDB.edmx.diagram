@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ffa696baee774e449307e2e0feaff6ac" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="WebsiteMuaBanOtoDBModel.DanhGia" Width="1.5" PointX="9" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteMuaBanOtoDBModel.DanhMucXe" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteMuaBanOtoDBModel.DongXe" Width="1.5" PointX="0.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteMuaBanOtoDBModel.HangXe" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteMuaBanOtoDBModel.LichSuDangNhap" Width="1.5" PointX="11" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteMuaBanOtoDBModel.LichSuDuyetTin" Width="1.5" PointX="7.125" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteMuaBanOtoDBModel.LienHe" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteMuaBanOtoDBModel.NguoiDung" Width="1.5" PointX="9" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteMuaBanOtoDBModel.Xe" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteMuaBanOtoDBModel.XeHinhAnh" Width="1.5" PointX="5.25" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteMuaBanOtoDBModel.YeuThich" Width="1.5" PointX="7.125" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="WebsiteMuaBanOtoDBModel.FK_DanhGia_NguoiDung" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteMuaBanOtoDBModel.FK_DanhGia_Xe" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteMuaBanOtoDBModel.FK_Xe_DanhMuc" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteMuaBanOtoDBModel.FK_DongXe_HangXe" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteMuaBanOtoDBModel.FK_Xe_DongXe" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteMuaBanOtoDBModel.FK_Xe_HangXe" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteMuaBanOtoDBModel.FK__LichSuDan__IdNgu__6383C8BA" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteMuaBanOtoDBModel.FK_DuyetTin_Admin" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteMuaBanOtoDBModel.FK_DuyetTin_Xe" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteMuaBanOtoDBModel.FK_LienHe_Xe" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteMuaBanOtoDBModel.FK_Xe_NguoiDung" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteMuaBanOtoDBModel.FK_YeuThich_User" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteMuaBanOtoDBModel.FK_XeHinhAnh_Xe" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteMuaBanOtoDBModel.FK_YeuThich_Xe" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
