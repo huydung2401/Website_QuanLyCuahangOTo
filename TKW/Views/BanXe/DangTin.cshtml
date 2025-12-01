@@ -1,0 +1,119 @@
+﻿@model TKW.Models.Xe
+@{
+    ViewBag.Title = "Đăng tin bán xe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="mb-0 font-weight-bold"><i class="fas fa-car"></i> ĐĂNG TIN BÁN XE</h4>
+                </div>
+                <div class="card-body">
+
+                    @using (Html.BeginForm("DangTin", "BanXe", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <h5 class="text-primary mb-3 border-bottom pb-2">1. Thông tin xe</h5>
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label>Tiêu đề tin <span class="text-danger">*</span></label>
+                                <input type="text" name="TieuDe" class="form-control" required placeholder="VD: Toyota Vios 2020 bản G siêu lướt">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Hãng xe <span class="text-danger">*</span></label>
+                                @Html.DropDownList("IdHangXe", (SelectList)ViewBag.HangXe, "--- Chọn Hãng ---", new { @class = "form-control", required = "required" })
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Dòng xe (Model) <span class="text-danger">*</span></label>
+                                @Html.DropDownList("IdDongXe", (SelectList)ViewBag.DongXe, "--- Chọn Dòng Xe ---", new { @class = "form-control", required = "required" })
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label>Năm sản xuất <span class="text-danger">*</span></label>
+                                <input type="number" name="NamSX" class="form-control" required min="2000" max="2025" value="2020">
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label>Loại xe <span class="text-danger">*</span></label>
+                                @Html.DropDownList("IdDanhMuc", (SelectList)ViewBag.DanhMuc, null, new { @class = "form-control" })
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label>Giá bán (VNĐ) <span class="text-danger">*</span></label>
+                                <input type="number" name="Gia" class="form-control" required placeholder="VD: 500000000">
+                            </div>
+                        </div>
+
+                        <h5 class="text-primary mt-4 mb-3 border-bottom pb-2">2. Thông số kỹ thuật</h5>
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label>Số KM đã đi</label>
+                                <input type="number" name="SoKM" class="form-control" placeholder="VD: 50000">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label>Hộp số</label>
+                                <select name="HopSo" class="form-control">
+                                    <option value="Số tự động">Số tự động</option>
+                                    <option value="Số sàn">Số sàn</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label>Nhiên liệu</label>
+                                <select name="NhienLieu" class="form-control">
+                                    <option value="Xăng">Xăng</option>
+                                    <option value="Dầu">Dầu</option>
+                                    <option value="Điện">Điện</option>
+                                    <option value="Hybrid">Hybrid</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label>Màu sắc</label>
+                                <input type="text" name="MauSac" class="form-control" placeholder="Trắng, Đen...">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label>Động cơ</label>
+                                <input type="text" name="DongCo" class="form-control" placeholder="VD: 1.5L Turbo">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label>Xuất xứ</label>
+                                <select name="XuatXu" class="form-control">
+                                    <option value="Lắp ráp trong nước">Lắp ráp trong nước</option>
+                                    <option value="Nhập khẩu">Nhập khẩu</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label>Địa điểm xem xe <span class="text-danger">*</span></label>
+                                <input type="text" name="DiaDiem" class="form-control" required placeholder="Quận/Huyện, Tỉnh/TP">
+                            </div>
+                        </div>
+
+                        <h5 class="text-primary mt-4 mb-3 border-bottom pb-2">3. Hình ảnh & Mô tả</h5>
+                        <div class="form-group">
+                            <label>Hình ảnh (Chọn nhiều ảnh) <span class="text-danger">*</span></label>
+                            <input type="file" name="files" multiple class="form-control-file border p-2" required accept="image/*" />
+                            <small class="text-muted">Nên chọn ảnh ngang, rõ nét. Ảnh đầu tiên sẽ là ảnh đại diện.</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Mô tả chi tiết</label>
+                            <textarea name="MoTaChiTiet" class="form-control" rows="5" placeholder="Mô tả tình trạng xe, cam kết..."></textarea>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success btn-lg px-5 font-weight-bold">
+                                <i class="fas fa-paper-plane"></i> ĐĂNG TIN NGAY
+                            </button>
+                            <a href="@Url.Action("QuanLyTinDang")" class="btn btn-secondary btn-lg ml-2">Hủy</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

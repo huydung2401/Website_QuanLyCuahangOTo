@@ -463,6 +463,114 @@
         .desc-content.expanded {
             max-height: 2000px; /* chiều cao khi mở rộng */
         }
+
+    .review-list {
+        margin-bottom: 20px;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .review-item {
+        display: flex;
+        gap: 15px;
+        border-bottom: 1px solid #f0f0f0;
+        padding: 15px 0;
+    }
+
+    .review-avatar {
+        width: 45px;
+        height: 45px;
+        background: #ddd;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        color: #fff;
+        flex-shrink: 0;
+    }
+
+    .review-content {
+        flex: 1;
+    }
+
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+
+    .review-name {
+        font-weight: 700;
+        color: #333;
+        font-size: 15px;
+    }
+
+    .review-date {
+        font-size: 12px;
+        color: #999;
+    }
+
+    .review-text {
+        font-size: 14px;
+        color: #555;
+        line-height: 1.5;
+    }
+
+    .star-rating-static {
+        color: #ffde00;
+        font-size: 13px;
+    }
+
+    .review-form-box {
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .star-rating-input {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+        gap: 5px;
+        margin-bottom: 15px;
+    }
+
+        .star-rating-input input {
+            display: none;
+        }
+
+        .star-rating-input label {
+            font-size: 24px;
+            color: #ddd;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+            .star-rating-input input:checked ~ label, .star-rating-input label:hover, .star-rating-input label:hover ~ label {
+                color: #ffde00;
+            }
+
+    .form-control-custom {
+        width: 100%;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 12px;
+        outline: none;
+        font-size: 14px;
+        margin-bottom: 15px;
+        resize: none;
+    }
+
+        .form-control-custom:focus {
+            border-color: #007bff;
+        }
+    .sticky-box {
+        position: sticky;
+        top: 20px; /* Khoảng cách từ trên xuống */
+    }
+
 </style>
 
 <div class="carmudi-container">
@@ -554,7 +662,7 @@
 
         <!-- INFO BOX -->
         <div class="col-lg-5 col-md-12">
-            <div class="info-section">
+            <div class="info-section sticky-box">
 
                 <h1 class="car-title">@Model.Xe.TieuDe</h1>
 
@@ -606,13 +714,21 @@
                     <div class="info-value">@Model.NguoiBan.HoTen</div>
                 </div>
 
-                <div class="btn-group-detail">
-                    <a class="btn-call" href="tel:@Model.NguoiBan.DienThoai">
-                        <i class="fas fa-phone-alt"></i> Gọi người bán
+                <div class="btn-group-contact">
+                    <a href="#" class="btn-call">
+                        <i class="fas fa-phone-alt"></i> Gọi điện
                     </a>
 
-                    <a class="btn-message">
-                        <i class="fas fa-comment-dots"></i> Nhắn người bán
+                    <a href="@Url.Action("TaoYeuCau", "DatCoc", new { idXe = Model.IdXe })" class="btn-deposit">
+                        <i class="fas fa-file-contract"></i> Đặt giữ xe ngay
+                    </a>
+
+                    <button type="button" class="btn-test-drive" data-toggle="modal" data-target="#modalLaiThu">
+                        <i class="fas fa-steering-wheel"></i> Đăng ký lái thử
+                    </button>
+
+                    <a href="#" class="btn-message">
+                        <i class="far fa-comment-dots"></i> Nhắn tin
                     </a>
                 </div>
 
@@ -645,19 +761,87 @@
     <div class="row mt-5">
         <div class="col-lg-7 col-md-8 col-sm-12">
 
-            <section class="desc-box">
-                <h2>Mô tả chi tiết</h2>
+            <div class="section-box">
+                <h3 class="section-title">Mô tả chi tiết</h3>
+                <div id="descContent" class="desc-content">
+                    @if (!string.IsNullOrEmpty(Model.Xe.MoTaChiTiet))
+                    {
+                        @Html.Raw(Model.Xe.MoTaChiTiet.Replace("\n", "<br>"))
+                    }
+                    else
+                    {
+                        <p>Người bán chưa nhập mô tả chi tiết.</p>
+                    }
+                    <div class="desc-fade" id="descFade"></div>
+                </div>
+                <button id="toggleBtn" class="btn-toggle-desc">Xem thêm <i class="fas fa-chevron-down"></i></button>
+            </div>
 
-                <div id="descContent" class="desc-content collapsed">
-                    @Html.Raw(Model.Xe.MoTaChiTiet.Replace("\n", "<br>"))
+            @{
+                var listDanhGia = ViewBag.ListDanhGia as List<TKW.Models.DanhGia>;
+            }
+
+            <div class="section-box mt-4">
+                <h3 class="section-title">Đánh giá xe (@(listDanhGia != null ? listDanhGia.Count : 0))</h3>
+
+                <div class="review-list">
+                    @if (listDanhGia != null && listDanhGia.Count > 0)
+                    {
+                        foreach (var dg in listDanhGia)
+                        {
+                            <div class="review-item">
+                                <div class="review-avatar" style="background-color: #@(Guid.NewGuid().ToString().Substring(0, 6))">
+                                    @(dg.NguoiDung.HoTen.Substring(0, 1).ToUpper())
+                                </div>
+                                <div class="review-content">
+                                    <div class="review-header">
+                                        <span class="review-name">@dg.NguoiDung.HoTen</span>
+                                        <span class="review-date">@dg.NgayDanhGia.Value.ToString("dd/MM/yyyy HH:mm")</span>
+                                    </div>
+                                    <div class="star-rating-static mb-2">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            if (i <= dg.SoSao)
+                                            {<i class="fas fa-star"></i> }
+                                            else
+                                            { <i class="far fa-star" style="color:#ccc"></i>}
+                                        }
+                                    </div>
+                                    <p class="review-text">@dg.NoiDung</p>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-muted text-center py-3">Chưa có đánh giá nào. Hãy là người đầu tiên!</p>
+                    }
                 </div>
 
-                <div class="text-center mt-3">
-                    <button id="toggleBtn" class="btn btn-outline-primary">
-                        Xem thêm
-                    </button>
+                <div class="review-form-box">
+                    <h5 class="font-weight-bold mb-3">Viết đánh giá của bạn</h5>
+                    <form id="formDanhGia">
+                        <input type="hidden" id="idXeInput" value="@Model.IdXe" />
+
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="mr-3 font-weight-600">Chất lượng xe:</span>
+                            <div class="star-rating-input">
+                                <input type="radio" name="rating" id="star5" value="5" checked><label for="star5"><i class="fas fa-star"></i></label>
+                                <input type="radio" name="rating" id="star4" value="4"><label for="star4"><i class="fas fa-star"></i></label>
+                                <input type="radio" name="rating" id="star3" value="3"><label for="star3"><i class="fas fa-star"></i></label>
+                                <input type="radio" name="rating" id="star2" value="2"><label for="star2"><i class="fas fa-star"></i></label>
+                                <input type="radio" name="rating" id="star1" value="1"><label for="star1"><i class="fas fa-star"></i></label>
+                            </div>
+                        </div>
+
+                        <textarea id="txtNoiDung" class="form-control-custom" rows="3" placeholder="Mời bạn chia sẻ cảm nhận về chiếc xe này..."></textarea>
+
+                        <button type="button" onclick="submitReview()" class="btn btn-primary px-4 rounded-pill font-weight-bold">
+                            <i class="fas fa-paper-plane mr-1"></i> Gửi đánh giá
+                        </button>
+                    </form>
                 </div>
-            </section>
+            </div>
 
         </div>
     </div>

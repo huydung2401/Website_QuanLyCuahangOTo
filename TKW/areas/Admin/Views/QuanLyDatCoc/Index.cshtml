@@ -1,0 +1,106 @@
+﻿@model IEnumerable<TKW.Models.DatCoc>
+@{
+    ViewBag.Title = "Quản lý Đặt cọc";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold text-success"><i class="fa fa-file-invoice-dollar"></i> DANH SÁCH ĐƠN ĐẶT CỌC</h4>
+</div>
+
+@if (TempData["ThongBao"] != null)
+{
+    <div class="alert @TempData["LoaiThongBao"] alert-dismissible fade show">
+        @TempData["ThongBao"] <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card shadow border-0">
+    <div class="card-body p-0">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="bg-light">
+                <tr>
+                    <th class="ps-3">Mã Đơn</th>
+                    <th>Khách hàng</th>
+                    <th>Xe đặt cọc</th>
+                    <th>Số tiền</th>
+                    <th>Ngày tạo</th>
+                    <th>Trạng thái</th>
+                    <th class="text-center">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="ps-3">
+                            <a href="@Url.Action("Details", new { id = item.IdDatCoc })" class="fw-bold text-decoration-none text-primary">
+                                #@item.IdDatCoc <i class="fa fa-eye small"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <div class="fw-bold">@item.NguoiDung.HoTen</div>
+                            <small class="text-muted">@item.NguoiDung.DienThoai</small>
+                        </td>
+                        <td>
+                            <div class="text-primary fw-bold">@item.Xe.TieuDe</div>
+                            <small class="text-muted">Mã xe: @item.IdXe</small>
+                        </td>
+                        <td class="fw-bold text-danger">@string.Format("{0:N0}", item.SoTienCoc) đ</td>
+                        <td>@string.Format("{0:dd/MM/yyyy}", item.NgayDat)</td>
+                        <td>
+                            @if (item.TrangThai == "Đã cọc")
+                            {
+                                <span class="badge bg-success">Thành công</span>
+                            }
+                            else if (item.TrangThai == "Chờ thanh toán")
+                            {
+                                <span class="badge bg-warning text-dark">Chờ thanh toán</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">@item.TrangThai</span>
+                            }
+                        </td>
+                        <td class="text-center" style="min-width:160px;">
+                            <div class="d-flex justify-content-center gap-2">
+
+                                @if (item.TrangThai == "Chờ thanh toán")
+                                {
+                                    <a href="@Url.Action("XacNhanThanhToan", new { id = item.IdDatCoc })"
+                                       class="btn btn-success btn-sm"
+                                       onclick="return confirm('Xác nhận khách đã thanh toán tiền cọc?');">
+                                        <i class="fa fa-check-circle"></i> Thu tiền
+                                    </a>
+
+                                    <a href="@Url.Action("HuyDon", new { id = item.IdDatCoc })"
+                                       class="btn btn-outline-danger btn-sm">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                }
+
+                                @if (item.TrangThai == "Đã cọc")
+                                {
+                                    <a href="@Url.Action("InHoaDon", new { id = item.IdDatCoc })"
+                                       target="_blank"
+                                       class="btn btn-primary btn-sm">
+                                        <i class="fa fa-print"></i> In HĐ
+                                    </a>
+                                }
+
+                            </div>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .gap-2 {
+        gap: 8px !important;
+    }
+
+</style>

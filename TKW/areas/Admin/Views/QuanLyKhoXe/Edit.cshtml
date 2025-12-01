@@ -1,0 +1,116 @@
+﻿@model TKW.Areas.Admin.Models.XeInputViewModel
+@{
+    ViewBag.Title = "Cập nhật thông tin xe";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    string currentImg = ViewBag.CurrentImage as string;
+    string xeId = ViewBag.CurrentId as string;
+}
+
+<div class="card shadow-sm">
+    <div class="card-header bg-warning text-dark">
+        <h5 class="mb-0 fw-bold"><i class="fa fa-edit"></i> Cập nhật xe: @xeId</h5>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("Edit", "QuanLyKhoXe", new { id = xeId }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="row">
+                <!-- CỘT TRÁI: THÔNG TIN CHỮ -->
+                <div class="col-md-8">
+                    <div class="form-group mb-3">
+                        <label class="fw-bold">Tiêu đề xe <span class="text-danger">*</span></label>
+                        @Html.TextBoxFor(m => m.TieuDe, new { @class = "form-control" })
+                    </div>
+
+                    <!-- HÀNG 3 CỘT: HÃNG - DÒNG - LOẠI (Đã thêm Loại xe vào đây) -->
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="fw-bold">Hãng xe</label>
+                            @Html.DropDownListFor(m => m.IdHangXe, (SelectList)ViewBag.HangXe, new { @class = "form-select" })
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="fw-bold">Dòng xe</label>
+                            @Html.DropDownListFor(m => m.IdDongXe, (SelectList)ViewBag.DongXe, new { @class = "form-select" })
+                        </div>
+
+                        <!-- ĐÂY LÀ PHẦN BẠN BỊ THIẾU -->
+                        <div class="col-md-4 mb-3">
+                            <label class="fw-bold">Loại xe (Danh mục)</label>
+                            @Html.DropDownListFor(m => m.IdDanhMuc, (SelectList)ViewBag.DanhMuc, new { @class = "form-select" })
+                        </div>
+                        <!-- KẾT THÚC PHẦN THIẾU -->
+                    </div>
+
+                    <!-- TRẠNG THÁI TIN -->
+                    <div class="form-group mb-3">
+                        <label class="fw-bold">Trạng thái tin</label>
+                        @Html.DropDownListFor(m => m.TrangThaiTin, new List<SelectListItem>
+                        {
+                            new SelectListItem { Text = "Đã duyệt", Value = "Đã duyệt" },
+                            new SelectListItem { Text = "Chờ duyệt", Value = "Chờ duyệt" },
+                            new SelectListItem { Text = "Từ chối", Value = "Từ chối" }
+                        }, new { @class = "form-select" })
+                    </div>
+
+
+                    <!-- HÀNG THÔNG SỐ -->
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="fw-bold">Giá bán</label>
+                            @Html.TextBoxFor(m => m.Gia, new { @class = "form-control", type = "number" })
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="fw-bold">Năm SX</label>
+                            @Html.TextBoxFor(m => m.NamSX, new { @class = "form-control", type = "number" })
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="fw-bold">Nhiên liệu</label>
+                            @Html.DropDownListFor(m => m.NhienLieu, new List<SelectListItem> {
+                               new SelectListItem { Text = "Xăng", Value = "Xăng" },
+                               new SelectListItem { Text = "Dầu", Value = "Dầu" },
+                               new SelectListItem { Text = "Điện", Value = "Điện" }
+                           }, new { @class = "form-select" })
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="fw-bold">Mô tả chi tiết</label>
+                        @Html.TextAreaFor(m => m.Mota, new { @class = "form-control", rows = "5" })
+                    </div>
+                </div>
+
+                <!-- CỘT PHẢI: HÌNH ẢNH -->
+                <div class="col-md-4">
+                    <div class="card bg-light">
+                        <div class="card-body text-center">
+                            <label class="fw-bold mb-2">Hình ảnh hiện tại</label>
+
+                            @if (!string.IsNullOrEmpty(currentImg))
+                            {
+                                <img src="/Content/images/@currentImg" class="img-fluid rounded mb-3 border bg-white" style="max-height: 200px; object-fit:contain" />
+                            }
+                            else
+                            {
+                                <div class="alert alert-secondary py-4">Chưa có ảnh</div>
+                            }
+
+                            <hr>
+                            <label class="small text-muted fw-bold">Chọn ảnh mới (Nếu muốn thay đổi)</label>
+                            <input type="file" name="ImageFile" class="form-control mt-2" accept="image/*" />
+                        </div>
+                    </div>
+
+                    <div class="mt-4 d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg fw-bold">
+                            <i class="fa fa-save"></i> LƯU THAY ĐỔI
+                        </button>
+                        <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
+                            <i class="fa fa-arrow-left"></i> Quay lại
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

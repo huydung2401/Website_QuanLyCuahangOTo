@@ -1,0 +1,93 @@
+﻿@model IEnumerable<TKW.Models.LaiThu>
+@{
+    ViewBag.Title = "Quản lý Lịch Lái Thử";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold text-primary"><i class="fa fa-calendar-check"></i> DANH SÁCH ĐĂNG KÝ LÁI THỬ</h4>
+</div>
+
+@if (TempData["ThongBao"] != null)
+{
+    <div class="alert @TempData["LoaiThongBao"] alert-dismissible fade show">
+        <i class="fa fa-info-circle"></i> @TempData["ThongBao"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card shadow border-0">
+    <div class="card-body p-0">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="bg-light">
+                <tr>
+                    <th class="ps-3">Mã</th>
+                    <th>Khách hàng</th>
+                    <th>Xe đăng ký</th>
+                    <th>Ngày hẹn</th>
+                    <th>Trạng thái</th>
+                    <th class="text-center">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    // Màu sắc trạng thái
+                    string badgeColor = "bg-secondary";
+                    if (item.TrangThai == "Chờ xác nhận") { badgeColor = "bg-warning text-dark"; }
+                    else if (item.TrangThai == "Đã xác nhận") { badgeColor = "bg-primary"; }
+                    else if (item.TrangThai == "Đã xong") { badgeColor = "bg-success"; }
+                    else if (item.TrangThai == "Đã hủy") { badgeColor = "bg-danger"; }
+
+                    <tr>
+                        <td class="ps-3 fw-bold">#@item.IdLaiThu</td>
+                        <td>
+                            <div class="fw-bold">@item.NguoiDung.HoTen</div>
+                            <small class="text-muted"><i class="fa fa-phone"></i> @item.NguoiDung.DienThoai</small>
+                        </td>
+                        <td>
+                            <div class="fw-bold text-primary">@item.Xe.TieuDe</div>
+                        </td>
+                        <td>
+                            <div class="fw-bold text-primary">@string.Format("{0:dd/MM/yyyy}", item.NgayHen)</div>
+                            <small class="text-muted">Lúc: @string.Format("{0:HH:mm}", item.NgayHen)</small>
+                        </td>
+                        <td>
+                            <span class="badge @badgeColor">@item.TrangThai</span>
+                        </td>
+                        <td class="text-center">
+                            <a href="@Url.Action("Details", new { id = item.IdLaiThu })" class="btn btn-sm btn-outline-info" title="Xem chi tiết">
+                                <i class="fa fa-eye"></i>
+                            </a>
+
+                            @if (item.TrangThai == "Chờ xác nhận")
+                            {
+                                <a href="@Url.Action("XacNhanLich", new { id = item.IdLaiThu })" class="btn btn-sm btn-success" title="Xác nhận lịch">
+                                    <i class="fa fa-check"></i>
+                                </a>
+                                <a href="@Url.Action("HuyLich", new { id = item.IdLaiThu })" class="btn btn-sm btn-danger" title="Hủy lịch" onclick="return confirm('Hủy lịch hẹn này?');">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            }
+                            else if (item.TrangThai == "Đã xác nhận")
+                            {
+                                <a href="@Url.Action("HoanTatLich", new { id = item.IdLaiThu })" class="btn btn-sm btn-outline-success" title="Đánh dấu đã lái thử xong">
+                                    <i class="fa fa-flag-checkered"></i> Xong
+                                </a>
+                                <a href="@Url.Action("HuyLich", new { id = item.IdLaiThu })" class="btn btn-sm btn-outline-danger" title="Hủy bỏ">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Delete", new { id = item.IdLaiThu })" class="btn btn-sm btn-light text-muted" title="Xóa lịch sử" onclick="return confirm('Xóa vĩnh viễn dòng lịch sử này?');">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

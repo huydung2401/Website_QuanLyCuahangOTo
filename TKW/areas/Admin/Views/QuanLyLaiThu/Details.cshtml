@@ -1,0 +1,91 @@
+﻿@model TKW.Models.LaiThu
+@{
+    ViewBag.Title = "Chi tiết lịch hẹn #" + Model.IdLaiThu;
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+    var anhXe = Model.Xe.XeHinhAnhs.FirstOrDefault();
+    string imgUrl = (anhXe != null) ? "/Content/images/" + anhXe.HinhAnh : "https://via.placeholder.com/300";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold text-primary"><i class="fa fa-calendar-alt"></i> CHI TIẾT LỊCH HẸN #@Model.IdLaiThu</h4>
+    <a href="@Url.Action("Index")" class="btn btn-outline-secondary"><i class="fa fa-arrow-left"></i> Quay lại</a>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow-sm mb-4 h-100">
+            <div class="card-header bg-info text-white fw-bold">
+                <i class="fa fa-user"></i> THÔNG TIN KHÁCH HÀNG
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="small text-muted">Họ tên khách:</label>
+                    <div class="fs-5 fw-bold">@Model.NguoiDung.HoTen</div>
+                </div>
+                <div class="mb-3">
+                    <label class="small text-muted">Số điện thoại liên hệ:</label>
+                    <div class="fs-4 fw-bold text-danger">
+                        <i class="fa fa-phone-alt"></i> @Model.NguoiDung.DienThoai
+                    </div>
+                    <small class="text-muted">(Hãy gọi số này để xác nhận lịch)</small>
+                </div>
+                <div class="mb-3">
+                    <label class="small text-muted">Email:</label>
+                    <div>@Model.NguoiDung.Email</div>
+                </div>
+                <div class="alert alert-secondary mb-0">
+                    <strong>Ghi chú của khách:</strong><br />
+                    "@(string.IsNullOrEmpty(Model.GhiChu) ? "Không có ghi chú" : Model.GhiChu)"
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card shadow-sm mb-4 h-100">
+            <div class="card-header bg-primary text-white fw-bold">
+                <i class="fa fa-car"></i> XE ĐĂNG KÝ & THỜI GIAN
+            </div>
+            <div class="card-body">
+                <div class="d-flex mb-3">
+                    <img src="@imgUrl" class="rounded border me-3" width="100" height="70" style="object-fit:cover" />
+                    <div>
+                        <div class="fw-bold text-primary">@Model.Xe.TieuDe</div>
+                        <small>@Model.Xe.NamSX | @Model.Xe.HopSo | @Model.Xe.NhienLieu</small>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row text-center mb-4">
+                    <div class="col-6 border-end">
+                        <small class="text-muted">Ngày hẹn:</small>
+                        <div class="fs-5 fw-bold text-primary">@string.Format("{0:dd/MM/yyyy}", Model.NgayHen)</div>
+                    </div>
+                    <div class="col-6">
+                        <small class="text-muted">Giờ hẹn:</small>
+                        <div class="fs-5 fw-bold text-primary">@string.Format("{0:HH:mm}", Model.NgayHen)</div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <p class="mb-2">Trạng thái hiện tại:</p>
+                    <span class="badge bg-warning text-dark fs-5">@Model.TrangThai</span>
+                </div>
+
+                @if (Model.TrangThai == "Chờ xác nhận")
+                {
+                    <div class="d-grid gap-2 mt-4">
+                        <a href="@Url.Action("XacNhanLich", new { id = Model.IdLaiThu })" class="btn btn-success fw-bold">
+                            <i class="fa fa-check"></i> XÁC NHẬN LỊCH HẸN
+                        </a>
+                        <a href="@Url.Action("HuyLich", new { id = Model.IdLaiThu })" class="btn btn-outline-danger">
+                            <i class="fa fa-times"></i> Hủy lịch
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

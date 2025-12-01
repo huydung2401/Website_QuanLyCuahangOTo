@@ -1,0 +1,180 @@
+﻿@model TKW.Areas.Admin.Models.KhachHangChiTietVM
+@{
+    ViewBag.Title = "Hồ sơ: " + Model.NguoiDung.HoTen;
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold text-primary"><i class="fa fa-id-card"></i> HỒ SƠ KHÁCH HÀNG</h4>
+    <a href="@Url.Action("Index")" class="btn btn-outline-secondary"><i class="fa fa-arrow-left"></i> Quay lại</a>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card shadow-sm mb-4">
+            <div class="card-body text-center">
+                <div class="mb-3">
+                    <img src="https://ui-avatars.com/api/?name=@Model.NguoiDung.HoTen&background=0D8ABC&color=fff&size=128" class="rounded-circle shadow-sm" />
+                </div>
+                <h5 class="fw-bold mb-0">@Model.NguoiDung.HoTen</h5>
+                <p class="text-muted small">@Model.NguoiDung.IdNguoiDung</p>
+                <span class="badge bg-info">@Model.NguoiDung.VaiTro</span>
+
+                <hr />
+                <div class="text-start px-2">
+                    <p class="mb-2"><i class="fa fa-envelope text-muted w-25"></i> @Model.NguoiDung.Email</p>
+                    <p class="mb-2"><i class="fa fa-phone text-muted w-25"></i> @Model.NguoiDung.DienThoai</p>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt text-muted w-25"></i> @Model.NguoiDung.DiaChi</p>
+                    <p class="mb-2"><i class="fa fa-clock text-muted w-25"></i> @string.Format("{0:dd/MM/yyyy}", Model.NguoiDung.NgayTao)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white">
+                <ul class="nav nav-tabs card-header-tabs" id="historyTab" role="tablist">
+                    <li class="nav-item">
+                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-car" type="button">
+                            Tin đăng bán (@Model.TinDaDang.Count)
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-coc" type="button">
+                            Lịch sử Cọc (@Model.LichSuDatCoc.Count)
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-lai" type="button">
+                            Lái thử (@Model.LichSuLaiThu.Count)
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link text-danger fw-bold" data-bs-toggle="tab" data-bs-target="#tab-cmt" type="button">
+                            Bình luận (@Model.LichSuDanhGia.Count)
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card-body">
+                <div class="tab-content">
+
+                    <div class="tab-pane fade show active" id="tab-car">
+                        @if (Model.TinDaDang.Any())
+                        {
+                            <table class="table table-sm table-striped">
+                                <thead><tr><th>Tên xe</th><th>Giá bán</th><th>Trạng thái</th></tr></thead>
+                                <tbody>
+                                    @foreach (var x in Model.TinDaDang)
+                                    {
+                                        <tr>
+                                            <td><a href="@Url.Action("Details", "QuanLyDangTin", new {id=x.IdXe})">@x.TieuDe</a></td>
+                                            <td class="fw-bold text-danger">@string.Format("{0:N0}", x.Gia)</td>
+                                            <td><span class="badge bg-secondary">@x.TrangThaiTin</span></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        { <p class="text-muted text-center py-3">Khách chưa đăng tin bán xe nào.</p>}
+                    </div>
+
+                    <div class="tab-pane fade" id="tab-coc">
+                        @if (Model.LichSuDatCoc.Any())
+                        {
+                            <table class="table table-sm">
+                                <thead><tr><th>Mã Xe</th><th>Tiền cọc</th><th>Ngày cọc</th><th>Trạng thái</th></tr></thead>
+                                <tbody>
+                                    @foreach (var c in Model.LichSuDatCoc)
+                                    {
+                                        <tr>
+                                            <td>@c.IdXe</td>
+                                            <td class="text-success fw-bold">@string.Format("{0:N0}", c.SoTienCoc)</td>
+                                            <td>@string.Format("{0:dd/MM/yyyy}", c.NgayDat)</td>
+                                            <td>@c.TrangThai</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        { <p class="text-muted text-center py-3">Chưa có giao dịch đặt cọc.</p>}
+                    </div>
+
+                    <div class="tab-pane fade" id="tab-lai">
+                        @if (Model.LichSuLaiThu.Any())
+                        {
+                            <table class="table table-sm">
+                                <thead><tr><th>Mã Xe</th><th>Ngày hẹn</th><th>Ghi chú</th><th>Trạng thái</th></tr></thead>
+                                <tbody>
+                                    @foreach (var l in Model.LichSuLaiThu)
+                                    {
+                                        <tr>
+                                            <td>@l.IdXe</td>
+                                            <td>@string.Format("{0:dd/MM/yyyy}", l.NgayHen)</td>
+                                            <td>@l.GhiChu</td>
+                                            <td>@l.TrangThai</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        { <p class="text-muted text-center py-3">Chưa đăng ký lái thử.</p>}
+                    </div>
+
+                    <div class="tab-pane fade" id="tab-cmt">
+                        @if (Model.LichSuDanhGia.Any())
+                        {
+                            <div class="table-responsive">
+                                <table class="table align-middle">
+                                    <thead><tr><th>Xe</th><th>Nội dung đánh giá</th><th class="text-center">Xóa</th></tr></thead>
+                                    <tbody>
+                                        @foreach (var bl in Model.LichSuDanhGia)
+                                        {
+                                            <tr>
+                                                <td class="fw-bold">@bl.IdXe</td>
+                                                <td>
+                                                    <div class="text-warning small">@bl.SoSao <i class="fa fa-star"></i></div>
+                                                    <div class="fst-italic">"@bl.NoiDung"</div>
+                                                    <small class="text-muted">@string.Format("{0:dd/MM/yyyy}", bl.NgayDanhGia)</small>
+                                                </td>
+                                                <td class="text-center">
+                                                    @using (Html.BeginForm("DeleteComment", "QuanLyKhachHang", FormMethod.Post))
+                                                    {
+                                                        @Html.Hidden("idDanhGia", bl.IdDanhGia)
+                                                        @Html.Hidden("idUserRedirect", Model.NguoiDung.IdNguoiDung)
+                                                        <button class="btn btn-outline-danger btn-sm" onclick="return confirm('Xóa bình luận này?');">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        { <p class="text-muted text-center py-3">Khách chưa có bình luận nào.</p>}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var triggerTabList = [].slice.call(document.querySelectorAll('#historyTab button'))
+    triggerTabList.forEach(function (triggerEl) {
+        var tabTrigger = new bootstrap.Tab(triggerEl)
+        triggerEl.addEventListener('click', function (event) {
+            event.preventDefault()
+            tabTrigger.show()
+        })
+    })
+</script>

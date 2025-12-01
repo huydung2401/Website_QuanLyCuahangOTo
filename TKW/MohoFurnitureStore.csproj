@@ -126,12 +126,32 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="areas\Admin\Controllers\BaseAdminController.cs" />
+    <Compile Include="areas\Admin\Controllers\DashboardController.cs" />
+    <Compile Include="areas\Admin\Controllers\QuanLyDangTinController.cs" />
+    <Compile Include="areas\Admin\Controllers\QuanLyDatCocController.cs" />
+    <Compile Include="areas\Admin\Controllers\QuanLyDoanhThuController.cs" />
+    <Compile Include="areas\Admin\Controllers\QuanLyKhachHangController.cs" />
+    <Compile Include="areas\Admin\Controllers\QuanLyKhoXeController.cs" />
+    <Compile Include="areas\Admin\Controllers\QuanLyLaiThuController.cs" />
+    <Compile Include="areas\Admin\Controllers\QuanLyNhanVienController.cs" />
+    <Compile Include="areas\Admin\Controllers\QuanLyTuVanController.cs" />
+    <Compile Include="areas\Admin\Models\DoanhThuVM.cs" />
+    <Compile Include="areas\Admin\Models\HomeAdminViewModel.cs" />
+    <Compile Include="areas\Admin\Models\KhachHangChiTietVM.cs" />
+    <Compile Include="areas\Admin\Models\XeInputViewModel.cs" />
+    <Compile Include="Controllers\BanXeController.cs" />
+    <Compile Include="Controllers\DatCocController.cs" />
     <Compile Include="Controllers\DonHangController.cs" />
     <Compile Include="Controllers\GioHangController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LaiThuController.cs" />
     <Compile Include="Controllers\QuanTriController.cs" />
-    <Compile Include="Controllers\SanPhamController.cs" />
+    <Compile Include="Controllers\XeController.cs" />
     <Compile Include="Controllers\TaiKhoanController.cs" />
+    <Compile Include="Controllers\TinTucController.cs" />
+    <Compile Include="Controllers\TuVanController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -148,6 +168,9 @@
     <Compile Include="Models\DanhSachHoaDon.cs" />
     <Compile Include="Models\DanhSachNguoiDung.cs" />
     <Compile Include="Models\DanhSachSanPham.cs" />
+    <Compile Include="Models\DatCoc.cs">
+      <DependentUpon>WebsiteMuaBanOtoDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DongXe.cs">
       <DependentUpon>WebsiteMuaBanOtoDB.tt</DependentUpon>
     </Compile>
@@ -156,15 +179,20 @@
       <DependentUpon>WebsiteMuaBanOtoDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HomeViewModel.cs" />
+    <Compile Include="Models\LaiThu.cs">
+      <DependentUpon>WebsiteMuaBanOtoDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\LichSuDangNhap.cs">
       <DependentUpon>WebsiteMuaBanOtoDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LichSuDuyetTin.cs">
       <DependentUpon>WebsiteMuaBanOtoDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LichSuKhachHang.cs" />
     <Compile Include="Models\LienHe.cs">
       <DependentUpon>WebsiteMuaBanOtoDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MenuView.cs" />
     <Compile Include="Models\NguoiDung.cs">
       <DependentUpon>WebsiteMuaBanOtoDB.tt</DependentUpon>
     </Compile>
@@ -189,6 +217,9 @@
     </Compile>
     <Compile Include="Models\XeDetailViewModel.cs" />
     <Compile Include="Models\XeHinhAnh.cs">
+      <DependentUpon>WebsiteMuaBanOtoDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\YeuCauTuVan.cs">
       <DependentUpon>WebsiteMuaBanOtoDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\YeuThich.cs">
@@ -225,17 +256,9 @@
     <Content Include="Content\images\background03.jpg" />
     <Content Include="Content\images\background04.jpg" />
     <Content Include="Content\images\banner-kayauto1.jpg" />
-    <Content Include="Content\images\carousel01.jpg" />
-    <Content Include="Content\images\carousel02.jpg" />
     <Content Include="Content\images\cta-bg.jpg" />
     <Content Include="Content\images\imageGioiThieu.jpg" />
     <Content Include="Content\images\logo-carmudi.png" />
-    <Content Include="Content\images\logo1.png" />
-    <Content Include="Content\images\logo2.png" />
-    <Content Include="Content\images\logo3.png" />
-    <Content Include="Content\images\logo4.png" />
-    <Content Include="Content\images\logo5.png" />
-    <Content Include="Content\images\logo6.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -316,6 +339,42 @@
     <Content Include="Content\images\012_1.jpg" />
     <Content Include="Content\images\012_2.jpg" />
     <Content Include="Content\images\012_3.jpg" />
+    <Content Include="areas\Admin\Views\Dashboard\Index.cshtml" />
+    <Content Include="areas\Admin\Views\QuanLyDangTin\Details.cshtml" />
+    <Content Include="areas\Admin\Views\QuanLyDangTin\Index.cshtml" />
+    <Content Include="areas\Admin\Views\QuanLyDatCoc\Details.cshtml" />
+    <Content Include="areas\Admin\Views\QuanLyDatCoc\Index.cshtml" />
+    <Content Include="areas\Admin\Views\QuanLyDatCoc\InHoaDon.cshtml" />
+    <Content Include="areas\Admin\Views\QuanLyDoanhThu\Index.cshtml" />
+    <Content Include="areas\Admin\Views\QuanLyKhachHang\Details.cshtml" />
+    <Content Include="areas\Admin\Views\QuanLyKhachHang\Index.cshtml" />
+    <Content Include="areas\Admin\Views\QuanLyKhoXe\Create.cshtml" />
+    <Content Include="areas\Admin\Views\QuanLyKhoXe\Edit.cshtml" />
+    <Content Include="areas\Admin\Views\QuanLyKhoXe\Index.cshtml" />
+    <Content Include="areas\Admin\Views\QuanLyLaiThu\Details.cshtml" />
+    <Content Include="areas\Admin\Views\QuanLyLaiThu\Index.cshtml" />
+    <Content Include="areas\Admin\Views\QuanLyNhanVien\Create.cshtml" />
+    <Content Include="areas\Admin\Views\QuanLyNhanVien\Edit.cshtml" />
+    <Content Include="areas\Admin\Views\QuanLyNhanVien\Index.cshtml" />
+    <Content Include="areas\Admin\Views\QuanLyTuVan\Index.cshtml" />
+    <Content Include="areas\Admin\Views\QuanLyTuVan\TraLoi.cshtml" />
+    <Content Include="areas\Admin\Views\Shared\_LayoutAdmin.cshtml" />
+    <Content Include="areas\Admin\Views\Web.config" />
+    <Content Include="areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Content\images\013.jpg" />
+    <Content Include="Content\images\013_1.jpg" />
+    <Content Include="Content\images\013_2.jpg" />
+    <Content Include="Content\images\013_3.jpg" />
+    <Content Include="Content\images\014.jpg" />
+    <Content Include="Content\images\014_1.jpg" />
+    <Content Include="Content\images\014_2.jpg" />
+    <Content Include="Content\images\014_3.jpg" />
+    <Content Include="Content\images\015.jpg" />
+    <Content Include="Content\images\015_1.jpg" />
+    <Content Include="Content\images\015_2.jpg" />
+    <Content Include="Content\images\015_3.jpg" />
+    <Content Include="Content\images\016.jpg" />
+    <Content Include="Content\images\016_1.jpg" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\cart.js" />
     <Content Include="Scripts\CuaHang.js" />
@@ -344,21 +403,29 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\TaiKhoan\DangNhap.cshtml" />
     <Content Include="Views\TaiKhoan\DangKy.cshtml" />
-    <Content Include="Views\SanPham\_BienTheBep.cshtml" />
     <Content Include="Views\DonHang\ThanhToan.cshtml" />
     <Content Include="Views\DonHang\DatHangThanhCong.cshtml" />
     <Content Include="Views\GioHang\_PopupGioHang.cshtml" />
-    <Content Include="Views\SanPham\_BienTheGiuong.cshtml" />
     <Content Include="Views\GioHang\Index.cshtml" />
-    <Content Include="Views\SanPham\DanhMuc.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\GioiThieu.cshtml" />
     <Content Include="Views\Xe\ChiTietXe.cshtml" />
+    <Content Include="Views\Shared\_MainMenu.cshtml" />
+    <Content Include="Views\TaiKhoan\DonHangCuaToi.cshtml" />
+    <Content Include="Views\TaiKhoan\HoSoCuaToi.cshtml" />
+    <Content Include="Views\LaiThu\LichSuDangKy.cshtml" />
+    <Content Include="Views\BanXe\DangTin.cshtml" />
+    <Content Include="Views\BanXe\QuanLyTinDang.cshtml" />
+    <Content Include="Views\DatCoc\TaoYeuCau.cshtml" />
+    <Content Include="Views\TinTuc\Index.cshtml" />
+    <Content Include="Views\TuVan\Create.cshtml" />
+    <Content Include="Views\TuVan\Details.cshtml" />
+    <Content Include="Views\TuVan\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="areas\Admin\Views\BaseAdmin\" />
     <Folder Include="Content\fonts\" />
-    <Folder Include="Views\Blog\" />
     <Folder Include="Views\QuanTri\" />
   </ItemGroup>
   <ItemGroup>

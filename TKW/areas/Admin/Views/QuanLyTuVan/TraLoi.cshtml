@@ -1,0 +1,33 @@
+﻿@model TKW.Models.YeuCauTuVan
+@{ ViewBag.Title = "Trả lời tư vấn"; Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml"; }
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card bg-light">
+            <div class="card-header fw-bold">NHU CẦU CỦA KHÁCH: @Model.HoTen</div>
+            <div class="card-body">
+                <ul class="list-group">
+                    <li class="list-group-item">Lương: <strong>@Model.MucLuong</strong></li>
+                    <li class="list-group-item">Thích xe: <strong>@Model.DongXeYeuThich</strong></li>
+                    <li class="list-group-item">Ngân sách: <strong>@Model.MucGiaMongMuon</strong></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white fw-bold">ADMIN TRẢ LỜI</div>
+            <div class="card-body">
+                @using (Html.BeginForm("TraLoi", "QuanLyTuVan", FormMethod.Post))
+                {
+                    @Html.Hidden("id", Model.IdTuVan)
+                    <div class="mb-3">
+                        <label>Lời khuyên & Đề xuất xe:</label>
+                        <textarea name="noidung" class="form-control" rows="5" placeholder="Chào bạn, với tài chính này bạn nên chọn...">@Model.PhanHoiCuaAdmin</textarea>
+                    </div>
+                    <button class="btn btn-success w-100 fw-bold">GỬI PHẢN HỒI</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

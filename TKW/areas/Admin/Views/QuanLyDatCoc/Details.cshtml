@@ -1,0 +1,131 @@
+﻿@model TKW.Models.DatCoc
+@{
+    ViewBag.Title = "Chi tiết đơn cọc #" + Model.IdDatCoc;
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+    // Xử lý ảnh xe
+    var anhXe = Model.Xe.XeHinhAnhs.FirstOrDefault();
+    string imgUrl = (anhXe != null) ? "/Content/images/" + anhXe.HinhAnh : "https://via.placeholder.com/300x200";
+
+    // Màu trạng thái
+    string statusClass = "bg-secondary";
+    if (Model.TrangThai == "Đã cọc") { statusClass = "bg-success"; }
+    else if (Model.TrangThai == "Chờ thanh toán") { statusClass = "bg-warning text-dark"; }
+    else if (Model.TrangThai == "Đã hủy" || Model.TrangThai == "Hoàn tiền") { statusClass = "bg-danger"; }
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold text-primary">
+        <i class="fa fa-file-invoice"></i> CHI TIẾT ĐƠN CỌC #@Model.IdDatCoc
+    </h4>
+    <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
+        <i class="fa fa-arrow-left"></i> Quay lại
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light fw-bold"><i class="fa fa-user"></i> Thông tin khách hàng</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="small text-muted">Họ và tên:</label>
+                        <div class="fw-bold fs-5">@Model.NguoiDung.HoTen</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="small text-muted">Số điện thoại:</label>
+                        <div class="fw-bold text-primary">@Model.NguoiDung.DienThoai</div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="small text-muted">Email:</label>
+                        <div>@Model.NguoiDung.Email</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="small text-muted">Địa chỉ:</label>
+                        <div>@Model.NguoiDung.DiaChi</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light fw-bold"><i class="fa fa-car"></i> Thông tin xe</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="@imgUrl" class="img-fluid rounded border" style="width:100%; object-fit:cover" />
+                    </div>
+                    <div class="col-md-8">
+                        <h5 class="fw-bold text-primary">@Model.Xe.TieuDe</h5>
+                        <p class="mb-1"><strong>Mã xe:</strong> @Model.IdXe</p>
+                        <p class="mb-1"><strong>Giá bán niêm yết:</strong> @string.Format("{0:N0}", Model.Xe.Gia) VNĐ</p>
+                        <p class="mb-1"><strong>Thông số:</strong> @Model.Xe.NamSX | @Model.Xe.HopSo | @Model.Xe.NhienLieu</p>
+
+                        <a href="@Url.Action("Edit", "QuanLyKhoXe", new { id = Model.IdXe })" target="_blank" class="btn btn-sm btn-outline-info mt-2">
+                            Xem chi tiết xe <i class="fa fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white fw-bold text-center">
+                THÔNG TIN THANH TOÁN
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <label class="small text-muted">Số tiền đặt cọc</label>
+                    <div class="display-6 fw-bold text-danger">@string.Format("{0:N0}", Model.SoTienCoc) đ</div>
+                    <span class="badge @statusClass fs-6 mt-2">@Model.TrangThai</span>
+                </div>
+
+                <ul class="list-group list-group-flush mb-4">
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Ngày tạo đơn:</span>
+                        <strong>@string.Format("{0:dd/MM/yyyy HH:mm}", Model.NgayDat)</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Phương thức:</span>
+                        <strong>@Model.PhuongThucTT</strong>
+                    </li>
+                </ul>
+
+                <div class="mb-4">
+                    <label class="fw-bold">Ghi chú từ khách:</label>
+                    <div class="alert alert-warning p-2 small">
+                        @(string.IsNullOrEmpty(Model.GhiChu) ? "Không có ghi chú" : Model.GhiChu)
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2">
+                    @if (Model.TrangThai == "Chờ thanh toán")
+                    {
+                        <a href="@Url.Action("XacNhanThanhToan", new { id = Model.IdDatCoc })"
+                           class="btn btn-success fw-bold"
+                           onclick="return confirm('Xác nhận đã thu đủ tiền cọc?');">
+                            <i class="fa fa-check-circle"></i> XÁC NHẬN ĐÃ THU TIỀN
+                        </a>
+                        <a href="@Url.Action("HuyDon", new { id = Model.IdDatCoc })"
+                           class="btn btn-outline-danger"
+                           onclick="return confirm('Hủy đơn cọc này?');">
+                            <i class="fa fa-times"></i> HỦY ĐƠN
+                        </a>
+                    }
+                    else if (Model.TrangThai == "Đã cọc")
+                    {
+                        <a href="@Url.Action("InHoaDon", new { id = Model.IdDatCoc })" target="_blank" class="btn btn-primary fw-bold">
+                            <i class="fa fa-print"></i> IN HÓA ĐƠN / HỢP ĐỒNG
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

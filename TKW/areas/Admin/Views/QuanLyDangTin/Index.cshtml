@@ -1,0 +1,92 @@
+﻿@model IEnumerable<TKW.Models.Xe>
+@{
+    ViewBag.Title = "Quản lý tin đăng người dùng";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold text-danger">
+        <i class="fa fa-tasks"></i> DUYỆT TIN NGƯỜI DÙNG
+        <span class="badge bg-danger rounded-pill fs-6">@Model.Count() tin mới</span>
+    </h4>
+</div>
+
+@if (TempData["ThongBao"] != null)
+{
+    <div class="alert @TempData["LoaiThongBao"] alert-dismissible fade show">
+        <i class="fa fa-info-circle"></i> @TempData["ThongBao"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card shadow border-0">
+    <div class="card-body p-0">
+        @if (!Model.Any())
+        {
+            <div class="text-center py-5">
+                <h5 class="text-muted">Hiện không có tin nào chờ duyệt.</h5>
+                <p class="text-secondary">Hãy quay lại sau khi có User đăng bài mới.</p>
+            </div>
+        }
+        else
+        {
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-3">Hình ảnh</th>
+                        <th style="width: 30%">Thông tin xe</th>
+                        <th style="width: 25%">Người đăng (Seller)</th>
+                        <th>Giá bán</th>
+                        <th class="text-center">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        var anh = item.XeHinhAnhs.FirstOrDefault();
+                        string imgUrl = (anh != null) ? "/Content/images/" + anh.HinhAnh : "/Content/images/no-image.png";
+
+                        <tr>
+                            <td class="ps-3">
+                                <img src="@imgUrl" width="100" height="70" class="rounded border object-fit-cover" />
+                            </td>
+                            <td>
+                                <div class="fw-bold text-primary mb-1">@item.TieuDe</div>
+                                <div class="small text-muted">
+                                    <i class="fa fa-clock"></i> @string.Format("{0:dd/MM/yyyy HH:mm}", item.NgayDang)
+                                </div>
+                                <span class="badge bg-warning text-dark mt-1">@item.TrangThaiTin</span>
+                            </td>
+                            <td>
+                                <div class="fw-bold"><i class="fa fa-user-circle"></i> @item.NguoiDung.HoTen</div>
+                                <div class="small text-danger fw-bold">SĐT: @item.NguoiDung.DienThoai</div>
+                                <div class="small text-muted">Email: @item.NguoiDung.Email</div>
+                            </td>
+                            <td class="fw-bold text-danger">
+                                @string.Format("{0:N0}", item.Gia) đ
+                            </td>
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a href="@Url.Action("DuyetTin", new { id = item.IdXe })"
+                                       class="btn btn-success btn-sm fw-bold"
+                                       onclick="return confirm('DUYỆT tin này? Xe sẽ được hiển thị công khai.');">
+                                        <i class="fa fa-check"></i> DUYỆT
+                                    </a>
+
+                                    <a href="@Url.Action("TuChoiTin", new { id = item.IdXe })"
+                                       class="btn btn-outline-danger btn-sm"
+                                       onclick="return confirm('TỪ CHỐI tin này? Người dùng sẽ nhận được thông báo.');">
+                                        <i class="fa fa-times"></i> HỦY
+                                    </a>
+                                </div>
+                                <a href="@Url.Action("Details", new { id = item.IdXe })" class="small text-decoration-none mt-2 d-block">
+                                    Xem chi tiết xe <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

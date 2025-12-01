@@ -1,0 +1,68 @@
+﻿@model IEnumerable<TKW.Models.YeuCauTuVan>
+@{
+    ViewBag.Title = "Lịch sử yêu cầu tư vấn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold text-primary"><i class="fa fa-list-alt"></i> LỊCH SỬ PHIẾU TƯ VẤN</h4>
+        <a href="@Url.Action("Create")" class="btn btn-warning fw-bold"><i class="fa fa-plus-circle"></i> Gửi yêu cầu mới</a>
+    </div>
+
+    @if (TempData["ThongBaoThanhCong"] != null)
+    {
+        <div class="alert alert-success"><i class="fa fa-check-circle"></i> @TempData["ThongBaoThanhCong"]</div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center py-4">
+            <p class="mb-0">Bạn chưa có phiếu tư vấn nào.</p>
+        </div>
+    }
+    else
+    {
+        <table class="table table-hover table-bordered bg-white shadow-sm">
+            <thead class="table-light">
+                <tr>
+                    <th>Mã phiếu</th>
+                    <th>Ngày gửi</th>
+                    <th>Nhu cầu</th>
+                    <th>Trạng thái</th>
+                    <th class="text-center">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    string statusClass = item.TrangThai == "Đã tư vấn" ? "badge bg-success" : "badge bg-warning text-dark";
+                    string statusText = item.TrangThai == "Đã tư vấn" ? "Đã trả lời" : "Chưa trả lời";
+
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("Details", new { id = item.IdTuVan })" class="fw-bold text-decoration-none text-primary">
+                                #@item.IdTuVan
+                            </a>
+                        </td>
+                        <td>@string.Format("{0:dd/MM/yyyy HH:mm}", item.NgayGui)</td>
+                        <td>
+                            @item.DongXeYeuThich / @item.MucGiaMongMuon
+                        </td>
+                        <td><span class="@statusClass">@statusText</span></td>
+                        <td class="text-center">
+                            @if (item.TrangThai == "Đã tư vấn")
+                            {
+                                <a href="@Url.Action("Details", new { id = item.IdTuVan })" class="btn btn-sm btn-success"><i class="fa fa-eye"></i> Xem chi tiết</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted"><i class="fa fa-clock"></i> Đang chờ...</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

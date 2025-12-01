@@ -1,0 +1,72 @@
+﻿@model TKW.Models.YeuCauTuVan
+@{
+    ViewBag.Title = "Gửi phiếu tư vấn mới";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow border-0">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4 class="fw-bold mb-0"><i class="fa fa-clipboard-list"></i> GỬI PHIẾU TƯ VẤN MUA XE</h4>
+                    <small>Thông tin của bạn đã được điền sẵn, vui lòng chọn nhu cầu.</small>
+                </div>
+                <div class="card-body p-4">
+                    @using (Html.BeginForm("Create", "TuVan", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <h5 class="text-primary fw-bold mb-3">1. Thông tin liên hệ</h5>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label>Họ và tên</label>
+                                @* Giữ ô này chỉ đọc vì lấy từ Session *@
+                                @Html.TextBoxFor(m => m.HoTen, new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                            <div class="col-md-6">
+                                <label>Số điện thoại</label>
+                                @Html.TextBoxFor(m => m.SoDienThoai, new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        </div>
+
+                        <hr />
+                        <h5 class="text-primary fw-bold mb-3">2. Nhu cầu của bạn</h5>
+
+                        <div class="mb-3">
+                            <label class="fw-bold">Thu nhập hàng tháng (Bắt buộc)</label>
+                            @Html.DropDownListFor(m => m.MucLuong, new List<SelectListItem> {
+                                new SelectListItem { Text = "< 15 triệu", Value = "< 15 triệu" },
+                                new SelectListItem { Text = "15 - 30 triệu", Value = "15 - 30 triệu" },
+                                new SelectListItem { Text = "> 30 triệu", Value = "> 30 triệu" }
+                            }, "--- Chọn mức lương ---", new { @class = "form-select", required = "required" })
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="fw-bold">Dòng xe yêu thích</label>
+                            @Html.DropDownListFor(m => m.DongXeYeuThich, new List<SelectListItem> {
+                                new SelectListItem { Text = "Sedan (Vios, Camry)", Value = "Sedan" },
+                                new SelectListItem { Text = "SUV (Tucson, CX5)", Value = "SUV" },
+                                new SelectListItem { Text = "Bán tải", Value = "Bán tải" }
+                            }, "--- Chọn dòng xe ---", new { @class = "form-select" })
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="fw-bold">Mức giá mong muốn lăn bánh (Bắt buộc)</label>
+                            @Html.DropDownListFor(m => m.MucGiaMongMuon, new List<SelectListItem> {
+                                new SelectListItem { Text = "< 500 triệu", Value = "< 500 triệu" },
+                                new SelectListItem { Text = "500 - 1 tỷ", Value = "500 - 1 tỷ" },
+                                new SelectListItem { Text = "> 1 tỷ", Value = "> 1 tỷ" }
+                            }, "--- Chọn ngân sách ---", new { @class = "form-select", required = "required" })
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-warning btn-lg fw-bold text-white w-50">
+                                <i class="fa fa-paper-plane"></i> GỬI PHIẾU KHẢO SÁT
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

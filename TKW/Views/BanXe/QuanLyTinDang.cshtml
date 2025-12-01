@@ -1,0 +1,75 @@
+﻿@model IEnumerable<TKW.Models.Xe>
+
+@{
+    ViewBag.Title = "Quản lý tin đăng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5 mb-5" style="min-height: 600px;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="font-weight-bold text-primary">DANH SÁCH XE ĐÃ ĐĂNG</h2>
+        <a href="@Url.Action("DangTin")" class="btn btn-warning font-weight-bold">
+            <i class="fas fa-plus"></i> Đăng tin mới
+        </a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    @if (Model.Count() == 0)
+    {
+        <div class="alert alert-info text-center">
+            Bạn chưa đăng tin bán xe nào. <a href="@Url.Action("DangTin")">Đăng ngay!</a>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive shadow-sm rounded">
+            <table class="table table-hover mb-0 bg-white">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Hình ảnh</th>
+                        <th>Thông tin xe</th>
+                        <th>Giá bán</th>
+                        <th>Ngày đăng</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        var img = (item.XeHinhAnhs != null && item.XeHinhAnhs.Count > 0)
+                                  ? item.XeHinhAnhs.First().HinhAnh : "no-image.jpg";
+                        <tr>
+                            <td width="120">
+                                <img src="~/Content/Images/@img" style="width:100px; height:70px; object-fit:cover; border-radius:4px;" />
+                            </td>
+                            <td>
+                                <h6 class="font-weight-bold mb-1">@item.TieuDe</h6>
+                                <small class="text-muted">@item.NamSX - @item.HopSo - @item.NhienLieu</small>
+                            </td>
+                            <td class="text-danger font-weight-bold">@item.Gia.ToString("N0") đ</td>
+                            <td>@string.Format("{0:dd/MM/yyyy}", item.NgayDang)</td>
+                            <td>
+                                @if (item.TrangThaiTin == "Đã duyệt")
+                                {
+                                    <span class="badge badge-success p-2">Đang hiển thị</span>
+                                }
+                                else if (item.TrangThaiTin == "Chờ duyệt")
+                                {
+                                    <span class="badge badge-warning p-2">Chờ duyệt</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-danger p-2">@item.TrangThaiTin</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

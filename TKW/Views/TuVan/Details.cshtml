@@ -1,0 +1,62 @@
+﻿@model TKW.Models.YeuCauTuVan
+@{
+    ViewBag.Title = "Chi tiết phiếu tư vấn #" + Model.IdTuVan;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold text-primary"><i class="fa fa-envelope-open-text"></i> CHI TIẾT PHIẾU TƯ VẤN #@Model.IdTuVan</h4>
+        <a href="@Url.Action("Index")" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Quay lại</a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card bg-light h-100">
+                <div class="card-header fw-bold"><i class="fa fa-info-circle"></i> THÔNG TIN PHIẾU GỬI</div>
+                <div class="card-body">
+                    <p><strong>Ngày gửi:</strong> @string.Format("{0:dd/MM/yyyy HH:mm}", Model.NgayGui)</p>
+                    <hr>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <small class="text-muted">Mức lương:</small>
+                            <div class="fw-bold text-success">@Model.MucLuong</div>
+                        </li>
+                        <li class="list-group-item">
+                            <small class="text-muted">Dòng xe thích:</small>
+                            <div class="fw-bold text-primary">@Model.DongXeYeuThich</div>
+                        </li>
+                        <li class="list-group-item">
+                            <small class="text-muted">Ngân sách dự kiến:</small>
+                            <div class="fw-bold text-danger">@Model.MucGiaMongMuon</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <div class="card shadow h-100 @(Model.TrangThai == "Đã tư vấn" ? "border-success" : "border-warning")">
+                <div class="card-header @(Model.TrangThai == "Đã tư vấn" ? "bg-success" : "bg-warning text-dark") text-white fw-bold"><i class="fa fa-user-tie"></i> PHẢN HỒI CỦA CHUYÊN VIÊN</div>
+                <div class="card-body">
+                    @if (Model.TrangThai == "Đã tư vấn" && !string.IsNullOrEmpty(Model.PhanHoiCuaAdmin))
+                    {
+                        <div class="alert alert-light border border-primary">
+                            <label class="fw-bold text-primary">Nội dung tư vấn:</label>
+                            <div style="font-size: 1.1rem; white-space: pre-line;">
+                                @Model.PhanHoiCuaAdmin
+                            </div>
+                        </div>
+                        <a href="@Url.Action("Index", "Xe")" class="btn btn-primary w-100 mt-3"><i class="fa fa-car"></i> XEM CÁC DÒNG XE ĐỀ XUẤT</a>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning text-center">
+                            <i class="fa fa-clock"></i> Chuyên viên chưa phản hồi cho phiếu này.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

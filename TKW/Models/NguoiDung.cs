@@ -22,6 +22,8 @@ namespace TKW.Models
             this.LichSuDuyetTins = new HashSet<LichSuDuyetTin>();
             this.Xes = new HashSet<Xe>();
             this.YeuThiches = new HashSet<YeuThich>();
+            this.DatCocs = new HashSet<DatCoc>();
+            this.LaiThus = new HashSet<LaiThu>();
         }
     
         public string IdNguoiDung { get; set; }
@@ -44,5 +46,9 @@ namespace TKW.Models
         public virtual ICollection<Xe> Xes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<YeuThich> YeuThiches { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DatCoc> DatCocs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LaiThu> LaiThus { get; set; }
     }
 }

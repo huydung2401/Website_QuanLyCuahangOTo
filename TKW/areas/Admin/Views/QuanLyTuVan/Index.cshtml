@@ -1,0 +1,41 @@
+﻿@model IEnumerable<TKW.Models.YeuCauTuVan>
+@{ ViewBag.Title = "Quản lý Tư vấn"; Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml"; }
+
+<h4 class="fw-bold text-primary mb-3">DANH SÁCH KHẢO SÁT</h4>
+<table class="table table-hover bg-white shadow-sm">
+    <thead class="bg-light">
+        <tr>
+            <th>Khách hàng</th>
+            <th>Nhu cầu (Lương/Xe/Giá)</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <strong>@item.HoTen</strong><br>@item.SoDienThoai
+                    <div class="small text-muted">@string.Format("{0:dd/MM/yyyy HH:mm}", item.NgayGui)</div>
+                </td>
+                <td>
+                    <span class="badge bg-info">@item.MucLuong</span>
+                    <span class="badge bg-secondary">@item.DongXeYeuThich</span>
+                    <span class="badge bg-warning text-dark">@item.MucGiaMongMuon</span>
+                </td>
+                <td>
+                    @if (item.TrangThai == "Chờ tư vấn")
+                    {<span class="badge bg-danger">Chờ xử lý</span>}
+                    else
+                    {<span class="badge bg-success">Đã xong</span>}
+                </td>
+                <td>
+                    <a href="@Url.Action("TraLoi", new { id = item.IdTuVan })" class="btn btn-primary btn-sm">
+                        <i class="fa fa-reply"></i> Tư vấn ngay
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

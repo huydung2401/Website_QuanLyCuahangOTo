@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "Bảng Điều Khiển";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <a href="@Url.Action("Index", "QuanLyKhoXe", new { area = "Admin" })"
+           class="card card-stat p-3 mb-3 d-block text-decoration-none text-dark"
+           style="cursor:pointer;">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="text-muted text-uppercase mb-1">Tổng xe trong kho</h6>
+                    <h3 class="fw-bold text-blue">@ViewBag.TongSoXe</h3>
+                    <small class="text-warning"><i class="fa fa-clock"></i> @ViewBag.XeMoiChoDuyet xe chờ duyệt</small>
+                </div>
+                <div class="icon-box">
+                    <i class="fa fa-car"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+
+
+    <div class="col-md-3">
+        <a href="@Url.Action("Index", "QuanLyDatCoc", new { area = "Admin" })"
+           class="card card-stat p-3 mb-3 d-block text-decoration-none text-dark"
+           style="cursor:pointer;">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="text-muted text-uppercase mb-1">Doanh thu cọc</h6>
+                    <h3 class="fw-bold text-success">
+                        @string.Format("{0:N0}", ViewBag.TongDoanhThu) đ
+                    </h3>
+                    <small class="text-success"><i class="fa fa-arrow-up"></i> Tổng thực nhận</small>
+                </div>
+                <div class="icon-box text-success">
+                    <i class="fa fa-money-bill-wave"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a href="@Url.Action("Index", "QuanLyLaiThu", new { area = "Admin" })"
+           class="card card-stat p-3 mb-3 d-block text-decoration-none text-dark"
+           style="cursor:pointer;">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="text-muted text-uppercase mb-1">Lịch lái thử mới</h6>
+                    <h3 class="fw-bold text-danger">@ViewBag.LichLaiThuMoi</h3>
+                    <small class="text-muted">Cần xác nhận ngay</small>
+                </div>
+                <div class="icon-box text-danger">
+                    <i class="fa fa-calendar-alt"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a href="@Url.Action("Index", "QuanLyKhachHang", new { area = "Admin" })"
+           class="card card-stat p-3 mb-3 d-block text-decoration-none text-dark"
+           style="cursor:pointer;">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="text-muted text-uppercase mb-1">Thành viên</h6>
+                    <h3 class="fw-bold text-primary">@ViewBag.TongThanhVien</h3>
+                    <small>User & Seller</small>
+                </div>
+                <div class="icon-box text-primary">
+                    <i class="fa fa-users"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white py-3">
+                <h6 class="m-0 fw-bold text-blue">Hoạt động gần đây</h6>
+            </div>
+            <div class="card-body">
+                <p class="text-center text-muted py-5">Chưa có dữ liệu biểu đồ...</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="WebsiteMuaBanOtoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="WebsiteMuaBanOtoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="DanhGia">
           <Key>
             <PropertyRef Name="IdDanhGia" />
@@ -24,6 +24,19 @@
           <Property Name="TenDanhMuc" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="MoTa" Type="nvarchar" MaxLength="500" />
         </EntityType>
+        <EntityType Name="DatCoc">
+          <Key>
+            <PropertyRef Name="IdDatCoc" />
+          </Key>
+          <Property Name="IdDatCoc" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdXe" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="IdNguoiDung" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="SoTienCoc" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="PhuongThucTT" Type="nvarchar" MaxLength="50" />
+          <Property Name="GhiChu" Type="nvarchar(max)" />
+          <Property Name="TrangThai" Type="nvarchar" MaxLength="50" />
+          <Property Name="NgayDat" Type="datetime" />
+        </EntityType>
         <EntityType Name="DongXe">
           <Key>
             <PropertyRef Name="IdDongXe" />
@@ -39,6 +52,18 @@
           <Property Name="IdHangXe" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="TenHang" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="QuocGia" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="LaiThu">
+          <Key>
+            <PropertyRef Name="IdLaiThu" />
+          </Key>
+          <Property Name="IdLaiThu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdXe" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="IdNguoiDung" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="NgayHen" Type="datetime" Nullable="false" />
+          <Property Name="GhiChu" Type="nvarchar(max)" />
+          <Property Name="TrangThai" Type="nvarchar" MaxLength="50" />
+          <Property Name="NgayTao" Type="datetime" />
         </EntityType>
         <EntityType Name="LichSuDangNhap">
           <Key>
@@ -121,6 +146,20 @@
           <Property Name="IdXe" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="HinhAnh" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
+        <EntityType Name="YeuCauTuVan">
+          <Key>
+            <PropertyRef Name="IdTuVan" />
+          </Key>
+          <Property Name="IdTuVan" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HoTen" Type="nvarchar" MaxLength="100" />
+          <Property Name="SoDienThoai" Type="varchar" MaxLength="20" />
+          <Property Name="MucLuong" Type="nvarchar" MaxLength="100" />
+          <Property Name="DongXeYeuThich" Type="nvarchar" MaxLength="100" />
+          <Property Name="MucGiaMongMuon" Type="nvarchar" MaxLength="100" />
+          <Property Name="PhanHoiCuaAdmin" Type="nvarchar(max)" />
+          <Property Name="TrangThai" Type="nvarchar" MaxLength="50" />
+          <Property Name="NgayGui" Type="datetime" />
+        </EntityType>
         <EntityType Name="YeuThich">
           <Key>
             <PropertyRef Name="IdYeuThich" />
@@ -166,6 +205,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DatCoc_NguoiDung">
+          <End Role="NguoiDung" Type="Self.NguoiDung" Multiplicity="1" />
+          <End Role="DatCoc" Type="Self.DatCoc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NguoiDung">
+              <PropertyRef Name="IdNguoiDung" />
+            </Principal>
+            <Dependent Role="DatCoc">
+              <PropertyRef Name="IdNguoiDung" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DatCoc_Xe">
+          <End Role="Xe" Type="Self.Xe" Multiplicity="1" />
+          <End Role="DatCoc" Type="Self.DatCoc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Xe">
+              <PropertyRef Name="IdXe" />
+            </Principal>
+            <Dependent Role="DatCoc">
+              <PropertyRef Name="IdXe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DongXe_HangXe">
           <End Role="HangXe" Type="Self.HangXe" Multiplicity="1" />
           <End Role="DongXe" Type="Self.DongXe" Multiplicity="*" />
@@ -198,6 +261,30 @@
               <PropertyRef Name="IdXe" />
             </Principal>
             <Dependent Role="LichSuDuyetTin">
+              <PropertyRef Name="IdXe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LaiThu_NguoiDung">
+          <End Role="NguoiDung" Type="Self.NguoiDung" Multiplicity="1" />
+          <End Role="LaiThu" Type="Self.LaiThu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NguoiDung">
+              <PropertyRef Name="IdNguoiDung" />
+            </Principal>
+            <Dependent Role="LaiThu">
+              <PropertyRef Name="IdNguoiDung" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LaiThu_Xe">
+          <End Role="Xe" Type="Self.Xe" Multiplicity="1" />
+          <End Role="LaiThu" Type="Self.LaiThu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Xe">
+              <PropertyRef Name="IdXe" />
+            </Principal>
+            <Dependent Role="LaiThu">
               <PropertyRef Name="IdXe" />
             </Dependent>
           </ReferentialConstraint>
@@ -301,14 +388,17 @@
         <EntityContainer Name="WebsiteMuaBanOtoDBModelStoreContainer">
           <EntitySet Name="DanhGia" EntityType="Self.DanhGia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DanhMucXe" EntityType="Self.DanhMucXe" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DatCoc" EntityType="Self.DatCoc" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DongXe" EntityType="Self.DongXe" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HangXe" EntityType="Self.HangXe" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LaiThu" EntityType="Self.LaiThu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LichSuDangNhap" EntityType="Self.LichSuDangNhap" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LichSuDuyetTin" EntityType="Self.LichSuDuyetTin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LienHe" EntityType="Self.LienHe" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NguoiDung" EntityType="Self.NguoiDung" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Xe" EntityType="Self.Xe" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="XeHinhAnh" EntityType="Self.XeHinhAnh" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="YeuCauTuVan" EntityType="Self.YeuCauTuVan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="YeuThich" EntityType="Self.YeuThich" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__LichSuDan__IdNgu__6383C8BA" Association="Self.FK__LichSuDan__IdNgu__6383C8BA">
             <End Role="NguoiDung" EntitySet="NguoiDung" />
@@ -322,6 +412,14 @@
             <End Role="Xe" EntitySet="Xe" />
             <End Role="DanhGia" EntitySet="DanhGia" />
           </AssociationSet>
+          <AssociationSet Name="FK_DatCoc_NguoiDung" Association="Self.FK_DatCoc_NguoiDung">
+            <End Role="NguoiDung" EntitySet="NguoiDung" />
+            <End Role="DatCoc" EntitySet="DatCoc" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DatCoc_Xe" Association="Self.FK_DatCoc_Xe">
+            <End Role="Xe" EntitySet="Xe" />
+            <End Role="DatCoc" EntitySet="DatCoc" />
+          </AssociationSet>
           <AssociationSet Name="FK_DongXe_HangXe" Association="Self.FK_DongXe_HangXe">
             <End Role="HangXe" EntitySet="HangXe" />
             <End Role="DongXe" EntitySet="DongXe" />
@@ -333,6 +431,14 @@
           <AssociationSet Name="FK_DuyetTin_Xe" Association="Self.FK_DuyetTin_Xe">
             <End Role="Xe" EntitySet="Xe" />
             <End Role="LichSuDuyetTin" EntitySet="LichSuDuyetTin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LaiThu_NguoiDung" Association="Self.FK_LaiThu_NguoiDung">
+            <End Role="NguoiDung" EntitySet="NguoiDung" />
+            <End Role="LaiThu" EntitySet="LaiThu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LaiThu_Xe" Association="Self.FK_LaiThu_Xe">
+            <End Role="Xe" EntitySet="Xe" />
+            <End Role="LaiThu" EntitySet="LaiThu" />
           </AssociationSet>
           <AssociationSet Name="FK_LienHe_Xe" Association="Self.FK_LienHe_Xe">
             <End Role="Xe" EntitySet="Xe" />
@@ -367,8 +473,7 @@
             <End Role="YeuThich" EntitySet="YeuThich" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="WebsiteMuaBanOtoDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -469,6 +574,8 @@
           <NavigationProperty Name="LichSuDuyetTins" Relationship="Self.FK_DuyetTin_Admin" FromRole="NguoiDung" ToRole="LichSuDuyetTin" />
           <NavigationProperty Name="Xes" Relationship="Self.FK_Xe_NguoiDung" FromRole="NguoiDung" ToRole="Xe" />
           <NavigationProperty Name="YeuThiches" Relationship="Self.FK_YeuThich_User" FromRole="NguoiDung" ToRole="YeuThich" />
+          <NavigationProperty Name="DatCocs" Relationship="WebsiteMuaBanOtoDBModel.FK_DatCoc_NguoiDung" FromRole="NguoiDung" ToRole="DatCoc" />
+          <NavigationProperty Name="LaiThus" Relationship="WebsiteMuaBanOtoDBModel.FK_LaiThu_NguoiDung" FromRole="NguoiDung" ToRole="LaiThu" />
         </EntityType>
         <EntityType Name="Xe">
           <Key>
@@ -504,6 +611,8 @@
           <NavigationProperty Name="NguoiDung" Relationship="Self.FK_Xe_NguoiDung" FromRole="Xe" ToRole="NguoiDung" />
           <NavigationProperty Name="XeHinhAnhs" Relationship="Self.FK_XeHinhAnh_Xe" FromRole="Xe" ToRole="XeHinhAnh" />
           <NavigationProperty Name="YeuThiches" Relationship="Self.FK_YeuThich_Xe" FromRole="Xe" ToRole="YeuThich" />
+          <NavigationProperty Name="DatCocs" Relationship="WebsiteMuaBanOtoDBModel.FK_DatCoc_Xe" FromRole="Xe" ToRole="DatCoc" />
+          <NavigationProperty Name="LaiThus" Relationship="WebsiteMuaBanOtoDBModel.FK_LaiThu_Xe" FromRole="Xe" ToRole="LaiThu" />
         </EntityType>
         <EntityType Name="XeHinhAnh">
           <Key>
@@ -761,7 +870,117 @@
             <End Role="Xe" EntitySet="Xes" />
             <End Role="YeuThich" EntitySet="YeuThiches" />
           </AssociationSet>
+          <EntitySet Name="DatCocs" EntityType="WebsiteMuaBanOtoDBModel.DatCoc" />
+          <EntitySet Name="LaiThus" EntityType="WebsiteMuaBanOtoDBModel.LaiThu" />
+          <EntitySet Name="YeuCauTuVans" EntityType="WebsiteMuaBanOtoDBModel.YeuCauTuVan" />
+          <AssociationSet Name="FK_DatCoc_NguoiDung" Association="WebsiteMuaBanOtoDBModel.FK_DatCoc_NguoiDung">
+            <End Role="NguoiDung" EntitySet="NguoiDungs" />
+            <End Role="DatCoc" EntitySet="DatCocs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DatCoc_Xe" Association="WebsiteMuaBanOtoDBModel.FK_DatCoc_Xe">
+            <End Role="Xe" EntitySet="Xes" />
+            <End Role="DatCoc" EntitySet="DatCocs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LaiThu_NguoiDung" Association="WebsiteMuaBanOtoDBModel.FK_LaiThu_NguoiDung">
+            <End Role="NguoiDung" EntitySet="NguoiDungs" />
+            <End Role="LaiThu" EntitySet="LaiThus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LaiThu_Xe" Association="WebsiteMuaBanOtoDBModel.FK_LaiThu_Xe">
+            <End Role="Xe" EntitySet="Xes" />
+            <End Role="LaiThu" EntitySet="LaiThus" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="DatCoc">
+          <Key>
+            <PropertyRef Name="IdDatCoc" />
+          </Key>
+          <Property Name="IdDatCoc" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdXe" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="IdNguoiDung" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="SoTienCoc" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="PhuongThucTT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TrangThai" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NgayDat" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="NguoiDung" Relationship="WebsiteMuaBanOtoDBModel.FK_DatCoc_NguoiDung" FromRole="DatCoc" ToRole="NguoiDung" />
+          <NavigationProperty Name="Xe" Relationship="WebsiteMuaBanOtoDBModel.FK_DatCoc_Xe" FromRole="DatCoc" ToRole="Xe" />
+        </EntityType>
+        <EntityType Name="LaiThu">
+          <Key>
+            <PropertyRef Name="IdLaiThu" />
+          </Key>
+          <Property Name="IdLaiThu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdXe" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="IdNguoiDung" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NgayHen" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TrangThai" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NgayTao" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="NguoiDung" Relationship="WebsiteMuaBanOtoDBModel.FK_LaiThu_NguoiDung" FromRole="LaiThu" ToRole="NguoiDung" />
+          <NavigationProperty Name="Xe" Relationship="WebsiteMuaBanOtoDBModel.FK_LaiThu_Xe" FromRole="LaiThu" ToRole="Xe" />
+        </EntityType>
+        <EntityType Name="YeuCauTuVan">
+          <Key>
+            <PropertyRef Name="IdTuVan" />
+          </Key>
+          <Property Name="IdTuVan" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HoTen" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SoDienThoai" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="MucLuong" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DongXeYeuThich" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MucGiaMongMuon" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PhanHoiCuaAdmin" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TrangThai" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NgayGui" Type="DateTime" Precision="3" />
+        </EntityType>
+        <Association Name="FK_DatCoc_NguoiDung">
+          <End Type="WebsiteMuaBanOtoDBModel.NguoiDung" Role="NguoiDung" Multiplicity="1" />
+          <End Type="WebsiteMuaBanOtoDBModel.DatCoc" Role="DatCoc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NguoiDung">
+              <PropertyRef Name="IdNguoiDung" />
+            </Principal>
+            <Dependent Role="DatCoc">
+              <PropertyRef Name="IdNguoiDung" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DatCoc_Xe">
+          <End Type="WebsiteMuaBanOtoDBModel.Xe" Role="Xe" Multiplicity="1" />
+          <End Type="WebsiteMuaBanOtoDBModel.DatCoc" Role="DatCoc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Xe">
+              <PropertyRef Name="IdXe" />
+            </Principal>
+            <Dependent Role="DatCoc">
+              <PropertyRef Name="IdXe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LaiThu_NguoiDung">
+          <End Type="WebsiteMuaBanOtoDBModel.NguoiDung" Role="NguoiDung" Multiplicity="1" />
+          <End Type="WebsiteMuaBanOtoDBModel.LaiThu" Role="LaiThu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NguoiDung">
+              <PropertyRef Name="IdNguoiDung" />
+            </Principal>
+            <Dependent Role="LaiThu">
+              <PropertyRef Name="IdNguoiDung" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LaiThu_Xe">
+          <End Type="WebsiteMuaBanOtoDBModel.Xe" Role="Xe" Multiplicity="1" />
+          <End Type="WebsiteMuaBanOtoDBModel.LaiThu" Role="LaiThu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Xe">
+              <PropertyRef Name="IdXe" />
+            </Principal>
+            <Dependent Role="LaiThu">
+              <PropertyRef Name="IdXe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -901,6 +1120,48 @@
                 <ScalarProperty Name="IdNguoiDung" ColumnName="IdNguoiDung" />
                 <ScalarProperty Name="IdXe" ColumnName="IdXe" />
                 <ScalarProperty Name="NgayLuu" ColumnName="NgayLuu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DatCocs">
+            <EntityTypeMapping TypeName="WebsiteMuaBanOtoDBModel.DatCoc">
+              <MappingFragment StoreEntitySet="DatCoc">
+                <ScalarProperty Name="NgayDat" ColumnName="NgayDat" />
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
+                <ScalarProperty Name="PhuongThucTT" ColumnName="PhuongThucTT" />
+                <ScalarProperty Name="SoTienCoc" ColumnName="SoTienCoc" />
+                <ScalarProperty Name="IdNguoiDung" ColumnName="IdNguoiDung" />
+                <ScalarProperty Name="IdXe" ColumnName="IdXe" />
+                <ScalarProperty Name="IdDatCoc" ColumnName="IdDatCoc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LaiThus">
+            <EntityTypeMapping TypeName="WebsiteMuaBanOtoDBModel.LaiThu">
+              <MappingFragment StoreEntitySet="LaiThu">
+                <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
+                <ScalarProperty Name="NgayHen" ColumnName="NgayHen" />
+                <ScalarProperty Name="IdNguoiDung" ColumnName="IdNguoiDung" />
+                <ScalarProperty Name="IdXe" ColumnName="IdXe" />
+                <ScalarProperty Name="IdLaiThu" ColumnName="IdLaiThu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="YeuCauTuVans">
+            <EntityTypeMapping TypeName="WebsiteMuaBanOtoDBModel.YeuCauTuVan">
+              <MappingFragment StoreEntitySet="YeuCauTuVan">
+                <ScalarProperty Name="NgayGui" ColumnName="NgayGui" />
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="PhanHoiCuaAdmin" ColumnName="PhanHoiCuaAdmin" />
+                <ScalarProperty Name="MucGiaMongMuon" ColumnName="MucGiaMongMuon" />
+                <ScalarProperty Name="DongXeYeuThich" ColumnName="DongXeYeuThich" />
+                <ScalarProperty Name="MucLuong" ColumnName="MucLuong" />
+                <ScalarProperty Name="SoDienThoai" ColumnName="SoDienThoai" />
+                <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+                <ScalarProperty Name="IdTuVan" ColumnName="IdTuVan" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

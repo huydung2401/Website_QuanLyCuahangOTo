@@ -1,0 +1,159 @@
+﻿@model TKW.Models.Xe
+@{
+    ViewBag.Title = "Chi tiết tin đăng: " + Model.IdXe;
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+    // Lấy ảnh đại diện
+    var anhDaiDien = Model.XeHinhAnhs.FirstOrDefault();
+    string imgSrc = (anhDaiDien != null) ? "/Content/images/" + anhDaiDien.HinhAnh : "https://via.placeholder.com/400x300?text=Khong+co+anh";
+
+    // Xác định màu sắc trạng thái
+    string statusClass = "bg-secondary";
+    if (Model.TrangThaiTin == "Chờ duyệt") { statusClass = "bg-warning text-dark"; }
+    else if (Model.TrangThaiTin == "Đã duyệt" || Model.TrangThaiTin.Contains("hiển thị")) { statusClass = "bg-success"; }
+    else if (Model.TrangThaiTin == "Từ chối") { statusClass = "bg-danger"; }
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold text-primary">
+        <i class="fa fa-eye"></i> CHI TIẾT TIN ĐĂNG
+        <span class="badge @statusClass ms-2 fs-6">@Model.TrangThaiTin</span>
+    </h4>
+    <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
+        <i class="fa fa-arrow-left"></i> Quay lại danh sách
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light fw-bold">
+                <i class="fa fa-car"></i> Thông tin xe đã đăng
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="fw-bold form-label">Tiêu đề tin đăng:</label>
+                        <input type="text" class="form-control fw-bold text-primary" value="@Model.TieuDe" disabled readonly />
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="fw-bold form-label">Hãng xe:</label>
+                            <input type="text" class="form-control" value="@(Model.HangXe != null ? Model.HangXe.TenHang : Model.IdHangXe)" disabled readonly />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="fw-bold form-label">Dòng xe:</label>
+                            <input type="text" class="form-control" value="@(Model.DongXe != null ? Model.DongXe.TenDong : Model.IdDongXe)" disabled readonly />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="fw-bold form-label">Loại xe:</label>
+                            @* Giả sử có navigation property DanhMucXe, nếu không thì hiển thị ID *@
+                            <input type="text" class="form-control" value="@(Model.DanhMucXe != null ? Model.DanhMucXe.TenDanhMuc : Model.IdDanhMuc)" disabled readonly />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="fw-bold form-label text-danger">Giá bán đề xuất:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control fw-bold text-danger" value="@string.Format("{0:N0}", Model.Gia)" disabled readonly />
+                                <span class="input-group-text">VNĐ</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="fw-bold form-label">Năm sản xuất:</label>
+                            <input type="text" class="form-control" value="@Model.NamSX" disabled readonly />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="fw-bold form-label">Ngày đăng:</label>
+                            <input type="text" class="form-control" value="@string.Format("{0:dd/MM/yyyy HH:mm}", Model.NgayDang)" disabled readonly />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="fw-bold form-label">Hộp số:</label>
+                            <input type="text" class="form-control" value="@Model.HopSo" disabled readonly />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="fw-bold form-label">Nhiên liệu:</label>
+                            <input type="text" class="form-control" value="@Model.NhienLieu" disabled readonly />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="fw-bold form-label">Mô tả chi tiết:</label>
+                        <textarea class="form-control" rows="6" disabled readonly style="background-color: #f8f9fa;">@Model.MoTaChiTiet</textarea>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light fw-bold">
+                <i class="fa fa-image"></i> Ảnh đại diện
+            </div>
+            <div class="card-body text-center p-2">
+                <img src="@imgSrc" class="img-fluid rounded border" style="max-height: 300px; width: 100%; object-fit: contain;" alt="Ảnh xe" />
+                @if (Model.XeHinhAnhs.Count > 1)
+                {
+                    <p class="text-muted mt-2 small"><i class="fa fa-images"></i> Xe này có tổng cộng @Model.XeHinhAnhs.Count ảnh.</p>
+                }
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4 border-info">
+            <div class="card-header bg-info text-white fw-bold">
+                <i class="fa fa-user-circle"></i> Thông tin người bán (User)
+            </div>
+            <div class="card-body">
+                @if (Model.NguoiDung != null)
+                {
+                    <div class="mb-2">
+                        <label class="small text-muted">Họ và tên:</label>
+                        <div class="fw-bold fs-5">@Model.NguoiDung.HoTen</div>
+                    </div>
+                    <div class="mb-2">
+                        <label class="small text-muted">Số điện thoại:</label>
+                        <div class="fw-bold text-danger fs-5"><i class="fa fa-phone"></i> @Model.NguoiDung.DienThoai</div>
+                    </div>
+                    <div>
+                        <label class="small text-muted">Email:</label>
+                        <div><i class="fa fa-envelope"></i> @Model.NguoiDung.Email</div>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning mb-0">Không tìm thấy thông tin người đăng.</div>
+                }
+            </div>
+        </div>
+
+        @if (Model.TrangThaiTin == "Chờ duyệt")
+        {
+            <div class="card shadow-sm border-warning">
+                <div class="card-header bg-warning text-dark fw-bold text-center">
+                    <i class="fa fa-gavel"></i> XÉT DUYỆT TIN NÀY
+                </div>
+                <div class="card-body text-center">
+                    <p class="small text-muted mb-3">Hãy kiểm tra kỹ thông tin và hình ảnh trước khi quyết định.</p>
+                    <div class="d-grid gap-2">
+                        <a href="@Url.Action("DuyetTin", new { id = Model.IdXe })"
+                           class="btn btn-success btn-lg fw-bold"
+                           onclick="return confirm('Xác nhận DUYỆT tin này? Xe sẽ được hiển thị công khai.');">
+                            <i class="fa fa-check-circle"></i> CHẤP NHẬN DUYỆT
+                        </a>
+                        <a href="@Url.Action("TuChoiTin", new { id = Model.IdXe })"
+                           class="btn btn-outline-danger fw-bold"
+                           onclick="return confirm('Xác nhận TỪ CHỐI tin này? Người dùng sẽ nhận được thông báo.');">
+                            <i class="fa fa-times-circle"></i> TỪ CHỐI / HỦY
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

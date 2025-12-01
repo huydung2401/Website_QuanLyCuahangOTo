@@ -1,0 +1,44 @@
+﻿@model TKW.Models.NguoiDung
+@{
+    ViewBag.Title = "Thông tin cá nhân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">THÔNG TIN CÁ NHÂN</h4>
+                </div>
+                <div class="card-body">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success">@TempData["Success"]</div>
+                    }
+
+                    <form action="@Url.Action("CapNhatHoSo", "TaiKhoan")" method="post">
+                        <div class="form-group mb-3">
+                            <label class="fw-bold">Họ và tên</label>
+                            <input type="text" name="HoTen" value="@Model.HoTen" class="form-control" required />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="fw-bold">Email (Không thể thay đổi)</label>
+                            <input type="text" value="@Model.Email" class="form-control" readonly disabled />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="fw-bold">Số điện thoại</label>
+                            <input type="text" name="DienThoai" value="@Model.DienThoai" class="form-control" />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="fw-bold">Địa chỉ</label>
+                            <input type="text" name="DiaChi" value="@Model.DiaChi" class="form-control" />
+                        </div>
+
+                        <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Lưu thay đổi</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

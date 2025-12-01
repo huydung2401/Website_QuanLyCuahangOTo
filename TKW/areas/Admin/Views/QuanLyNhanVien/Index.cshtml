@@ -1,0 +1,80 @@
+﻿@model IEnumerable<TKW.Models.NguoiDung>
+@{
+    ViewBag.Title = "Quản lý nhân sự";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold text-primary"><i class="fa fa-user-shield"></i> DANH SÁCH NHÂN VIÊN</h4>
+    <a href="@Url.Action("Create")" class="btn btn-success fw-bold">
+        <i class="fa fa-plus"></i> THÊM NHÂN VIÊN
+    </a>
+</div>
+
+@if (TempData["ThongBao"] != null)
+{
+    <div class="alert @TempData["LoaiThongBao"] alert-dismissible fade show">
+        @TempData["ThongBao"] <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card shadow border-0">
+    <div class="card-body p-0">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="bg-light">
+                <tr>
+                    <th class="ps-3">Mã NV</th>
+                    <th>Họ và tên</th>
+                    <th>Liên hệ</th>
+                    <th>Vai trò (Quyền)</th>
+                    <th>Trạng thái</th>
+                    <th class="text-center">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="ps-3 fw-bold">@item.IdNguoiDung</td>
+                        <td>@item.HoTen</td>
+                        <td>
+                            <div>@item.Email</div>
+                            <small class="text-muted">@item.DienThoai</small>
+                        </td>
+                        <td>
+                            @if (item.VaiTro == "Admin")
+                            {
+                                <span class="badge bg-danger rounded-pill">Quản trị viên</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-primary rounded-pill">Nhân viên (Seller)</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.TrangThai == true)
+                            {
+                                <span class="text-success small"><i class="fa fa-circle"></i> Đang hoạt động</span>
+                            }
+                            else
+                            {
+                                <span class="text-danger small"><i class="fa fa-circle"></i> Đã khóa</span>
+                            }
+                        </td>
+                        <td class="text-center">
+                            <a href="@Url.Action("Edit", new { id = item.IdNguoiDung })" class="btn btn-sm btn-outline-primary" title="Sửa / Cấp quyền">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <a href="@Url.Action("Delete", new { id = item.IdNguoiDung })"
+                               class="btn btn-sm btn-outline-danger"
+                               title="Xóa"
+                               onclick="return confirm('Bạn có chắc muốn xóa nhân viên @item.HoTen không?');">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

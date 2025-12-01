@@ -1,0 +1,72 @@
+﻿@model IEnumerable<TKW.Models.LaiThu>
+
+@{
+    ViewBag.Title = "Lịch sử đăng ký lái thử";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5 mb-5" style="min-height: 500px;">
+    <h2 class="text-center font-weight-bold text-primary mb-4">LỊCH SỬ ĐĂNG KÝ LÁI THỬ</h2>
+
+    @if (Model.Count() == 0)
+    {
+        <div class="alert alert-warning text-center">
+            Bạn chưa đăng ký lái thử xe nào. <a href="/">Xem xe ngay</a>
+        </div>
+    }
+    else
+    {
+        <div class="card shadow">
+            <div class="card-body p-0">
+                <table class="table table-hover mb-0">
+                    <thead class="bg-light text-dark">
+                        <tr>
+                            <th>Xe đăng ký</th>
+                            <th>Ngày hẹn</th>
+                            <th>Ghi chú</th>
+                            <th>Ngày tạo</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="/Xe/ChiTietXe/@item.IdXe" style="font-weight:bold; text-decoration:none;">
+                                        @item.Xe.TieuDe
+                                    </a>
+                                </td>
+                                <td>
+                                    <span style="color:#007bff; font-weight:600;">
+                                        @string.Format("{0:dd/MM/yyyy HH:mm}", item.NgayHen)
+                                    </span>
+                                </td>
+                                <td>@item.GhiChu</td>
+                                <td>@string.Format("{0:dd/MM/yyyy}", item.NgayTao)</td>
+                                <td>
+                                    @if (item.TrangThai == "Chờ xác nhận")
+                                    {
+                                        <span class="badge badge-warning" style="padding:8px;">Chờ xác nhận</span>
+                                    }
+                                    else if (item.TrangThai == "Đã xác nhận")
+                                    {
+                                        <span class="badge badge-primary" style="padding:8px;">Đã xác nhận</span>
+                                    }
+                                    else if (item.TrangThai == "Đã hủy")
+                                    {
+                                        <span class="badge badge-danger" style="padding:8px;">Đã hủy</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-success" style="padding:8px;">Đã lái thử</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>

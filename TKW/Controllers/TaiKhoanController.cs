@@ -22,19 +22,31 @@ namespace TKW.Controllers
         public ActionResult DangNhap(string Email, string MatKhau)
         {
             var user = db.NguoiDungs
-                         .FirstOrDefault(x => x.Email == Email && x.MatKhau == MatKhau && x.TrangThai == true);
+                         .FirstOrDefault(x => x.Email == Email
+                                          && x.MatKhau == MatKhau
+                                          && x.TrangThai == true);
 
             if (user == null)
             {
-                TempData["Error"] = "Sai email hoặc mật khẩu!";
+                TempData["Error"] = "Sai email hoặc mật khẩu, hoặc tài khoản bị khóa!";
                 return RedirectToAction("DangNhap");
             }
 
+            // Lưu Session
             Session["User"] = user;
             Session["UserName"] = user.HoTen;
-            Session["UserId"] = user.IdNguoiDung;
             Session["Role"] = user.VaiTro;
 
+            // Chuẩn hóa vai trò để tránh lỗi so sánh
+            string role = user.VaiTro.Trim().ToLower();
+
+            // Admin + Seller vào trang Admin
+            if (role == "admin" || role == "seller")
+            {
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+
+            // User bình thường vào trang Home
             return RedirectToAction("Index", "Home");
         }
 
@@ -98,6 +110,65 @@ namespace TKW.Controllers
         {
             Session.Clear();
             return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult HoSoCuaToi()
+        {
+            var userSession = Session["User"] as NguoiDung;
+            if (userSession == null) return RedirectToAction("DangNhap");
+
+            // Lấy lại dữ liệu mới nhất từ DB đề phòng session cũ
+            var user = db.NguoiDungs.Find(userSession.IdNguoiDung);
+            return View(user);
+        }
+
+        [HttpPost]
+        public ActionResult CapNhatHoSo(NguoiDung model)
+        {
+            var userSession = Session["User"] as NguoiDung;
+            if (userSession == null) return RedirectToAction("DangNhap");
+
+            var user = db.NguoiDungs.Find(userSession.IdNguoiDung);
+            if (user != null)
+            {
+                user.HoTen = model.HoTen;
+                user.DienThoai = model.DienThoai;
+                user.DiaChi = model.DiaChi;
+                // Không cho sửa Email và MatKhau ở đây cho an toàn
+
+                db.SaveChanges();
+                Session["User"] = user; // Cập nhật lại session
+                TempData["Success"] = "Cập nhật thông tin thành công!";
+            }
+            return RedirectToAction("HoSoCuaToi");
+        }
+
+        // ==========================================
+        // 2. TRANG ĐƠN HÀNG CỦA TÔI (Lái thử + Cọc)
+        // ==========================================
+        public ActionResult DonHangCuaToi()
+        {
+            var userSession = Session["User"] as NguoiDung;
+            if (userSession == null) return RedirectToAction("DangNhap");
+
+            LichSuKhachHang model = new LichSuKhachHang();
+
+            // Lấy thông tin user
+            model.ThongTinUser = userSession;
+
+            // Lấy danh sách lái thử của user đó
+            model.LichSuLaiThu = db.LaiThus.Include("Xe")
+                                           .Where(l => l.IdNguoiDung == userSession.IdNguoiDung)
+                                           .OrderByDescending(l => l.NgayTao)
+                                           .ToList();
+
+            // Lấy danh sách đặt cọc của user đó
+            model.LichSuDatCoc = db.DatCocs.Include("Xe")
+                                           .Where(d => d.IdNguoiDung == userSession.IdNguoiDung)
+                                           .OrderByDescending(d => d.NgayDat)
+                                           .ToList();
+
+            return View(model);
         }
     }
 }

@@ -36,5 +36,8 @@ namespace TKW.Models
         public virtual DbSet<Xe> Xes { get; set; }
         public virtual DbSet<XeHinhAnh> XeHinhAnhs { get; set; }
         public virtual DbSet<YeuThich> YeuThiches { get; set; }
+        public virtual DbSet<DatCoc> DatCocs { get; set; }
+        public virtual DbSet<LaiThu> LaiThus { get; set; }
+        public virtual DbSet<YeuCauTuVan> YeuCauTuVans { get; set; }
     }
 }

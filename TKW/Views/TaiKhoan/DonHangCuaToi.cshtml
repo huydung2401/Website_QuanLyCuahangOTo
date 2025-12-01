@@ -1,0 +1,100 @@
+﻿@model TKW.Models.LichSuKhachHang
+@{
+    ViewBag.Title = "Đơn hàng của tôi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5 mb-5" style="min-height:500px;">
+    <h2 class="text-uppercase font-weight-bold mb-4">Quản lý hoạt động</h2>
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#lichlaithu" role="tab">
+                <i class="fas fa-steering-wheel"></i> Lịch sử lái thử (@Model.LichSuLaiThu.Count)
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#lichdatcoc" role="tab">
+                <i class="fas fa-file-invoice-dollar"></i> Lịch sử đặt cọc (@Model.LichSuDatCoc.Count)
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content p-4 border border-top-0 bg-white" id="myTabContent">
+
+        <div class="tab-pane fade show active" id="lichlaithu" role="tabpanel">
+            @if (Model.LichSuLaiThu.Count == 0)
+            {<p class="text-muted">Chưa có lịch lái thử nào.</p> }
+            else
+            {
+                <table class="table table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Xe đăng ký</th>
+                            <th>Ngày hẹn</th>
+                            <th>Ghi chú</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.LichSuLaiThu)
+                        {
+                            <tr>
+                                <td><a href="/Xe/ChiTietXe/@item.IdXe" class="fw-bold text-dark">@item.Xe.TieuDe</a></td>
+                                <td>@string.Format("{0:dd/MM/yyyy HH:mm}", item.NgayHen)</td>
+                                <td>@item.GhiChu</td>
+                                <td>
+                                    @if (item.TrangThai == "Chờ xác nhận")
+                                    {<span class="badge badge-warning">Chờ xác nhận</span> }
+                                    else if (item.TrangThai == "Đã xác nhận")
+                                    { <span class="badge badge-success">Đã xác nhận</span> }
+                                    else
+                                    { <span class="badge badge-secondary">@item.TrangThai</span>}
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+
+        <div class="tab-pane fade" id="lichdatcoc" role="tabpanel">
+            @if (Model.LichSuDatCoc.Count == 0)
+            {<p class="text-muted">Chưa có đơn đặt cọc nào.</p> }
+            else
+            {
+                <table class="table table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Xe đặt cọc</th>
+                            <th>Số tiền</th>
+                            <th>Phương thức</th>
+                            <th>Ngày đặt</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.LichSuDatCoc)
+                        {
+                            <tr>
+                                <td><a href="/Xe/ChiTietXe/@item.IdXe" class="fw-bold text-dark">@item.Xe.TieuDe</a></td>
+                                <td class="text-danger font-weight-bold">@string.Format("{0:N0} đ", item.SoTienCoc)</td>
+                                <td>@item.PhuongThucTT</td>
+                                <td>@string.Format("{0:dd/MM/yyyy}", item.NgayDat)</td>
+                                <td>
+                                    @if (item.TrangThai == "Chờ thanh toán")
+                                    {<span class="badge badge-warning">Chờ thanh toán</span> }
+                                    else if (item.TrangThai == "Đã cọc")
+                                    { <span class="badge badge-success">Thành công</span> }
+                                    else
+                                    { <span class="badge badge-danger">@item.TrangThai</span>}
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+
+    </div>
+</div>

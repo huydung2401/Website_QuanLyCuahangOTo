@@ -1,0 +1,74 @@
+﻿@model IEnumerable<TKW.Models.Xe>
+@{
+    ViewBag.Title = "Kho Xe Ô Tô";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold text-blue">QUẢN LÝ KHO XE</h4>
+    <a href="@Url.Action("Create")" class="btn btn-success">
+        <i class="fa fa-plus"></i> Nhập xe mới
+    </a>
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="bg-light">
+                <tr>
+                    <th class="py-3 ps-3">Mã Xe</th>
+                    <th>Hình ảnh</th>
+                    <th>Thông tin xe</th>
+                    <th>Giá bán</th>
+                    <th>Trạng thái</th>
+                    <th class="text-center">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    var anhDauTien = item.XeHinhAnhs.FirstOrDefault();
+                    string imgUrl = anhDauTien != null
+                        ? "/Content/images/" + anhDauTien.HinhAnh
+                        : "/Content/images/004_3.jpg";
+
+                    <tr>
+                        <td class="ps-3 fw-bold">@item.IdXe</td>
+                        <td>
+                            <img src="@imgUrl" width="80" height="50" class="rounded object-fit-cover border" />
+                        </td>
+                        <td>
+                            <div class="fw-bold text-blue">@item.TieuDe</div>
+                            <small class="text-muted">@item.NamSX - @item.HopSo - @item.NhienLieu</small>
+                        </td>
+                        <td class="fw-bold text-danger">
+                            @string.Format("{0:N0}", item.Gia) đ
+                        </td>
+                        <td>
+                            @if (item.TrangThaiTin == "Đã duyệt")
+                            {
+                                <span class="badge bg-success">Hiển thị</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning text-dark">@item.TrangThaiTin</span>
+                            }
+                        </td>
+                        <td class="text-center">
+                            <a href="@Url.Action("Edit", new { id = item.IdXe })" class="btn btn-sm btn-outline-primary" title="Sửa thông tin">
+                                <i class="fa fa-edit"></i>
+                            </a>
+
+                            <a href="@Url.Action("Delete", new { id = item.IdXe })"
+                               class="btn btn-sm btn-outline-danger"
+                               title="Xóa xe này"
+                               onclick="return confirm('CẢNH BÁO: Bạn có chắc muốn xóa xe @item.IdXe không?\nThao tác này sẽ xóa vĩnh viễn xe và hình ảnh!');">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

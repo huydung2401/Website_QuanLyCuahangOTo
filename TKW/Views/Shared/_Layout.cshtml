@@ -26,96 +26,90 @@
         <div class="top-bar py-2">
             <div class="container d-flex justify-content-between align-items-center">
 
-                <!-- Logo -->
-                <a href="@Url.Action("Index","Home")" class="d-flex align-items-center">
-                    <img src="~/Content/images/logo-carmudi.png" class="carmudi-logo">
-                </a>
+                <!-- ✔ Nhóm logo + menu để nằm sát nhau -->
+                <div class="d-flex align-items-center">
 
-                <!-- MENU CHÍNH -->
-                <nav class="main-menu d-none d-md-flex">
-                    <a href="#" class="menu-item">Mua xe <i class="fas fa-chevron-down ml-1"></i></a>
-                    <a href="#" class="menu-item">Bán xe</a>
-                    <a href="@Url.Action("GioiThieu","Home")" class="menu-item">Giới thiệu</a>
-                    <a href="#" class="menu-item">Tin tức</a>
-                    <a href="#" class="menu-item">Tài chính Toyota</a>
-                </nav>
-
-                <!-- ACTION ZONE -->
-                <div class="actions d-flex align-items-center">
-
-                    <!-- ĐĂNG TIN -->
-                    <a href="#" class="btn-post mr-5">
-                        <i class="fas fa-car-side mr-4"></i> ĐĂNG TIN
+                    <a href="@Url.Action("Index","Home")" class="d-flex align-items-center mr-4">
+                        <img src="~/Content/images/logo-carmudi.png" class="carmudi-logo" alt="Carmudi Logo">
                     </a>
 
-                    <!-- PHONE -->
-                    <!--<div class="phone-box mr-4">
-                        <i class="fas fa-phone-alt"></i> 0967 390 575
-                    </div>-->
-                    <!-- Nhóm người dùng + Giỏ hàng -->
+                    <nav class="main-menu d-none d-md-flex">
+                        <div class="nav-item dropdown">
+                            <a href="#" class="menu-item" id="navbarDropdown" role="button" data-toggle="dropdown">
+                                Mua xe <i class="fas fa-chevron-down ml-1"></i>
+                            </a>
+                            @Html.Action("MainMenu", "Home")
+                        </div>
+
+                        <a href="@Url.Action("Index", "BanXe")" class="menu-item ml-3">Bán xe</a>
+                        <a href="@Url.Action("GioiThieu", "Home")" class="menu-item ml-3">Giới thiệu</a>
+                        <a href="@Url.Action("Index", "TinTuc")" class="menu-item ml-3">Tài chính Toyota</a>
+                    </nav>
+
+                </div>
+
+                <!-- ✔ Nhóm chức năng bên phải -->
+                <div class="actions d-flex align-items-center">
+
+                    <a href="@Url.Action("Index", "BanXe")" class="btn-post mr-4">
+                        <i class="fas fa-car-side mr-2"></i> ĐĂNG TIN
+                    </a>
+
+                    @* USER *@
                     <div class="d-flex align-items-center">
 
                         @if (Session["User"] == null)
                         {
-                            <!-- CHƯA ĐĂNG NHẬP -->
-                            <div class="nav-item dropdown d-flex align-items-center user-box mr-4" style="white-space:nowrap;">
-
+                            <div class="nav-item dropdown d-flex align-items-center user-box mr-4">
                                 <i class="far fa-user user-icon mr-2"></i>
-
-                                <a href="#" class="nav-link p-0 open-login-modal">
-                                    Đăng nhập/Đăng ký
+                                <a href="@Url.Action("DangNhap", "TaiKhoan")"
+                                   class="nav-link p-0 text-dark font-weight-bold">
+                                    Đăng nhập / Đăng ký
                                 </a>
-
                             </div>
                         }
                         else
                         {
-                            <!-- ĐÃ ĐĂNG NHẬP -->
                             var userName = Session["UserName"] as string;
 
-                            <div class="nav-item dropdown d-flex align-items-center mr-3" style="white-space:nowrap;">
+                            <div class="nav-item dropdown d-flex align-items-center mr-4">
+                                <i class="fas fa-user-circle fa-lg mr-2 text-primary"></i>
 
-                                <i class="fas fa-user fa-lg mr-2"></i>
-
-                                <a href="#" class="nav-link p-0 dropdown-toggle"
+                                <a href="#" class="nav-link p-0 dropdown-toggle text-dark font-weight-bold"
                                    id="accountDropdown"
-                                   data-toggle="dropdown" aria-expanded="false">
+                                   data-toggle="dropdown">
                                     Xin chào, @userName
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdown">
-                                    <a class="dropdown-item" href="/TaiKhoan/ThongTin">Thông tin cá nhân</a>
-                                    <a class="dropdown-item" href="/DonHang/CuaToi">Đơn hàng của tôi</a>
-                                    <a class="dropdown-item" href="/TaiKhoan/DangXuat">Đăng xuất</a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="@Url.Action("HoSoCuaToi", "TaiKhoan")">
+                                        <i class="fas fa-id-card mr-2"></i> Thông tin cá nhân
+                                    </a>
+                                    <a class="dropdown-item" href="@Url.Action("DonHangCuaToi", "TaiKhoan")">
+                                        <i class="fas fa-history mr-2"></i> Đơn hàng của tôi
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item text-danger" href="@Url.Action("DangXuat", "TaiKhoan")">
+                                        <i class="fas fa-sign-out-alt mr-2"></i> Đăng xuất
+                                    </a>
                                 </div>
-
                             </div>
                         }
 
-                        <!-- Giỏ hàng -->
-                        <a href="#" id="btnCart" class="nav-link d-flex align-items-center position-relative" style="white-space:nowrap;">
-                            <i class="fas fa-shopping-cart fa-lg mr-1"></i>
-                            <span>Giỏ hàng</span>
-
-                            <span id="cartBadge"
-                                  class="badge badge-danger position-absolute"
-                                  style="top:-5px; right:-10px; font-size:0.75rem;">
-                                0
-                            </span>
+                        <a href="@Url.Action("Index", "TuVan")"
+                           class="nav-link d-flex align-items-center position-relative">
+                            <i class="fas fa-headset fa-lg mr-1"></i>
+                            <span>Tư Vấn Xe</span>
+                            <span class="badge badge-success position-absolute"
+                                  style="top:-5px; right:-15px; font-size:0.6rem;">Free</span>
                         </a>
-
                     </div>
-
-
-
                 </div>
 
             </div>
         </div>
-
-        <!-- Thanh banner dưới header -->
-        <!-- Thanh search -->
     </header>
+
 
     <!-- ==================== LOGIN POPUP ==================== -->
     <div id="loginPopup" class="login-popup">

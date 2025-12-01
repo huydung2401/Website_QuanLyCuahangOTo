@@ -1,0 +1,115 @@
+﻿@model TKW.Areas.Admin.Models.XeInputViewModel
+@{
+    ViewBag.Title = "Nhập xe mới vào kho";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0"><i class="fa fa-plus-circle"></i> Nhập xe mới</h5>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("Create", "QuanLyKhoXe", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger text-danger" })
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group mb-3">
+                        <label class="fw-bold">Tiêu đề tin đăng <span class="text-danger">*</span></label>
+                        @Html.TextBoxFor(m => m.TieuDe, new { @class = "form-control", placeholder = "Ví dụ: Toyota Vios 2021 bản G..." })
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="fw-bold">Hãng xe</label>
+                            @Html.DropDownListFor(m => m.IdHangXe, (SelectList)ViewBag.HangXe, "-- Chọn hãng --", new { @class = "form-select" })
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="fw-bold">Dòng xe</label>
+                            @Html.DropDownListFor(m => m.IdDongXe, (SelectList)ViewBag.DongXe, "-- Chọn dòng --", new { @class = "form-select" })
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="fw-bold">Loại xe</label>
+                            @Html.DropDownListFor(m => m.IdDanhMuc, (SelectList)ViewBag.DanhMuc, "-- Chọn loại --", new { @class = "form-select" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="fw-bold">Giá bán (VNĐ)</label>
+                            @Html.TextBoxFor(m => m.Gia, new { @class = "form-control", type = "number" })
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="fw-bold">Năm sản xuất</label>
+                            @Html.TextBoxFor(m => m.NamSX, new { @class = "form-control", type = "number", Value = "2020" })
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="fw-bold">Nhiên liệu</label>
+                            @Html.DropDownListFor(m => m.NhienLieu, new List<SelectListItem> {
+                               new SelectListItem { Text = "Xăng", Value = "Xăng" },
+                               new SelectListItem { Text = "Dầu Diesel", Value = "Dầu" },
+                               new SelectListItem { Text = "Điện", Value = "Điện" }
+                           }, new { @class = "form-select" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="fw-bold">Hộp số</label>
+                            @Html.DropDownListFor(m => m.HopSo, new List<SelectListItem> {
+                                new SelectListItem { Text = "Số tự động", Value = "Tự động" },
+                                new SelectListItem { Text = "Số sàn", Value = "Số sàn" }
+                            }, new { @class = "form-select" })
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="fw-bold">Mô tả chi tiết</label>
+                        @Html.TextAreaFor(m => m.Mota, new { @class = "form-control", rows = "5" })
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card bg-light">
+                        <div class="card-body text-center">
+                            <label class="fw-bold mb-2">Ảnh đại diện xe</label>
+
+                            <img id="previewImg" src="https://via.placeholder.com/300x200?text=Chua+co+anh" class="img-fluid rounded mb-3 border bg-white" />
+
+                            <input type="file" name="ImageFile" id="ImageFile" class="form-control" onchange="previewFile()" accept="image/*" />
+                            <small class="text-muted mt-2 d-block">Hệ thống sẽ tự động đổi tên ảnh theo chuẩn database.</small>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 d-grid">
+                        <button type="submit" class="btn btn-warning btn-lg fw-bold text-white">
+                            <i class="fa fa-save"></i> LƯU VÀO KHO
+                        </button>
+                        <a href="@Url.Action("Index")" class="btn btn-outline-secondary mt-2">Quay lại danh sách</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    function previewFile() {
+        var preview = document.querySelector('#previewImg');
+        var file = document.querySelector('#ImageFile').files[0];
+        var reader = new FileReader();
+
+        reader.onloadend = function () {
+            preview.src = reader.result;
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "https://via.placeholder.com/300x200?text=Chua+co+anh";
+        }
+    }
+</script>

@@ -1,0 +1,441 @@
+﻿@{
+    ViewBag.Title = "Tin tức & Đánh giá xe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var topXe = ViewBag.TopXe as List<TKW.Models.Xe>;
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+    /* --- STYLE CHUNG --- */
+    .news-container {
+        margin-top: 30px;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    a {
+        text-decoration: none;
+        color: #333;
+        transition: 0.2s;
+    }
+
+        a:hover {
+            text-decoration: none;
+            color: #f05624;
+        }
+
+    /* TIÊU ĐỀ SECTION */
+    .section-heading {
+        font-size: 20px;
+        font-weight: 700;
+        color: #333;
+        border-left: 5px solid #f05624;
+        padding-left: 10px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .view-all {
+        font-size: 14px;
+        color: #0056b3;
+        font-weight: normal;
+    }
+
+    /* TIN TỨC CARD */
+    .news-card {
+        margin-bottom: 25px;
+    }
+
+    .news-img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-bottom: 10px;
+    }
+
+    .news-title {
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 1.4;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .news-desc {
+        font-size: 14px;
+        color: #666;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .news-meta {
+        font-size: 12px;
+        color: #999;
+        margin-top: 5px;
+    }
+
+    /* FEATURED */
+    .featured-box {
+        background: #f8f9fa;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 30px;
+    }
+
+    .featured-img {
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
+    }
+
+    .featured-content {
+        padding: 20px;
+    }
+
+    .featured-title {
+        font-size: 22px;
+        font-weight: 800;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    /* TƯ VẤN */
+    .consult-main-img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    .consult-list-item {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #f0f0f0;
+        padding-bottom: 10px;
+    }
+
+    .consult-list-img {
+        width: 100px;
+        height: 70px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    .consult-list-title {
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.3;
+        margin: 0;
+    }
+
+    /* VIDEO */
+    .video-section {
+        background-color: #001133;
+        padding: 30px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        color: #fff;
+    }
+
+        .video-section .section-heading {
+            color: #fff;
+            border-color: #ffca00;
+        }
+
+        .video-section a {
+            color: #fff;
+        }
+
+    .video-main-img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 6px;
+    }
+
+    .video-list-item {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+
+    .video-list-img {
+        width: 120px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    /* SIDEBAR */
+    .sidebar-box {
+        border: 1px solid #e0e0e0;
+        padding: 20px;
+        border-radius: 4px;
+        margin-bottom: 30px;
+        background: #fff;
+    }
+
+    .sidebar-title {
+        font-weight: 700;
+        margin-bottom: 15px;
+        font-size: 16px;
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 10px;
+    }
+
+    /* FORM */
+    .sell-form input, .sell-form select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 13px;
+    }
+
+    .btn-sell {
+        width: 100%;
+        background: #0056b3;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+        .btn-sell:hover {
+            background: #004494;
+        }
+
+    /* --- TOP XE (PHẦN ĐÃ SỬA ĐỂ FIX LỖI) --- */
+    .top-car-item {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+        border-bottom: 1px dashed #eee;
+        padding-bottom: 10px;
+        align-items: center;
+    }
+
+    .top-car-img {
+        width: 90px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 4px;
+        flex-shrink: 0; /* Không cho ảnh bị co lại */
+    }
+
+    /* Class quan trọng để fix lỗi tràn chữ */
+    .top-car-info {
+        flex: 1; /* Chiếm toàn bộ không gian còn lại */
+        min-width: 0; /* Bắt buộc để text-truncate hoạt động trong Flexbox */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+        .top-car-info h5 {
+            font-size: 14px;
+            font-weight: 700;
+            margin: 0;
+            /* Bộ 3 thuộc tính cắt chữ */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+            width: 100%;
+            color: #333;
+        }
+
+    .top-car-price {
+        color: #d32f2f;
+        font-weight: 700;
+        font-size: 14px;
+        margin-top: 4px;
+    }
+</style>
+
+<div class="container news-container">
+    <div class="row">
+
+        <div class="col-lg-9 col-md-12">
+
+            <div class="section-heading">
+                Tin tức nổi bật
+            </div>
+
+            <div class="featured-box">
+                <div class="row no-gutters">
+                    <div class="col-md-8">
+                        <img src="~/Content/Images/banner-tfs.jpg" class="featured-img" onerror="this.src='https://via.placeholder.com/800x400?text=TFS+Toyota+Banner'">
+                    </div>
+                    <div class="col-md-4">
+                        <div class="featured-content">
+                            <a href="#" class="featured-title">Vay mua xe ô tô đã qua sử dụng với ưu đãi lãi suất chỉ từ 3,99%/năm cùng TFSVN</a>
+                            <p class="news-desc">Thị trường xe đã qua sử dụng đang trở nên nhộn nhịp hơn bao giờ hết. Đây là thời điểm lý tưởng để các gia đình tìm mua một chiếc xe phù hợp...</p>
+                            <span class="news-meta">Tư vấn • 2 giờ trước</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="news-card">
+                        <img src="~/Content/images/001_1.jpg" class="news-img">
+                        <a href="#" class="news-title">Vay mua xe ô tô đã qua sử dụng dễ dàng hơn với Tài chính Toyota (TFSVN)</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="news-card">
+                        <img src="~/Content/images/001_1.jpg" class="news-img">
+                        <a href="#" class="news-title">Volkswagen Viloran ghi dấu 1 năm "Hành trình bứt phá"</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="news-card">
+                        <img src="~/Content/images/001_1.jpg" class="news-img">
+                        <a href="#" class="news-title">Aston Martin Vantage 2025: Ngang tài ngang sức với ông lớn Luxury</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-heading mt-4">
+                <span>Tư vấn <small class="text-muted ml-3" style="font-size:14px; font-weight:normal">Hỏi đáp / Tư vấn luật / Tư vấn mua xe</small></span>
+                <a href="#" class="view-all">Xem tất cả</a>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="news-card">
+                        <img src="~/Content/images/012_3.jpg" class="consult-main-img">
+                        <a href="#" class="news-title mt-2" style="font-size:18px;">Tư vấn mua xe tải nhỏ Thaco mới nhất năm 2025</a>
+                        <p class="news-desc">Thaco Towner là mẫu xe tải nhỏ, hạng nhẹ được khách hàng Việt Nam ưa chuộng với đa dạng mức tải trọng từ 500kg đến 1 tấn...</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="consult-list-item">
+                        <img src="~/Content/images/002_2.jpg" class="consult-list-img">
+                        <div><a href="#" class="consult-list-title">3 giải pháp tăng sáng cho đèn pha ô tô 2024</a></div>
+                    </div>
+                    <div class="consult-list-item">
+                        <img src="~/Content/images/006.jpg" class="consult-list-img">
+                        <div><a href="#" class="consult-list-title">Tổng hợp mẫu hợp đồng mua bán xe ô tô cũ mới nhất 2024</a></div>
+                    </div>
+                    <div class="consult-list-item">
+                        <img src="~/Content/images/009_3.jpg" class="consult-list-img">
+                        <div><a href="#" class="consult-list-title">Phân hạng các loại xe - Phân khúc các loại xe ô tô 2024</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-section mt-3">
+                <div class="section-heading">
+                    Video
+                    <a href="#" class="view-all text-white">Xem tất cả</a>
+                </div>
+                <div class="row">
+                    <div class="col-md-7">
+                        <img src="~/Content/images/003_2.jpg" class="video-main-img">
+                        <a href="#" class="news-title text-white mt-2">Tại sao Ford Focus "ế vẫn hoàn ế" tại Việt Nam?</a>
+                        <p class="text-white-50 small">Tất cả những nỗ lực của Ford Việt Nam dường như vẫn chưa mang lại hiệu quả khi Focus dù được nâng cấp...</p>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="video-list-item">
+                            <img src="~/Content/images/012_3.jpg" class="video-list-img">
+                            <div><a href="#" class="consult-list-title text-white">Honda City giảm giá cạnh tranh Toyota Vios</a></div>
+                        </div>
+                        <div class="video-list-item">
+                            <img src="~/Content/images/005.jpg" class="video-list-img">
+                            <div><a href="#" class="consult-list-title text-white">[Điểm tin thị trường] - Vua bán tải Ford Ranger giảm giá ngay...</a></div>
+                        </div>
+                        <div class="video-list-item">
+                            <img src="~/Content/images/003_3.jpg" class="video-list-img">
+                            <div><a href="#" class="consult-list-title text-white">[Video] - Đánh giá nhanh Peugeot 3008, đối thủ trực tiếp...</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-heading mt-4">
+                So sánh xe
+                <a href="#" class="view-all">Xem tất cả</a>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="consult-list-item">
+                        <img src="~/Content/images/002_3.jpg" class="consult-list-img">
+                        <div><a href="#" class="consult-list-title">Sự khác biệt của hệ thống giữa các dòng xe Audi và BMW, Mercedes Benz</a></div>
+                    </div>
+                    <div class="consult-list-item">
+                        <img src="~/Content/images/001_3.jpg" class="consult-list-img">
+                        <div><a href="#" class="consult-list-title">So sánh BMW 230i với Toyota GR Supra 2.0 2022</a></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="consult-list-item">
+                        <img src="~/Content/images/003_3.jpg" class="consult-list-img">
+                        <div><a href="#" class="consult-list-title">Mazda CX-9: Giá & Thông số mới nhất 2024</a></div>
+                    </div>
+                    <div class="consult-list-item">
+                        <img src="~/Content/images/010_1.jpg" class="consult-list-img">
+                        <div><a href="#" class="consult-list-title">Lexus RC 300: Giá & Thông số 2024 mới nhất</a></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-12">
+
+            <div class="sidebar-box">
+                <h4 class="sidebar-title">Bạn có xe cần bán</h4>
+                <p class="small text-muted">Giúp bạn bán xe giá tốt trong <strong>3 ngày</strong>, chỉ cần để lại thông tin</p>
+                <form class="sell-form">
+                    <input type="text" placeholder="Họ tên">
+                    <input type="text" placeholder="Số điện thoại">
+                    <select>
+                        <option>Chọn thành phố</option>
+                        <option>Hà Nội</option>
+                        <option>TP. HCM</option>
+                    </select>
+                    <button type="button" class="btn-sell">Gửi thông tin</button>
+                </form>
+            </div>
+
+            <div class="sidebar-box">
+                <h4 class="sidebar-title">Top xe bán chạy nhất</h4>
+
+                @if (topXe != null && topXe.Any())
+                {
+                    foreach (var item in topXe)
+                    {
+                        var img = (item.XeHinhAnhs != null && item.XeHinhAnhs.Count > 0) ? item.XeHinhAnhs.First().HinhAnh : "no-image.jpg";
+                        <div class="top-car-item">
+                            <a href="@Url.Action("ChiTietXe","Xe", new { id = item.IdXe })">
+                                <img src="@Url.Content("~/Content/Images/" + img)" class="top-car-img" onerror="this.src='https://via.placeholder.com/100x70'">
+                            </a>
+                            <div class="top-car-info">
+                                <a href="@Url.Action("ChiTietXe","Xe", new { id = item.IdXe })" title="@item.TieuDe">
+                                    <h5>@item.TieuDe</h5>
+                                </a>
+                                <div class="top-car-price">@item.Gia.ToString("N0") đ</div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+
+        </div>
+
+    </div>
+</div>

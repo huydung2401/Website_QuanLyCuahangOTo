@@ -1,0 +1,194 @@
+﻿@model TKW.Models.Xe
+@{
+    ViewBag.Title = "Xác nhận đặt cọc";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var img = (Model.XeHinhAnhs != null && Model.XeHinhAnhs.Count > 0) ? Model.XeHinhAnhs.First().HinhAnh : "no-image.jpg";
+}
+
+<style>
+    .booking-container {
+        max-width: 900px;
+        margin: 40px auto;
+    }
+
+    .box-white {
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 25px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .car-summary {
+        display: flex;
+        gap: 15px;
+        border-bottom: 1px dashed #ddd;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+    }
+
+    .car-thumb {
+        width: 120px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 6px;
+    }
+
+    .car-name {
+        font-weight: 700;
+        font-size: 16px;
+        color: #333;
+        margin: 0;
+    }
+
+    .car-price {
+        color: #d32f2f;
+        font-weight: 700;
+        font-size: 18px;
+    }
+
+    .form-section-title {
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: #f05624;
+        border-left: 4px solid #f05624;
+        padding-left: 10px;
+    }
+
+    .radio-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .radio-option {
+        border: 1px solid #ddd;
+        padding: 10px 15px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+        .radio-option:hover, .radio-option.active {
+            border-color: #f05624;
+            background: #fff5f2;
+        }
+
+        .radio-option input {
+            display: none;
+        }
+
+    .check-icon {
+        color: #f05624;
+        display: none;
+    }
+
+    .radio-option.active .check-icon {
+        display: block;
+    }
+</style>
+
+<div class="container booking-container">
+
+    <div class="text-center mb-4">
+        <h2 class="font-weight-bold">XÁC NHẬN ĐẶT GIỮ XE</h2>
+        <p class="text-muted">Vui lòng kiểm tra thông tin xe và chọn mức đặt cọc</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-7">
+            <div class="box-white h-100">
+                <div class="form-section-title">1. Thông tin người đặt</div>
+                @{ var user = Session["User"] as QUANLIBANXEOTO.Models.NguoiDung; }
+                <div class="form-group">
+                    <label>Họ và tên:</label>
+                    <input type="text" class="form-control" value="@user.HoTen" readonly style="background-color: #f8f9fa;">
+                </div>
+                <div class="form-group">
+                    <label>Số điện thoại:</label>
+                    <input type="text" class="form-control" value="@user.DienThoai" readonly style="background-color: #f8f9fa;">
+                </div>
+
+                <hr>
+
+                <form action="@Url.Action("XacNhanDatCoc", "DatCoc")" method="post">
+                    <input type="hidden" name="idXe" value="@Model.IdXe" />
+
+                    <div class="form-section-title">2. Chọn mức đặt cọc</div>
+                    <div class="radio-group mb-4">
+                        <label class="radio-option active" onclick="selectOption(this)">
+                            <input type="radio" name="soTien" value="5000000" checked>
+                            <span><i class="fas fa-money-bill-wave mr-2"></i> 5.000.000 đ (Giữ xe 3 ngày)</span>
+                            <i class="fas fa-check-circle check-icon"></i>
+                        </label>
+                        <label class="radio-option" onclick="selectOption(this)">
+                            <input type="radio" name="soTien" value="10000000">
+                            <span><i class="fas fa-money-bill-wave mr-2"></i> 10.000.000 đ (Giữ xe 7 ngày)</span>
+                            <i class="fas fa-check-circle check-icon"></i>
+                        </label>
+                        <label class="radio-option" onclick="selectOption(this)">
+                            <input type="radio" name="soTien" value="20000000">
+                            <span><i class="fas fa-money-bill-wave mr-2"></i> 20.000.000 đ (Ưu tiên hồ sơ)</span>
+                            <i class="fas fa-check-circle check-icon"></i>
+                        </label>
+                    </div>
+
+                    <div class="form-section-title">3. Hình thức thanh toán</div>
+                    <div class="form-group">
+                        <select name="phuongThuc" class="form-control">
+                            <option value="Chuyển Khoản">Chuyển khoản ngân hàng</option>
+                            <option value="Tiền Mặt">Đóng tiền mặt tại Showroom</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ghi chú thêm (Nếu có):</label>
+                        <textarea name="ghiChu" class="form-control" rows="2"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-block text-white font-weight-bold py-3" style="background-color: #f05624; font-size: 18px;">
+                        XÁC NHẬN ĐẶT CỌC
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="box-white">
+                <div class="form-section-title">Thông tin xe</div>
+                <div class="car-summary">
+                    <img src="@Url.Content("~/Content/Images/" + img)" class="car-thumb">
+                    <div>
+                        <h5 class="car-name">@Model.TieuDe</h5>
+                        <div class="car-price mt-1">@Model.Gia.ToString("N0") đ</div>
+                    </div>
+                </div>
+                <ul class="list-unstyled text-muted small">
+                    <li class="mb-2"><i class="fas fa-calendar mr-2"></i> Năm SX: @Model.NamSX</li>
+                    <li class="mb-2"><i class="fas fa-road mr-2"></i> ODO: @(Model.SoKM?.ToString("N0")) km</li>
+                    <li class="mb-2"><i class="fas fa-map-marker-alt mr-2"></i> Nơi bán: @Model.DiaDiem</li>
+                </ul>
+                <div class="alert alert-warning small mt-3">
+                    <i class="fas fa-exclamation-circle"></i> <strong>Lưu ý:</strong>
+                    Đây chỉ là yêu cầu giữ chỗ. Giao dịch chỉ hoàn tất khi nhân viên xác nhận đã nhận được tiền cọc.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Script để xử lý hiệu ứng chọn Radio Button
+    function selectOption(element) {
+        // Bỏ active tất cả
+        document.querySelectorAll('.radio-option').forEach(el => el.classList.remove('active'));
+        // Active cái được chọn
+        element.classList.add('active');
+        // Check cái input radio bên trong
+        element.querySelector('input').checked = true;
+    }
+</script>

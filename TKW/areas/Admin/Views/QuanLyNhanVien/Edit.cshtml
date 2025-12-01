@@ -1,0 +1,72 @@
+﻿@model TKW.Models.NguoiDung
+@{
+    ViewBag.Title = "Cập nhật nhân viên";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="card shadow-sm" style="max-width: 800px; margin: 0 auto;">
+    <div class="card-header bg-primary text-white fw-bold">
+        <i class="fa fa-user-edit"></i> CẬP NHẬT THÔNG TIN & CẤP QUYỀN
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.IdNguoiDung)
+            @Html.HiddenFor(m => m.NgayTao)
+            @Html.HiddenFor(m => m.Email) @* Email thường không cho sửa để tránh lỗi *@
+
+            <div class="alert alert-info">
+                Đang chỉnh sửa nhân viên: <strong>@Model.HoTen</strong> (Mã: @Model.IdNguoiDung)
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Họ và tên</label>
+                    @Html.TextBoxFor(m => m.HoTen, new { @class = "form-control", required = "required" })
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Số điện thoại</label>
+                    @Html.TextBoxFor(m => m.DienThoai, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Địa chỉ</label>
+                @Html.TextAreaFor(m => m.DiaChi, new { @class = "form-control", rows = "2" })
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-danger">Đổi mật khẩu mới</label>
+                    @Html.TextBoxFor(m => m.MatKhau, new { @class = "form-control", type = "password", placeholder = "Bỏ trống nếu không đổi" })
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="row bg-light p-3 rounded">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-primary">Vai trò (Quyền hạn)</label>
+                    @Html.DropDownListFor(m => m.VaiTro, new List<SelectListItem> {
+                        new SelectListItem { Text = "Nhân viên kinh doanh (Seller)", Value = "Seller" },
+                        new SelectListItem { Text = "Quản trị viên (Admin)", Value = "Admin" }
+                    }, new { @class = "form-select fw-bold" })
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-primary">Trạng thái hoạt động</label>
+                    @Html.DropDownListFor(m => m.TrangThai, new List<SelectListItem> {
+                        new SelectListItem { Text = "Đang hoạt động", Value = "true" },
+                        new SelectListItem { Text = "Khóa tài khoản", Value = "false" }
+                    }, new { @class = "form-select" })
+                </div>
+            </div>
+
+            <div class="text-end mt-4">
+                <a href="@Url.Action("Index")" class="btn btn-secondary">Quay lại</a>
+                <button type="submit" class="btn btn-primary fw-bold px-4">LƯU THAY ĐỔI</button>
+            </div>
+        }
+    </div>
+</div>
