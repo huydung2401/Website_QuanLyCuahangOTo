@@ -256,7 +256,7 @@
                 <div class="review-form-box">
                     <h5 class="font-weight-bold mb-3">Viết đánh giá của bạn</h5>
                     <form id="formDanhGia">
-                        <input type="hidden" id="idXeInput" value="@Model.IdXe" />
+                        <input type="hidden" id="idXeInput" value="@Model.Xe.IdXe" />
 
                         <div class="d-flex align-items-center mb-2">
                             <span class="mr-3 font-weight-600">Chất lượng xe:</span>
@@ -478,5 +478,42 @@
             }
         });
     }
+
+    // HÀM GỬI ĐÁNH GIÁ
+    function submitReview() {
+        var idXe = $('#idXeInput').val();
+        var soSao = $('input[name="rating"]:checked').val();
+        var noiDung = $('#txtNoiDung').val();
+
+        if (!noiDung.trim()) {
+            alert("Vui lòng nhập nội dung đánh giá!");
+            return;
+        }
+
+        $.ajax({
+            url: '/Xe/GuiDanhGia',
+            type: 'POST',
+            data: {
+                idXe: idXe,
+                soSao: soSao,
+                noiDung: noiDung
+            },
+            success: function (res) {
+                if (res.success) {
+                    alert(res.message);
+                    location.reload();
+                } else {
+                    alert(res.message);
+                    if (res.message.includes("đăng nhập")) {
+                        window.location.href = "/TaiKhoan/DangNhap";
+                    }
+                }
+            },
+            error: function () {
+                alert("Có lỗi xảy ra khi gửi đánh giá.");
+            }
+        });
+    }
+
 </script>
 

@@ -99,16 +99,27 @@ namespace TKW.Controllers
             {
                 var user = Session["User"] as NguoiDung;
                 if (user == null)
-                {
                     return Json(new { success = false, message = "Bạn phải đăng nhập để đánh giá!" });
-                }
 
-                DanhGia dg = new DanhGia();
-                dg.IdXe = idXe;
-                dg.IdNguoiDung = user.IdNguoiDung;
-                dg.SoSao = soSao;
-                dg.NoiDung = noiDung ?? "";
-                dg.NgayDanhGia = DateTime.Now;
+                var xe = db.Xes.Find("XE044");
+
+                if (xe == null)
+                    return Json(new { success = false, message = "Xe không tồn tại!" });
+
+                bool daDanhGia = db.DanhGias.Any(x =>
+                    x.IdXe == idXe && x.IdNguoiDung == user.IdNguoiDung);
+
+                if (daDanhGia)
+                    return Json(new { success = false, message = "Bạn đã đánh giá xe này rồi!" });
+
+                DanhGia dg = new DanhGia
+                {
+                    IdXe = idXe,
+                    IdNguoiDung = user.IdNguoiDung,
+                    SoSao = soSao,
+                    NoiDung = noiDung?.Trim(),
+                    NgayDanhGia = DateTime.Now
+                };
 
                 db.DanhGias.Add(dg);
                 db.SaveChanges();
@@ -117,7 +128,11 @@ namespace TKW.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = "Lỗi server: " + ex.Message });
+                return Json(new
+                {
+                    success = false,
+                    message = ex.InnerException?.InnerException?.Message ?? ex.Message
+                });
             }
         }
 

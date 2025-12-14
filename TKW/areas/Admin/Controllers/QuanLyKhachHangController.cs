@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using TKW.Models;                      // Model TKW
 using TKW.Areas.Admin.Models;         // ViewModel KhachHangChiTietVM
+using TKW.Models;                      // Model TKW
 
 namespace TKW.Areas.Admin.Controllers
 {
@@ -16,9 +16,21 @@ namespace TKW.Areas.Admin.Controllers
         public ActionResult Index()
         {
             var users = db.NguoiDungs
-                          .Where(u => u.VaiTro == "User")
-                          .OrderByDescending(u => u.NgayTao)
-                          .ToList();
+                .Where(u => u.VaiTro == "User")
+                .AsEnumerable() // ⚠ bắt buộc vì tính toán ngoài Entity
+                .Select(u => new
+                {
+                    User = u,
+                    SoTuongTac =
+                        db.DanhGias.Count(d => d.IdNguoiDung == u.IdNguoiDung) +
+                        db.DatCocs.Count(d => d.IdNguoiDung == u.IdNguoiDung) +
+                        db.LaiThus.Count(l => l.IdNguoiDung == u.IdNguoiDung) 
+                     
+                })
+                .OrderByDescending(x => x.SoTuongTac > 0) // có tương tác lên đầu
+                .ThenByDescending(x => x.SoTuongTac)      // nhiều hơn lên trên
+                .Select(x => x.User) // ⬅️ trả lại NguoiDung
+                .ToList();
 
             return View(users);
         }
@@ -124,5 +136,8 @@ namespace TKW.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
+
+       
+
     }
 }
