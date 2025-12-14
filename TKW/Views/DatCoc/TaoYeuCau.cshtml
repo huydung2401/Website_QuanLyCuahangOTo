@@ -103,7 +103,8 @@
         <div class="col-md-7">
             <div class="box-white h-100">
                 <div class="form-section-title">1. Thông tin người đặt</div>
-                @{ var user = Session["User"] as QUANLIBANXEOTO.Models.NguoiDung; }
+                @{ var user = Session["User"] as TKW.Models.NguoiDung; }
+
                 <div class="form-group">
                     <label>Họ và tên:</label>
                     <input type="text" class="form-control" value="@user.HoTen" readonly style="background-color: #f8f9fa;">

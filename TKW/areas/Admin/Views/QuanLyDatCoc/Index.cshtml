@@ -29,25 +29,127 @@
                     <th class="text-center">Hành động</th>
                 </tr>
             </thead>
+            @*<tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="ps-3">
+                        <a href="@Url.Action("Details", new { id = item.IdDatCoc })" class="fw-bold text-decoration-none text-primary">
+                            #@item.IdDatCoc <i class="fa fa-eye small"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <div class="fw-bold">@item.NguoiDung.HoTen</div>
+                        <small class="text-muted">@item.NguoiDung.DienThoai</small>
+                    </td>
+                    <td>
+                        <div class="text-primary fw-bold">@item.Xe.TieuDe</div>
+                        <small class="text-muted">Mã xe: @item.IdXe</small>
+                    </td>
+                    <td class="fw-bold text-danger">@string.Format("{0:N0}", item.SoTienCoc) đ</td>
+                    <td>@string.Format("{0:dd/MM/yyyy}", item.NgayDat)</td>
+                    <td>
+                        @if (item.TrangThai == "Đã cọc")
+                        {
+                            <span class="badge bg-success">Thành công</span>
+                        }
+                        else if (item.TrangThai == "Chờ thanh toán")
+                        {
+                            <span class="badge bg-warning text-dark">Chờ thanh toán</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">@item.TrangThai</span>
+                        }
+                    </td>
+                    <td class="text-center" style="min-width:160px;">
+                        <div class="d-flex justify-content-center gap-2">
+
+                            @if (item.TrangThai == "Chờ thanh toán")
+                            {
+                                <a href="@Url.Action("XacNhanThanhToan", new { id = item.IdDatCoc })"
+                                   class="btn btn-success btn-sm"
+                                   onclick="return confirm('Xác nhận khách đã thanh toán tiền cọc?');">
+                                    <i class="fa fa-check-circle"></i> Thu tiền
+                                </a>
+
+                                <a href="@Url.Action("HuyDon", new { id = item.IdDatCoc })"
+                                   class="btn btn-outline-danger btn-sm">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            }
+
+                            @if (item.TrangThai == "Đã cọc")
+                            {
+                                <a href="@Url.Action("InHoaDon", new { id = item.IdDatCoc })"
+                                   target="_blank"
+                                   class="btn btn-primary btn-sm">
+                                    <i class="fa fa-print"></i> In HĐ
+                                </a>
+                            }
+
+                        </div>
+                    </td>
+
+                </tr>
+            }
+        </tbody>*@
+
+
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
+                    // ===== highlight dòng nếu đang yêu cầu hủy =====
+                    string rowClass = item.TrangThai == "Đang yêu cầu hủy" ? "table-warning" : "";
+
+                    // ===== tính số giờ từ lúc đặt =====
+                    double hours = 0;
+                    if (item.NgayDat.HasValue)
+                    {
+                        hours = (DateTime.Now - item.NgayDat.Value).TotalHours;
+                    }
+
+                    <tr class="@rowClass">
                         <td class="ps-3">
-                            <a href="@Url.Action("Details", new { id = item.IdDatCoc })" class="fw-bold text-decoration-none text-primary">
+                            <a href="@Url.Action("Details", new { id = item.IdDatCoc })"
+                               class="fw-bold text-decoration-none text-primary">
                                 #@item.IdDatCoc <i class="fa fa-eye small"></i>
                             </a>
                         </td>
+
                         <td>
                             <div class="fw-bold">@item.NguoiDung.HoTen</div>
                             <small class="text-muted">@item.NguoiDung.DienThoai</small>
                         </td>
+
                         <td>
                             <div class="text-primary fw-bold">@item.Xe.TieuDe</div>
                             <small class="text-muted">Mã xe: @item.IdXe</small>
                         </td>
-                        <td class="fw-bold text-danger">@string.Format("{0:N0}", item.SoTienCoc) đ</td>
-                        <td>@string.Format("{0:dd/MM/yyyy}", item.NgayDat)</td>
+
+                        <td class="fw-bold text-danger">
+                            @string.Format("{0:N0}", item.SoTienCoc) đ
+                        </td>
+
+                        <td>
+                            <div>@string.Format("{0:dd/MM/yyyy HH:mm}", item.NgayDat)</div>
+
+                            @if (hours > 24)
+                            {
+                                <span class="badge bg-danger mt-1">
+                                    <i class="fa fa-clock"></i> &gt;24h
+                                </span>
+                                <small class="text-danger fw-bold">(@hours.ToString("0.0")h)</small>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success mt-1">
+                                    <i class="fa fa-check"></i> &lt;24h
+                                </span>
+                                <small class="text-muted">(@hours.ToString("0.0")h)</small>
+                            }
+                        </td>
+
                         <td>
                             @if (item.TrangThai == "Đã cọc")
                             {
@@ -57,14 +159,23 @@
                             {
                                 <span class="badge bg-warning text-dark">Chờ thanh toán</span>
                             }
-                            else
+                            else if (item.TrangThai == "Đang yêu cầu hủy")
                             {
-                                <span class="badge bg-secondary">@item.TrangThai</span>
+                                <span class="badge bg-danger mb-1">KHÁCH YÊU CẦU HỦY</span><br />
+                                <small class="text-danger fst-italic">
+                                    "@item.LyDoHuy"
+                                </small>
+                            }
+                            else if (item.TrangThai == "Đã hủy")
+                            {
+                                <span class="badge bg-secondary">Đã hủy</span>
                             }
                         </td>
-                        <td class="text-center" style="min-width:160px;">
-                            <div class="d-flex justify-content-center gap-2">
 
+                        <td class="text-center" style="min-width:180px;">
+                            <div class="d-flex justify-content-center gap-2 flex-wrap">
+
+                                @* ===== Chờ thanh toán ===== *@
                                 @if (item.TrangThai == "Chờ thanh toán")
                                 {
                                     <a href="@Url.Action("XacNhanThanhToan", new { id = item.IdDatCoc })"
@@ -74,11 +185,23 @@
                                     </a>
 
                                     <a href="@Url.Action("HuyDon", new { id = item.IdDatCoc })"
-                                       class="btn btn-outline-danger btn-sm">
+                                       class="btn btn-outline-danger btn-sm"
+                                       onclick="return confirm('Hủy đơn đặt cọc này?');">
                                         <i class="fa fa-times"></i>
                                     </a>
                                 }
 
+                                @* ===== Đang yêu cầu hủy ===== *@
+                                @if (item.TrangThai == "Đang yêu cầu hủy")
+                                {
+                                    <a href="@Url.Action("DuyetHuyDon", new { id = item.IdDatCoc })"
+                                       class="btn btn-danger btn-sm fw-bold"
+                                       onclick="return confirm('Duyệt hủy đơn này?');">
+                                        <i class="fa fa-check"></i> DUYỆT HỦY
+                                    </a>
+                                }
+
+                                @* ===== Đã cọc ===== *@
                                 @if (item.TrangThai == "Đã cọc")
                                 {
                                     <a href="@Url.Action("InHoaDon", new { id = item.IdDatCoc })"
@@ -87,13 +210,14 @@
                                         <i class="fa fa-print"></i> In HĐ
                                     </a>
                                 }
-
                             </div>
                         </td>
-
                     </tr>
                 }
             </tbody>
+
+
+
         </table>
     </div>
 </div>

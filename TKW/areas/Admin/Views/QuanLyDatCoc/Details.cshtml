@@ -12,6 +12,10 @@
     if (Model.TrangThai == "Đã cọc") { statusClass = "bg-success"; }
     else if (Model.TrangThai == "Chờ thanh toán") { statusClass = "bg-warning text-dark"; }
     else if (Model.TrangThai == "Đã hủy" || Model.TrangThai == "Hoàn tiền") { statusClass = "bg-danger"; }
+
+    double detailHours = 0;
+    if (Model.NgayDat.HasValue) { detailHours = (DateTime.Now - Model.NgayDat.Value).TotalHours; }
+}
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -90,6 +94,16 @@
                     <li class="list-group-item d-flex justify-content-between">
                         <span>Ngày tạo đơn:</span>
                         <strong>@string.Format("{0:dd/MM/yyyy HH:mm}", Model.NgayDat)</strong>
+
+                        <div class="mt-2 p-2 rounded text-center @(detailHours > 24 ? "bg-danger text-white" : "bg-success text-white")">
+                            @if (detailHours > 24)
+                            {<small><i class="fa fa-exclamation-triangle"></i> Đã quá 24h (@detailHours.ToString("0.0")h) - MẤT CỌC</small> }
+                        else
+                        { <small><i class="fa fa-shield-alt"></i> Trong vòng 24h (@detailHours.ToString("0.0")h) - HOÀN TIỀN</small>}
+                        </div>
+
+
+
                     </li>
                     <li class="list-group-item d-flex justify-content-between">
                         <span>Phương thức:</span>
@@ -105,25 +119,43 @@
                 </div>
 
                 <div class="d-grid gap-2">
-                    @if (Model.TrangThai == "Chờ thanh toán")
-                    {
-                        <a href="@Url.Action("XacNhanThanhToan", new { id = Model.IdDatCoc })"
-                           class="btn btn-success fw-bold"
-                           onclick="return confirm('Xác nhận đã thu đủ tiền cọc?');">
-                            <i class="fa fa-check-circle"></i> XÁC NHẬN ĐÃ THU TIỀN
-                        </a>
-                        <a href="@Url.Action("HuyDon", new { id = Model.IdDatCoc })"
-                           class="btn btn-outline-danger"
-                           onclick="return confirm('Hủy đơn cọc này?');">
-                            <i class="fa fa-times"></i> HỦY ĐƠN
-                        </a>
-                    }
-                    else if (Model.TrangThai == "Đã cọc")
-                    {
-                        <a href="@Url.Action("InHoaDon", new { id = Model.IdDatCoc })" target="_blank" class="btn btn-primary fw-bold">
-                            <i class="fa fa-print"></i> IN HÓA ĐƠN / HỢP ĐỒNG
-                        </a>
-                    }
+                    @*@if (Model.TrangThai == "Chờ thanh toán")
+        {
+            <a href="@Url.Action("XacNhanThanhToan", new { id = Model.IdDatCoc })"
+               class="btn btn-success fw-bold"
+               onclick="return confirm('Xác nhận đã thu đủ tiền cọc?');">
+                <i class="fa fa-check-circle"></i> XÁC NHẬN ĐÃ THU TIỀN
+            </a>
+            <a href="@Url.Action("HuyDon", new { id = Model.IdDatCoc })"
+               class="btn btn-outline-danger"
+               onclick="return confirm('Hủy đơn cọc này?');">
+                <i class="fa fa-times"></i> HỦY ĐƠN
+            </a>
+        }
+        else if (Model.TrangThai == "Đã cọc")
+        {
+            <a href="@Url.Action("InHoaDon", new { id = Model.IdDatCoc })" target="_blank" class="btn btn-primary fw-bold">
+                <i class="fa fa-print"></i> IN HÓA ĐƠN / HỢP ĐỒNG
+            </a>
+        }*@
+
+                    <div class="d-grid gap-2">
+                        @if (Model.TrangThai == "Chờ thanh toán")
+                        {
+                            <a href="@Url.Action("XacNhanThanhToan", new { id = Model.IdDatCoc })" class="btn btn-success fw-bold" onclick="return confirm('Xác nhận tiền?');">XÁC NHẬN ĐÃ THU TIỀN</a>
+                            <a href="@Url.Action("HuyDon", new { id = Model.IdDatCoc })" class="btn btn-outline-danger" onclick="return confirm('Hủy đơn?');">HỦY ĐƠN</a>
+                        }
+                        else if (Model.TrangThai == "Đang yêu cầu hủy")
+                        {
+                            <a href="@Url.Action("DuyetHuyDon", new { id = Model.IdDatCoc })" class="btn btn-danger fw-bold py-2" onclick="return confirm('Đồng ý hủy?');"><i class="fa fa-check"></i> DUYỆT YÊU CẦU HỦY</a>
+                        }
+                        else if (Model.TrangThai == "Đã cọc")
+                        {
+                            <a href="@Url.Action("InHoaDon", new { id = Model.IdDatCoc })" target="_blank" class="btn btn-primary fw-bold"><i class="fa fa-print"></i> IN HÓA ĐƠN</a>
+                        }
+                    </div>
+
+
                 </div>
             </div>
         </div>

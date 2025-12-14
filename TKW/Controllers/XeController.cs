@@ -14,9 +14,7 @@ namespace TKW.Controllers
     {
         WebsiteMuaBanOtoDBEntities db = new WebsiteMuaBanOtoDBEntities();
 
-        // =============================
-        // 1. DANH SÁCH XE
-        // =============================
+
         public ActionResult Index()
         {
             var xe = db.Xes
@@ -27,6 +25,7 @@ namespace TKW.Controllers
 
             return View(xe);
         }
+       
 
         // =============================
         // 2. DANH SÁCH THEO DANH MỤC

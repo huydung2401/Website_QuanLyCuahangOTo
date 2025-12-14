@@ -1,0 +1,260 @@
+﻿@model TKW.Models.DatCoc
+
+@{
+    ViewBag.Title = "Chi tiết phiếu đặt cọc";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var img = (Model.Xe.XeHinhAnhs != null && Model.Xe.XeHinhAnhs.Count > 0)
+              ? Model.Xe.XeHinhAnhs.First().HinhAnh
+              : "no-image.jpg";
+
+    // 1. Kiểm tra trạng thái "Đang chờ duyệt"
+    bool isPendingCancel = (Model.TrangThai == "Đang yêu cầu hủy");
+
+    // 2. Logic hiển thị nút Hủy: Chỉ hiện khi (Chưa gửi yêu cầu) VÀ (Trạng thái là "Chờ thanh toán")
+    bool allowCancel = !isPendingCancel && (Model.TrangThai == "Chờ thanh toán");
+
+    //  TÍNH THỜI GIAN ĐỂ CẢNH BÁO 24H
+    double hoursPassed = 0;
+    if (Model.NgayDat.HasValue)
+    {
+        hoursPassed = (DateTime.Now - Model.NgayDat.Value).TotalHours;
+    }
+    bool isOver24h = hoursPassed > 24;
+}
+
+<style>
+    .booking-container {
+        max-width: 900px;
+        margin: 40px auto;
+    }
+
+    .box-white {
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 30px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .section-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #333;
+        border-bottom: 2px solid #f05624;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        font-size: 15px;
+    }
+
+    .info-label {
+        color: #666;
+        font-weight: 500;
+    }
+
+    .info-value {
+        color: #333;
+        font-weight: 700;
+    }
+
+    .price-lg {
+        font-size: 20px;
+        color: #d32f2f;
+    }
+
+    /* Trạng thái badges */
+    .status-tag {
+        padding: 8px 15px;
+        border-radius: 50px;
+        font-weight: bold;
+        font-size: 14px;
+        display: inline-block;
+    }
+
+    .st-waiting {
+        background: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeeba;
+    }
+
+    .st-success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .st-cancel {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    .st-pending {
+        background: #cce5ff;
+        color: #004085;
+        border: 1px solid #b8daff;
+    }
+</style>
+
+<div class="container booking-container">
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success"><i class="fas fa-check-circle"></i> @TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger"><i class="fas fa-times-circle"></i> @TempData["Error"]</div>
+    }
+
+    <div class="box-white">
+        <div class="text-center mb-5">
+            <h3 class="font-weight-bold text-uppercase mb-3">Chi tiết phiếu đặt cọc #@Model.IdDatCoc</h3>
+
+            @if (Model.TrangThai == "Chờ thanh toán")
+            {
+                <span class="status-tag st-waiting"><i class="fas fa-clock"></i> @Model.TrangThai</span>
+            }
+            else if (Model.TrangThai == "Thành công" || Model.TrangThai == "Đã cọc")
+            {
+                <span class="status-tag st-success"><i class="fas fa-check"></i> @Model.TrangThai</span>
+            }
+            else if (Model.TrangThai == "Đang yêu cầu hủy")
+            {
+                <span class="status-tag st-pending"><i class="fas fa-spinner fa-spin"></i> Đang chờ duyệt hủy</span>
+            }
+            else
+            {
+                <span class="status-tag st-cancel"><i class="fas fa-times"></i> @Model.TrangThai</span>
+            }
+
+            <p class="text-muted mt-2 small">Ngày tạo phiếu: @(Model.NgayDat.HasValue ? Model.NgayDat.Value.ToString("dd/MM/yyyy HH:mm") : "N/A")</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5 text-center mb-4">
+                <div class="p-2 border rounded">
+                    <img src="@Url.Content("~/Content/Images/" + img)" class="img-fluid rounded" style="width: 100%; object-fit: cover;">
+                </div>
+                <h5 class="mt-3 font-weight-bold">@Model.Xe.TieuDe</h5>
+                <div class="text-muted">Giá niêm yết: @Model.Xe.Gia.ToString("N0") đ</div>
+            </div>
+
+            <div class="col-md-7">
+                <div class="section-title">Thông tin giao dịch</div>
+
+                <div class="info-row">
+                    <span class="info-label">Khách hàng:</span>
+                    <span class="info-value">@Model.NguoiDung.HoTen</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Số điện thoại:</span>
+                    <span class="info-value">@Model.NguoiDung.DienThoai</span>
+                </div>
+                <hr style="border-top: 1px dashed #ddd;">
+
+                <div class="info-row">
+                    <span class="info-label">Số tiền đặt cọc (10%):</span>
+                    <span class="info-value price-lg">@string.Format("{0:N0}", Model.SoTienCoc) đ</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Hình thức thanh toán:</span>
+                    <span class="info-value">@Model.PhuongThucTT</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Ghi chú:</span>
+                    <span class="info-value">@(string.IsNullOrEmpty(Model.GhiChu) ? "Không có" : Model.GhiChu)</span>
+                </div>
+
+                @if (isPendingCancel)
+                {
+                    <div class="alert alert-info mt-4">
+                        <strong><i class="fas fa-info-circle"></i> Yêu cầu hủy đang được xử lý</strong>
+                        <p class="mb-1 mt-1 small">Bạn đã gửi yêu cầu hủy. Nhân viên sẽ kiểm tra và xác nhận.</p>
+                        <p class="mb-0 small"><strong>Lý do:</strong> @Model.LyDoHuy</p>
+                    </div>
+                }
+                else if (Model.TrangThai.Contains("Đã hủy"))
+                {
+                    <div class="alert alert-danger mt-3">
+                        <strong><i class="fas fa-ban"></i> Đã hủy đơn:</strong><br>
+                        - Lý do: @Model.LyDoHuy
+                    </div>
+                }
+
+                @if (allowCancel)
+                {
+                    <div class="mt-4 pt-3 border-top">
+                        <button type="button" class="btn btn-outline-danger btn-block font-weight-bold" data-toggle="modal" data-target="#cancelModal">
+                            <i class="fas fa-undo"></i> GỬI YÊU CẦU HỦY ĐƠN
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="@Url.Action("DonHangCuaToi", "TaiKhoan")" class="btn btn-secondary px-4">
+                <i class="fas fa-arrow-left mr-2"></i> Quay lại danh sách
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form action="@Url.Action("HuyDatCoc", "DatCoc")" method="post">
+                <input type="hidden" name="idDatCoc" value="@Model.IdDatCoc" />
+
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title font-weight-bold">Gửi yêu cầu hủy</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p class="font-weight-bold">Bạn muốn hủy phiếu đặt cọc này?</p>
+
+                    <div class="alert @(isOver24h ? "alert-danger" : "alert-success")">
+                        @if (isOver24h)
+                        {
+                            <span>
+                                <strong><i class="fas fa-exclamation-triangle"></i> CẢNH BÁO:</strong><br />
+                                Đơn hàng của bạn đã đặt quá 24 giờ (@hoursPassed.ToString("0.0") tiếng).<br />
+                                Theo chính sách, nếu hủy lúc này bạn sẽ <b>MẤT TIỀN CỌC</b>.
+                            </span>
+                        }
+                        else
+                        {
+                            <span>
+                                <strong><i class="fas fa-shield-alt"></i> CHÍNH SÁCH HOÀN TIỀN:</strong><br />
+                                Đơn hàng mới tạo trong vòng 24 giờ.<br />
+                                Nếu hủy bây giờ, bạn sẽ được <b>HOÀN ĐỦ TIỀN CỌC</b>.
+                            </span>
+                        }
+                    </div>
+
+                    <p class="small text-muted">Vui lòng nhập lý do để Admin xem xét:</p>
+                    <div class="form-group">
+                        <textarea name="lyDoHuy" class="form-control" rows="3" required placeholder="Nhập lý do..."></textarea>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-danger font-weight-bold">
+                        @(isOver24h ? "Chấp nhận mất cọc & Hủy" : "Gửi yêu cầu hủy")
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

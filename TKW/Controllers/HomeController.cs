@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
-using System.Data.Entity;
-using TKW.Models;   // ⭐ MODEL MỚI
+using TKW.Models; 
+using System.Text;
+using System.Globalization;
 
 namespace TKW.Controllers
 {
@@ -14,6 +16,58 @@ namespace TKW.Controllers
         // ==========================================
         // TRANG CHỦ + BỘ LỌC TÌM KIẾM
         // ==========================================
+
+        private string RemoveDiacritics(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return "";
+
+            var normalized = text.Normalize(NormalizationForm.FormD);
+            var sb = new StringBuilder();
+
+            foreach (var c in normalized)
+            {
+                if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                    sb.Append(c);
+            }
+
+            return sb.ToString()
+                     .Normalize(NormalizationForm.FormC)
+                     .ToLower();
+        }
+
+        [HttpGet]
+        public JsonResult SearchAjax(string keyword)
+        {
+            if (string.IsNullOrWhiteSpace(keyword))
+                return Json(new List<object>(), JsonRequestBehavior.AllowGet);
+
+            string key = RemoveDiacritics(keyword);
+
+            var data = db.Xes
+                .Include(x => x.XeHinhAnhs)
+                .Include(x => x.HangXe)
+                .Include(x => x.DongXe)
+                .Where(x => x.TrangThaiTin == "Đã duyệt")
+                .AsEnumerable() // để dùng RemoveDiacritics
+                .Where(x =>
+                    RemoveDiacritics(x.TieuDe).Contains(key) ||
+                    RemoveDiacritics(x.HangXe.TenHang).Contains(key) ||
+                    RemoveDiacritics(x.DongXe.TenDong).Contains(key)
+                )
+                .Take(8)
+                .Select(x => new
+                {
+                    x.IdXe,
+                    x.TieuDe,
+                    Gia = x.Gia,
+                    Hinh = x.XeHinhAnhs.FirstOrDefault()?.HinhAnh ?? "no-image.jpg",
+                    Hang = x.HangXe.TenHang
+                })
+                .ToList();
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Index(
             string tuKhoa,
             List<string> hangXe,
@@ -40,15 +94,19 @@ namespace TKW.Controllers
                           .Where(x => x.TrangThaiTin == "Đã duyệt")
                           .AsQueryable();
 
-            // 1.1 Từ khoá
             if (!string.IsNullOrEmpty(tuKhoa))
             {
-                query = query.Where(x =>
-                    x.TieuDe.Contains(tuKhoa) ||
-                    x.HangXe.TenHang.Contains(tuKhoa) ||
-                    x.DongXe.TenDong.Contains(tuKhoa)
-                );
+                string keyword = RemoveDiacritics(tuKhoa);
+
+                query = query.AsEnumerable()   // ⚠️ chuyển sang LINQ-to-Object
+                             .Where(x =>
+                                 RemoveDiacritics(x.TieuDe).Contains(keyword) ||
+                                 RemoveDiacritics(x.HangXe.TenHang).Contains(keyword) ||
+                                 RemoveDiacritics(x.DongXe.TenDong).Contains(keyword)
+                             )
+                             .AsQueryable();
             }
+
 
             // 1.2 Lọc Hãng xe
             if (hangXe != null && hangXe.Any())

@@ -36,6 +36,8 @@
           <Property Name="GhiChu" Type="nvarchar(max)" />
           <Property Name="TrangThai" Type="nvarchar" MaxLength="50" />
           <Property Name="NgayDat" Type="datetime" />
+          <Property Name="LyDoHuy" Type="nvarchar(max)" />
+          <Property Name="NgayHuy" Type="datetime" />
         </EntityType>
         <EntityType Name="DongXe">
           <Key>
@@ -904,6 +906,8 @@
           <Property Name="NgayDat" Type="DateTime" Precision="3" />
           <NavigationProperty Name="NguoiDung" Relationship="WebsiteMuaBanOtoDBModel.FK_DatCoc_NguoiDung" FromRole="DatCoc" ToRole="NguoiDung" />
           <NavigationProperty Name="Xe" Relationship="WebsiteMuaBanOtoDBModel.FK_DatCoc_Xe" FromRole="DatCoc" ToRole="Xe" />
+          <Property Name="LyDoHuy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NgayHuy" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="LaiThu">
           <Key>
@@ -1126,6 +1130,8 @@
           <EntitySetMapping Name="DatCocs">
             <EntityTypeMapping TypeName="WebsiteMuaBanOtoDBModel.DatCoc">
               <MappingFragment StoreEntitySet="DatCoc">
+                <ScalarProperty Name="NgayHuy" ColumnName="NgayHuy" />
+                <ScalarProperty Name="LyDoHuy" ColumnName="LyDoHuy" />
                 <ScalarProperty Name="NgayDat" ColumnName="NgayDat" />
                 <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
                 <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />

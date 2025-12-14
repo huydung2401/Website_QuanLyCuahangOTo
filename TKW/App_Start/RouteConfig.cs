@@ -23,19 +23,7 @@ namespace TKW
 
 
 
-            // //routes.MapRoute(
-            // //    name: "SanPhamTheoDanhMuc",
-            // //    url: "san-pham/danh-muc/{id}",
-            // //    defaults: new { controller = "SanPham", action = "DanhMuc", id = UrlParameter.Optional }  
-            // //);
-
-
-            // routes.MapRoute(
-            //    name: "Default",
-            //    url: "{controller}/{action}/{id}",
-            //    defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            //);
-
+           
         }
     }
 }

@@ -246,6 +246,7 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\css\cart.css" />
     <Content Include="Content\css\ChiTietSanPham.css" />
+    <Content Include="Content\css\ChiTietXe.css" />
     <Content Include="Content\css\CuaHang.css" />
     <Content Include="Content\css\custom.css" />
     <Content Include="Content\css\index.css" />
@@ -421,6 +422,7 @@
     <Content Include="Views\TuVan\Create.cshtml" />
     <Content Include="Views\TuVan\Details.cshtml" />
     <Content Include="Views\TuVan\Index.cshtml" />
+    <Content Include="Views\DatCoc\ChiTietDatCoc.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -22,6 +22,8 @@ namespace TKW.Models
         public string GhiChu { get; set; }
         public string TrangThai { get; set; }
         public Nullable<System.DateTime> NgayDat { get; set; }
+        public string LyDoHuy { get; set; }
+        public Nullable<System.DateTime> NgayHuy { get; set; }
     
         public virtual NguoiDung NguoiDung { get; set; }
         public virtual Xe Xe { get; set; }

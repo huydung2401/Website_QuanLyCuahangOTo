@@ -1,0 +1,786 @@
+﻿.benefit-box {
+    border: 2px solid #dfe5f1;
+    border-radius: 50px;
+    padding: 15px 30px;
+    background: #fff;
+    gap: 20px;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 16px;
+    color: #1b2a4e;
+    white-space: nowrap;
+}
+
+.icon-wrap {
+    width: 40px;
+    height: 40px;
+    background: #ffde00;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+
+    .icon-wrap i {
+        color: #1b2a4e;
+    }
+
+/* ================================
+            CONTAINER CHUẨN CARMUDI
+        ================================ */
+.carmudi-container {
+    max-width: 1280px !important;
+    margin: 0 auto;
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* ================================
+            BREADCRUMB
+        ================================ */
+/* BREADCRUMB CARMUDI CHUẨN */
+.breadcrumb-custom {
+    font-size: 14px;
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 20px 0 10px;
+}
+
+    .breadcrumb-custom a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .breadcrumb-custom span {
+        color: #333;
+        font-weight: 600;
+    }
+
+    .breadcrumb-custom i {
+        font-size: 12px;
+        color: #bbb;
+    }
+
+
+/* ================================
+            ẢNH CHÍNH
+        ================================ */
+.main-image-box img {
+    width: 100%;
+    height: 460px;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: rgba(0,0,0,0.08) 0 4px 10px;
+}
+
+/* ================================
+            SLIDER ẢNH
+        ================================ */
+.thumb-list {
+    margin-top: 14px;
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+
+.thumb-item {
+    width: 120px;
+    height: 90px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: 0.2s;
+    object-fit: cover;
+}
+
+    .thumb-item:hover {
+        border-color: #007bff;
+        transform: scale(1.05);
+    }
+
+/* ================================
+   HỘP THÔNG TIN BÊN PHẢI – CARMUDI
+================================ */
+.info-section {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    /* khoảng cách với cột ảnh */
+    margin-left: 28px;
+    width: 480px;
+}
+
+/* Sticky mượt */
+.info-sticky {
+    position: sticky;
+    top: 90px;
+    z-index: 20;
+}
+
+/* ================================
+   TIÊU ĐỀ & GIÁ
+================================ */
+.car-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 8px;
+    line-height: 1.25;
+}
+
+.car-price {
+    font-size: 22px;
+    font-weight: 700;
+    color: red;
+    margin-bottom: 18px;
+}
+
+/* ================================
+   DÒNG THÔNG TIN
+================================ */
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+    .info-row:last-child {
+        border-bottom: none;
+    }
+
+/* trái */
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #6b7280;
+    font-size: 15px;
+}
+
+    .info-item i {
+        font-size: 16px;
+        color: #0d6efd;
+        width: 18px;
+        text-align: center;
+    }
+
+/* phải */
+.info-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+    text-align: right;
+    white-space: nowrap;
+}
+
+/* ================================
+   NHÓM NÚT LIÊN HỆ
+================================ */
+.btn-group-contact {
+    margin-top: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Nút chung */
+.contact-btn {
+    height: 48px;
+    width: 100%;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid #0d6efd;
+    background: #fff;
+    color: #0d6efd;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+    /* hover giống Carmudi */
+    .contact-btn:hover {
+        background: #0d6efd;
+        color: #fff;
+    }
+
+        .contact-btn:hover i {
+            color: #fff;
+        }
+
+
+/* ================================
+            THÔNG TIN NHANH
+        ================================ */
+.quick-info {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 25px;
+}
+
+    .quick-info li {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px dashed #eee;
+    }
+
+/* ================================
+            ROW ICON THÔNG TIN
+        ================================ */
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.info-item {
+    display: flex;
+    gap: 10px;
+    font-size: 16px;
+    color: #555;
+    align-items: center;
+}
+
+    .info-item i {
+        color: #007bff;
+        font-size: 18px;
+    }
+
+.info-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* ================================
+            BUTTON GỌI & NHẮN
+        ================================ */
+.btn-group-detail {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* ===== TRẠNG THÁI BÌNH THƯỜNG ===== */
+.btn-call {
+    background: #fff;
+    color: #007bff;
+    padding: 12px 16px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    display: block;
+    border: 1px solid #007bff;
+    transition: all 0.2s ease;
+}
+
+
+
+    .btn-call i {
+        margin-right: 8px;
+    }
+
+.btn-message {
+    border: 2px solid #007bff;
+    padding: 12px 16px;
+    border-radius: 8px;
+    color: #007bff;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    display: block;
+}
+
+    .btn-message i {
+        margin-right: 8px;
+    }
+
+/* ================================
+   SECTION TIÊU ĐỀ
+================================ */
+.spec-box h2,
+.desc-box h2,
+.similar-box h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 20px;
+    color: #111827;
+}
+
+/* ================================
+   BOX CHUNG
+================================ */
+.spec-box,
+.desc-box {
+    width: 750px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+/* Khoảng cách section */
+.spec-box {
+    margin-top: 35px;
+}
+
+.desc-box {
+    margin-top: 35px;
+    margin-bottom: 30px;
+}
+
+/* ================================
+   BẢNG THÔNG SỐ KỸ THUẬT
+================================ */
+.spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+
+    /* từng hàng */
+    .spec-table tr {
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+        .spec-table tr:last-child {
+            border-bottom: none;
+        }
+
+    /* cột trái */
+    .spec-table th {
+        width: 35%;
+        padding: 12px 14px;
+        background: #f9fafb;
+        text-align: left;
+        font-weight: 600;
+        color: #374151;
+        vertical-align: middle;
+    }
+
+    /* cột phải */
+    .spec-table td {
+        padding: 12px 14px;
+        font-weight: 500;
+        color: #111827;
+        vertical-align: middle;
+    }
+
+/* ================================
+   MÔ TẢ CHI TIẾT
+================================ */
+
+/* KHUNG MÔ TẢ */
+.section-box {
+    width: 750px; /* giống spec-box */
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    margin-top: 32px;
+}
+
+/* NỘI DUNG MÔ TẢ */
+.desc-content {
+    position: relative;
+    font-size: 16px;
+    line-height: 1.7;
+    color: #374151;
+    max-height: 220px; /* chiều cao ban đầu */
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+
+/* HIỆU ỨNG MỜ DƯỚI */
+.desc-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: linear-gradient( to bottom, rgba(255,255,255,0), rgba(255,255,255,1) );
+    pointer-events: none;
+}
+
+/* KHI MỞ RỘNG */
+.desc-content.expanded {
+    max-height: 2000px;
+}
+
+    .desc-content.expanded .desc-fade {
+        display: none;
+    }
+
+/* NÚT XEM THÊM */
+.btn-toggle-desc {
+    margin-top: 12px;
+    background: none;
+    border: none;
+    color: #0d6efd;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+    .btn-toggle-desc i {
+        font-size: 12px;
+        transition: transform 0.3s ease;
+    }
+
+    /* icon xoay khi mở */
+    .btn-toggle-desc.open i {
+        transform: rotate(180deg);
+    }
+
+
+/* ================================
+        XE TƯƠNG TỰ - STYLE CHUẨN MẪU
+    ================================ */
+
+.similar-card {
+    display: block;
+    border: 1px solid #eee;
+    border-radius: 14px;
+    padding: 14px;
+    background: #fff;
+    transition: 0.25s;
+    height: 100%;
+    color: #222; /* chữ đen */
+    text-decoration: none !important;
+}
+
+    .similar-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+
+    /* IMAGE */
+    .similar-card img {
+        width: 100%;
+        height: 200px;
+        border-radius: 12px;
+        object-fit: cover;
+    }
+/* Thông tin 2 hàng – 2 cột icon */
+.car-info-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 16px;
+    row-gap: 6px;
+    margin: 6px 0;
+}
+/* TITLE */
+.sim-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #222;
+    margin-top: 10px;
+    margin-bottom: 8px;
+}
+
+/* HÀNG 2 CỘT */
+.sim-info-row {
+    display: flex;
+    gap: 60px; /* GIẢM CÒN 20–40px TÙY Ý */
+    margin: 6px 0;
+}
+
+
+/* MỖI CẶP ICON – TEXT */
+.sim-info-item {
+    display: flex;
+    align-items: center;
+    gap: 4px; /* khoảng cách icon – chữ (nhỏ) */
+}
+
+    /* ICON */
+    .sim-info-item i {
+        font-size: 16px;
+        width: 18px;
+        color: #333; /* icon màu đen */
+    }
+
+    /* TEXT */
+    .sim-info-item span {
+        font-size: 15px;
+        color: #333;
+    }
+
+/* PRICE */
+.sim-price {
+    color: #e60000;
+    font-weight: 700;
+    font-size: 20px;
+    margin-top: 8px;
+}
+
+/* LOCATION */
+.sim-location {
+    margin-top: 4px;
+    font-size: 14px;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+
+
+.promo-banner {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 40px 0;
+}
+
+    .promo-banner img {
+        width: 100%;
+        max-width: 1400px; /* không vượt quá khung */
+        border-radius: 12px;
+        object-fit: cover;
+    }
+
+.desc-content {
+    max-height: 200px; /* chiều cao ban đầu */
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+
+    .desc-content.expanded {
+        max-height: 2000px; /* chiều cao khi mở rộng */
+    }
+
+.review-list {
+    margin-bottom: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.review-item {
+    display: flex;
+    gap: 15px;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 15px 0;
+}
+
+.review-avatar {
+    width: 45px;
+    height: 45px;
+    background: #ddd;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.review-content {
+    flex: 1;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.review-name {
+    font-weight: 700;
+    color: #333;
+    font-size: 15px;
+}
+
+.review-date {
+    font-size: 12px;
+    color: #999;
+}
+
+.review-text {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+}
+
+.star-rating-static {
+    color: #ffde00;
+    font-size: 13px;
+}
+
+.review-form-box {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.star-rating-input {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+    .star-rating-input input {
+        display: none;
+    }
+
+    .star-rating-input label {
+        font-size: 24px;
+        color: #ddd;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+        .star-rating-input input:checked ~ label, .star-rating-input label:hover, .star-rating-input label:hover ~ label {
+            color: #ffde00;
+        }
+
+.form-control-custom {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px;
+    outline: none;
+    font-size: 14px;
+    margin-bottom: 15px;
+    resize: none;
+}
+
+    .form-control-custom:focus {
+        border-color: #007bff;
+    }
+
+
+
+
+.btn-group-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* ===== STYLE CHUNG ===== */
+.contact-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 48px;
+    width: 100%;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+    /* ===== ICON ===== */
+    .contact-btn i {
+        font-size: 16px;
+    }
+
+
+
+.btn-call:hover {
+    background: #0b5ed7;
+}
+
+.btn-deposit {
+    background: #fff;
+    color: #007bff;
+    border: 1px solid #007bff;
+}
+
+
+
+
+.btn-test-drive {
+    background: #fff;
+    color: #007bff;
+    border: 1px solid #007bff;
+}
+
+    .btn-test-drive:hover {
+        background: #007bff;
+        color: #fff;
+    }
+/* ===== HOVER CHUNG CHO TẤT CẢ NÚT ===== */
+.contact-btn:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+    /* icon đổi màu theo */
+    .contact-btn:hover i {
+        color: #fff;
+    }
+
+.btn-message {
+    background: #fff;
+    color: #0d6efd;
+    border: 1px solid #0d6efd;
+}
+
+
+    .btn-message:hover i {
+        color: #007bff;
+    }
+
+
+
+/* Sticky cho cột trái */
+.left-sticky {
+    position: sticky;
+    top: 90px; /* cách header */
+    align-self: flex-start;
+}
+
+/* BẮT BUỘC: cha không được overflow */
+.carmudi-container,
+.detail-container,
+.detail-container > .row,
+.detail-container > .row > [class*="col-"] {
+    overflow: visible !important;
+}
+
+/* Mobile: KHÔNG sticky */
+@media (max-width: 991px) {
+    .left-sticky {
+        position: static;
+        top: auto;
+    }
+}
+
+
